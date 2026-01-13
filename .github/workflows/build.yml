@@ -48,17 +48,18 @@ jobs:
 
     - name: Restore NuGet packages
       run: |
-        nuget restore ${{ env.SOLUTION_PATH }} -PackagesDirectory packages
+        cd SvonyBrowser
+        nuget restore packages.config -PackagesDirectory ..\packages
+        cd ..
+      shell: pwsh
 
     - name: Build Debug
       run: |
-        msbuild ${{ env.SOLUTION_PATH }} /t:Build /p:Configuration=Debug /p:Platform=x64
-      continue-on-error: true
+        msbuild ${{ env.SOLUTION_PATH }} /t:Build /p:Configuration=Debug /p:Platform=x64 /p:RestorePackages=false
 
     - name: Build Release
       run: |
-        msbuild ${{ env.SOLUTION_PATH }} /t:Build /p:Configuration=Release /p:Platform=x64
-      continue-on-error: true
+        msbuild ${{ env.SOLUTION_PATH }} /t:Build /p:Configuration=Release /p:Platform=x64 /p:RestorePackages=false
 
     - name: Build MCP Servers
       run: |
