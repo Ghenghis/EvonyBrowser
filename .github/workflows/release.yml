@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version number (e.g., 7.0.3)'
+        description: 'Version number (e.g., 7.0.4)'
         required: true
-        default: '7.0.3'
+        default: '7.0.4'
 
 env:
   NODE_VERSION: '18.x'
@@ -19,8 +19,12 @@ permissions:
   contents: write
 
 jobs:
-  build-release:
+  build-windows:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        configuration: [Release, Debug]
+        platform: [x64, x86]
     
     steps:
     - name: Checkout
@@ -51,11 +55,6 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v2
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-
     - name: Cache NuGet packages
       uses: actions/cache@v4
       with:
@@ -68,66 +67,98 @@ jobs:
       run: |
         nuget restore ${{ env.PROJECT_PATH }} -PackagesDirectory packages
 
-    - name: Build Release
+    - name: Build ${{ matrix.configuration }} ${{ matrix.platform }}
       run: |
-        msbuild ${{ env.PROJECT_PATH }} /t:Build /p:Configuration=Release /p:Platform=x64
-      continue-on-error: true
+        msbuild ${{ env.PROJECT_PATH }} /t:Rebuild /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /p:OutputPath=bin\${{ matrix.platform }}\${{ matrix.configuration }}
 
-    - name: Copy Assets to Output
-      run: |
-        $outputPath = "SvonyBrowser/bin/x64/Release"
-        $assetsPath = "release/Assets"
-        if (Test-Path $assetsPath) {
-          Copy-Item -Path "$assetsPath/*" -Destination "$outputPath/Assets" -Recurse -Force
-          Write-Host "Copied Assets to output directory"
-        }
-      shell: pwsh
-      continue-on-error: true
-
-    - name: Prepare Release Package
+    - name: Prepare ${{ matrix.configuration }} ${{ matrix.platform }} Package
       run: |
         $version = "${{ steps.version.outputs.VERSION }}"
-        $outputPath = "SvonyBrowser/bin/x64/Release"
-        $releasePath = "release-package"
+        $config = "${{ matrix.configuration }}"
+        $platform = "${{ matrix.platform }}"
+        $outputPath = "SvonyBrowser/bin/$platform/$config"
+        $packageName = "EvonyBrowser-v$version-win-$platform-$config"
+        $packagePath = "packages-output/$packageName"
         
-        # Create release directory
-        New-Item -ItemType Directory -Path $releasePath -Force
+        # Create package directory
+        New-Item -ItemType Directory -Path $packagePath -Force
         
-        # Copy build output if exists
+        # Copy build output
         if (Test-Path $outputPath) {
-          Copy-Item -Path "$outputPath/*" -Destination $releasePath -Recurse -Force
+          Copy-Item -Path "$outputPath/*" -Destination $packagePath -Recurse -Force
+          Write-Host "Copied build output from $outputPath"
+        } else {
+          Write-Host "WARNING: Build output not found at $outputPath"
+          exit 1
         }
         
         # Copy Assets folder
         if (Test-Path "release/Assets") {
-          Copy-Item -Path "release/Assets" -Destination "$releasePath/Assets" -Recurse -Force
+          New-Item -ItemType Directory -Path "$packagePath/Assets" -Force
+          Copy-Item -Path "release/Assets/*" -Destination "$packagePath/Assets" -Recurse -Force
+          Write-Host "Copied Assets folder"
         }
         
         # Copy documentation
         if (Test-Path "docs") {
-          Copy-Item -Path "docs" -Destination "$releasePath/docs" -Recurse -Force
+          Copy-Item -Path "docs" -Destination "$packagePath/docs" -Recurse -Force
         }
         
-        # Copy README
-        if (Test-Path "README.md") {
-          Copy-Item -Path "README.md" -Destination $releasePath -Force
-        }
+        # Copy README and LICENSE
+        if (Test-Path "README.md") { Copy-Item -Path "README.md" -Destination $packagePath -Force }
+        if (Test-Path "LICENSE") { Copy-Item -Path "LICENSE" -Destination $packagePath -Force }
         
-        Write-Host "Release package contents:"
-        Get-ChildItem $releasePath -Recurse | Select-Object FullName
+        # Create ZIP archive
+        Compress-Archive -Path "$packagePath/*" -DestinationPath "./$packageName.zip" -Force
+        Write-Host "Created $packageName.zip"
+        
+        # Show package size
+        $size = [math]::Round((Get-Item "./$packageName.zip").Length / 1MB, 2)
+        Write-Host "Package size: $size MB"
       shell: pwsh
 
-    - name: Verify Assets
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: EvonyBrowser-${{ matrix.platform }}-${{ matrix.configuration }}
+        path: ./*.zip
+        retention-days: 5
+
+  build-portable:
+    runs-on: windows-latest
+    needs: build-windows
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        lfs: true
+
+    - name: Checkout LFS objects
+      run: git lfs pull
+
+    - name: Get Version
+      id: version
       run: |
-        Write-Host "=== Verifying Assets ==="
-        $assetsPath = "release-package/Assets"
-        if (Test-Path $assetsPath) {
-          Write-Host "Assets folder found"
-          Get-ChildItem $assetsPath -Recurse | Select-Object -First 20 FullName
+        if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+          $version = "${{ github.event.inputs.version }}"
         } else {
-          Write-Host "Assets folder not found at $assetsPath"
+          $tag = "${{ github.ref_name }}"
+          $version = $tag -replace '^v', ''
         }
+        echo "VERSION=$version" >> $env:GITHUB_OUTPUT
       shell: pwsh
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
 
     - name: Build MCP Servers
       run: |
@@ -136,87 +167,164 @@ jobs:
           $path = "mcp-servers/$server"
           if (Test-Path $path) {
             Push-Location $path
-            npm install --production
+            npm install --production 2>$null
             Pop-Location
+            Write-Host "Built MCP server: $server"
           }
         }
       shell: pwsh
       continue-on-error: true
 
-    - name: Create Archives
+    - name: Create Portable Package
       run: |
         $version = "${{ steps.version.outputs.VERSION }}"
         
-        # Create main release archive
-        if ((Test-Path "release-package") -and (Get-ChildItem "release-package" -ErrorAction SilentlyContinue)) {
-          Compress-Archive -Path ./release-package/* -DestinationPath ./EvonyBrowser-v$version-win-x64.zip -Force
-          Write-Host "Created EvonyBrowser-v$version-win-x64.zip"
-        } else {
-          Write-Host "No release-package contents to archive"
+        # Create portable package with MCP servers
+        $portablePath = "portable-package"
+        New-Item -ItemType Directory -Path $portablePath -Force
+        
+        # Extract x64 Release build
+        $x64Release = Get-ChildItem -Path "artifacts" -Recurse -Filter "*x64-Release.zip" | Select-Object -First 1
+        if ($x64Release) {
+          Expand-Archive -Path $x64Release.FullName -DestinationPath "$portablePath/app" -Force
+          Write-Host "Extracted x64 Release build"
         }
         
-        # Create Assets-only archive
-        if ((Test-Path "release/Assets") -and (Get-ChildItem "release/Assets" -ErrorAction SilentlyContinue)) {
-          Compress-Archive -Path ./release/Assets/* -DestinationPath ./EvonyBrowser-v$version-assets.zip -Force
-          Write-Host "Created EvonyBrowser-v$version-assets.zip"
-        } else {
-          Write-Host "No Assets to archive"
+        # Copy MCP servers
+        if (Test-Path "mcp-servers") {
+          Copy-Item -Path "mcp-servers" -Destination "$portablePath/mcp-servers" -Recurse -Force
+          Write-Host "Copied MCP servers"
         }
         
-        # Create source archive (always should work)
-        $excludePatterns = @(".git", "release-package", "*.zip", "bin", "obj", "node_modules", "packages")
-        Get-ChildItem -Exclude $excludePatterns | Compress-Archive -DestinationPath ./EvonyBrowser-v$version-source.zip -Force
+        # Create launcher scripts
+        @'
+@echo off
+cd /d "%~dp0app"
+start "" "SvonyBrowser.exe"
+'@ | Out-File -FilePath "$portablePath/Start-EvonyBrowser.bat" -Encoding ASCII
+        
+        @'
+@echo off
+cd /d "%~dp0mcp-servers"
+echo Starting MCP servers...
+for /d %%i in (*) do (
+  if exist "%%i\index.js" (
+    start "MCP-%%i" cmd /c "cd %%i && node index.js"
+  )
+)
+echo MCP servers started.
+pause
+'@ | Out-File -FilePath "$portablePath/Start-MCP-Servers.bat" -Encoding ASCII
+        
+        # Copy documentation
+        if (Test-Path "README.md") { Copy-Item -Path "README.md" -Destination $portablePath -Force }
+        if (Test-Path "LICENSE") { Copy-Item -Path "LICENSE" -Destination $portablePath -Force }
+        if (Test-Path "docs") { Copy-Item -Path "docs" -Destination "$portablePath/docs" -Recurse -Force }
+        
+        # Create portable ZIP
+        Compress-Archive -Path "$portablePath/*" -DestinationPath "./EvonyBrowser-v$version-portable.zip" -Force
+        Write-Host "Created EvonyBrowser-v$version-portable.zip"
+      shell: pwsh
+
+    - name: Create Source Package
+      run: |
+        $version = "${{ steps.version.outputs.VERSION }}"
+        
+        # Create clean source archive
+        $excludePatterns = @(".git", "artifacts", "portable-package", "*.zip", "bin", "obj", "node_modules", "packages", ".vs")
+        Get-ChildItem -Exclude $excludePatterns | Compress-Archive -DestinationPath "./EvonyBrowser-v$version-source.zip" -Force
         Write-Host "Created EvonyBrowser-v$version-source.zip"
       shell: pwsh
-      continue-on-error: true
 
-    - name: List Build Artifacts
+    - name: Create Assets Package
       run: |
-        Write-Host "=== Build Artifacts ==="
-        Get-ChildItem -Path . -Filter "*.zip" | ForEach-Object { 
-          $size = [math]::Round($_.Length / 1MB, 2)
-          Write-Host "$($_.Name) ($size MB)"
+        $version = "${{ steps.version.outputs.VERSION }}"
+        
+        if (Test-Path "release/Assets") {
+          Compress-Archive -Path "release/Assets/*" -DestinationPath "./EvonyBrowser-v$version-assets-only.zip" -Force
+          Write-Host "Created EvonyBrowser-v$version-assets-only.zip"
         }
       shell: pwsh
+
+    - name: Upload Portable Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: EvonyBrowser-portable
+        path: ./*.zip
+        retention-days: 5
+
+  create-release:
+    runs-on: ubuntu-latest
+    needs: [build-windows, build-portable]
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Get Version
+      id: version
+      run: |
+        if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+          version="${{ github.event.inputs.version }}"
+        else
+          tag="${{ github.ref_name }}"
+          version="${tag#v}"
+        fi
+        echo "VERSION=$version" >> $GITHUB_OUTPUT
+        echo "Version: $version"
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: release-artifacts
+
+    - name: Prepare Release Files
+      run: |
+        mkdir -p release-files
+        find release-artifacts -name "*.zip" -exec cp {} release-files/ \;
+        ls -la release-files/
 
     - name: Create Release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ github.ref_name }}
+        tag_name: ${{ github.ref_name || format('v{0}', steps.version.outputs.VERSION) }}
         name: Evony Browser v${{ steps.version.outputs.VERSION }}
         body: |
           ## 🏰 Evony Browser v${{ steps.version.outputs.VERSION }}
           
-          ### Downloads
-          - **Windows x64**: Full application with CefSharp and Flash support
-          - **Assets**: CefSharp DLLs, Flash plugin, and resources only
-          - **Source**: Full source code
+          ### 📥 Downloads
           
-          ### What's New
-          - **SWF Loading Implementation** - CefFlashBrowser-style asset loading
-          - **SwfPlayerWindow** - Dedicated window for SWF file playback
-          - **Flash Plugin Support** - pepflashplayer.dll v32.0.0.465
-          - **Git LFS** - Large binary files tracked properly
+          | Package | Description |
+          |---------|-------------|
+          | **win-x64-Release** | Windows 64-bit Release build (recommended) |
+          | **win-x64-Debug** | Windows 64-bit Debug build with symbols |
+          | **win-x86-Release** | Windows 32-bit Release build |
+          | **win-x86-Debug** | Windows 32-bit Debug build with symbols |
+          | **portable** | Self-contained package with MCP servers and launcher scripts |
+          | **assets-only** | CefSharp DLLs, Flash plugin, and resources only |
+          | **source** | Full source code |
           
-          ### Features
+          ### ✨ Features
           - CefSharp 84.4.10 with Flash Player support
           - Dual-panel browser for Evony gameplay
           - Session synchronization between panels
-          - MCP server integration
-          - Protocol analysis tools
+          - MCP server integration for AI assistance
+          - Protocol analysis and debugging tools
+          - SWF file player for Flash content
           
-          
-          ### Requirements
-          - Windows 10/11 (64-bit)
+          ### 🔧 Requirements
+          - Windows 10/11 (64-bit recommended)
           - Visual C++ Redistributable 2019 or later
-          - Node.js 18+ (for MCP servers)
-          - Flash Player PPAPI plugin (for Evony)
+          - .NET Framework 4.6.2 or later
+          - Node.js 18+ (for MCP servers, optional)
+          
+          ### 📝 Installation
+          1. Download the appropriate package for your system
+          2. Extract to a folder of your choice
+          3. Run `SvonyBrowser.exe` (or `Start-EvonyBrowser.bat` for portable)
           
           See [README.md](https://github.com/${{ github.repository }}/blob/main/README.md) for full documentation.
-        files: |
-          ./EvonyBrowser-v${{ steps.version.outputs.VERSION }}-win-x64.zip
-          ./EvonyBrowser-v${{ steps.version.outputs.VERSION }}-assets.zip
-          ./EvonyBrowser-v${{ steps.version.outputs.VERSION }}-source.zip
+        files: release-files/*.zip
         draft: false
         prerelease: false
         fail_on_unmatched_files: false
