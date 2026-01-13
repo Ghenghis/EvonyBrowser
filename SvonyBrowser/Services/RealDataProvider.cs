@@ -5,8 +5,10 @@ using System.IO;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using SvonyBrowser.Helpers;
 using SvonyBrowser.Models;
 
 namespace SvonyBrowser.Services
