@@ -489,7 +489,7 @@ namespace SvonyBrowser.Services
             }
             
             var result = await SendCommandAsync("Page.captureScreenshot", parameters);
-            var base64 = result.GetProperty("data").GetString();
+            var base64 = result["data"]?.ToString() ?? "";
             return Convert.FromBase64String(base64);
         }
         

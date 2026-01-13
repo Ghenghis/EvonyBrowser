@@ -120,8 +120,14 @@ namespace SvonyBrowser.Services
                 var cts = new CancellationTokenSource(timeoutMs); // TODO: Add using block for proper disposal
                 var client = new TcpClient(); // TODO: Add using block for proper disposal
             
-                await client.ConnectAsync(host, port, cts.Token);
-                return client.Connected;
+                // .NET Framework 4.6.2 ConnectAsync doesn't take CancellationToken
+                var connectTask = client.ConnectAsync(host, port);
+                if (await Task.WhenAny(connectTask, Task.Delay(timeoutMs, cts.Token)) == connectTask)
+                {
+                    await connectTask; // Propagate any exceptions
+                    return client.Connected;
+                }
+                return false;
             }
             catch (OperationCanceledException)
             {
