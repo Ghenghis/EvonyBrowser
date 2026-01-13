@@ -120,8 +120,8 @@ namespace SvonyBrowser.Views
                 // Convert to file:// URI for the browser
                 var fileUri = new Uri(filePath).AbsoluteUri;
                 
-                // Execute JavaScript to load the SWF using Frame
-                Browser.GetMainFrame()?.ExecuteJavaScriptAsync($"loadSwf('{fileUri}')");
+                // Execute JavaScript to load the SWF using Frame - cast to IWebBrowser for extension
+                ((CefSharp.IWebBrowser)Browser).GetMainFrame()?.ExecuteJavaScriptAsync($"loadSwf('{fileUri}')");
                 
                 Dispatcher.Invoke(() =>
                 {

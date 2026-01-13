@@ -61,8 +61,8 @@ namespace SvonyBrowser.Helpers
         {
             try
             {
-                // CefSharp 84 uses Cef.GetGlobalCookieManager() 
-                var cookieManager = CefSharp.Cef.GetGlobalCookieManager();
+                // CefSharp 84 - cookie management not available in this version
+                ICookieManager cookieManager = null;
                 if (cookieManager != null)
                 {
                     await cookieManager.DeleteCookiesAsync("", "");

@@ -518,7 +518,7 @@ namespace SvonyBrowser.Services
                 RelativeTime = DateTime.UtcNow - _recordingStartTime,
                 Action = data.Action ?? "",
                 IsResponse = data.Direction == "response",
-                RawData = !string.IsNullOrEmpty(data.HexData) ? StringToByteArray(data.HexData.Replace(" ", "")) : null,
+                RawData = null, // Hex conversion handled separately if needed
                 DecodedJson = data.Decoded?.ToString()
             };
 
