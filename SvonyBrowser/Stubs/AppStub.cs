@@ -38,6 +38,5 @@ namespace SvonyBrowser
         /// </summary>
         public static SettingsManager Settings { get; } = SettingsManager.Instance;
     }
-    #endif
-
 }
+#endif

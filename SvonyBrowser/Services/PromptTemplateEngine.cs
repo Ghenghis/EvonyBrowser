@@ -624,6 +624,18 @@ namespace SvonyBrowser.Services
         }
 
         #endregion
+
+        #region IDisposable
+
+        private bool _disposed;
+
+        public void Dispose()
+        {
+            if (_disposed) return;
+            _disposed = true;
+        }
+
+        #endregion
     }
 
     #region Models
