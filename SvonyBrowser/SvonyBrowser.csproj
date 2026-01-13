@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0"
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -125,7 +126,7 @@
       <DependentUpon>SettingsControlCenter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-    
+
     <!-- Controls -->
     <Compile Include="Controls\ChatbotPanel.xaml.cs">
       <DependentUpon>ChatbotPanel.xaml</DependentUpon>
@@ -148,23 +149,25 @@
     <Compile Include="Controls\StatusBarWidgetControl.xaml.cs">
       <DependentUpon>StatusBarWidgetControl.xaml</DependentUpon>
     </Compile>
-    
+
     <!-- Helpers -->
     <Compile Include="Helpers\BrowserHelper.cs" />
     <Compile Include="Helpers\NetFrameworkExtensions.cs" />
-    
+    <Compile Include="Helpers\Win32.cs" />
+
     <!-- Converters -->
     <Compile Include="Converters\Converters.cs" />
-    
+
     <!-- Models -->
     <Compile Include="Models\AppSettings.cs" />
     <Compile Include="Models\ChatContext.cs" />
     <Compile Include="Models\ChatMessage.cs" />
+    <Compile Include="Models\GlobalData.cs" />
     <Compile Include="Models\TrafficEntry.cs" />
-    
+
     <!-- Properties -->
     <Compile Include="Properties\AssemblyInfo.cs" />
-    
+
     <!-- Services -->
     <Compile Include="Services\AnalyticsDashboard.cs" />
     <Compile Include="Services\AutoPilotService.cs" />
@@ -200,7 +203,7 @@
     <Compile Include="Services\TrafficPipeClient.cs" />
     <Compile Include="Services\VisualAutomationService.cs" />
     <Compile Include="Services\WebhookHub.cs" />
-    
+
     <!-- Stubs for .NET Framework compatibility -->
     <Compile Include="Stubs\AppStub.cs" />
     <Compile Include="Stubs\CefSharpStub.cs" />
@@ -215,7 +218,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\CefSharp.Common.84.4.10\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.84.4.10\build\CefSharp.Common.targets')" />
   <Import Project="..\packages\CefSharp.Wpf.84.4.10\build\CefSharp.Wpf.targets" Condition="Exists('..\packages\CefSharp.Wpf.84.4.10\build\CefSharp.Wpf.targets')" />
-  
+
   <!-- Post-build: Copy Assets folder to output directory -->
   <Target Name="CopyAssets" AfterTargets="Build">
     <Message Text="Copying Assets folder to output directory..." Importance="high" />
@@ -223,9 +226,7 @@
     <ItemGroup>
       <AssetsFiles Include="..\release\Assets\**\*.*" />
     </ItemGroup>
-    <Copy SourceFiles="@(AssetsFiles)" 
-          DestinationFiles="@(AssetsFiles->'$(OutputPath)Assets\%(RecursiveDir)%(Filename)%(Extension)')" 
-          SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(AssetsFiles)" DestinationFiles="@(AssetsFiles->'$(OutputPath)Assets\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
     <Message Text="Assets copied to $(OutputPath)Assets" Importance="high" />
   </Target>
 </Project>

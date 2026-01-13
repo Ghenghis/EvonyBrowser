@@ -1,13 +1,18 @@
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using CefSharp;
 using CefSharp.Wpf;
+using SvonyBrowser.Helpers;
+using SvonyBrowser.Models;
 
 namespace SvonyBrowser
 {
     /// <summary>
     /// Application entry point for .NET Framework 4.6.2 with CefSharp 84 (Flash support).
+    /// Uses CefFlashBrowser-style asset loading for proper SWF support.
     /// 
     /// Expected folder structure:
     /// [AppDirectory]/
@@ -21,8 +26,11 @@ namespace SvonyBrowser
     /// │   │   ├── icudtl.dat
     /// │   │   ├── locales/
     /// │   │   └── ...
-    /// │   └── Plugins/
-    /// │       └── pepflashplayer.dll
+    /// │   ├── Plugins/
+    /// │   │   └── pepflashplayer.dll
+    /// │   ├── SwfPlayer/
+    /// │   │   └── swfplayer.html
+    /// │   └── EmptyExe/
     /// ├── Cache/
     /// ├── Logs/
     /// ├── config/
@@ -30,49 +38,21 @@ namespace SvonyBrowser
     /// </summary>
     public static class Program
     {
-        // Asset paths relative to application directory
-        private const string ASSETS_FOLDER = "Assets";
-        private const string CEFSHARP_FOLDER = "Assets\\CefSharp";
-        private const string PLUGINS_FOLDER = "Assets\\Plugins";
-        private const string FLASH_PLUGIN = "pepflashplayer.dll";
-        private const string FLASH_VERSION = "32.0.0.465";
-
         [STAThread]
         public static int Main(string[] args)
         {
-            // Base directory is where the executable runs from
-            var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            // CRITICAL: Set DLL directory BEFORE any CefSharp references
+            // This allows loading CefSharp DLLs from Assets\CefSharp folder
+            Win32.SetDllDirectory(GlobalData.CefDllPath);
             
-            // Define all paths
-            var assetsPath = Path.Combine(baseDir, ASSETS_FOLDER);
-            var cefSharpPath = Path.Combine(baseDir, CEFSHARP_FOLDER);
-            var pluginsPath = Path.Combine(baseDir, PLUGINS_FOLDER);
-            var cachePath = Path.Combine(baseDir, "Cache");
-            var logPath = Path.Combine(baseDir, "Logs");
-            var configPath = Path.Combine(baseDir, "config");
-            var mcpDataPath = Path.Combine(baseDir, "mcp-data");
-            var dataPath = Path.Combine(baseDir, "data");
+            // Register assembly resolver for CefSharp DLLs
+            AppDomain.CurrentDomain.AssemblyResolve += ResolveCefSharpAssembly;
 
             // Ensure directories exist
-            try
-            {
-                Directory.CreateDirectory(cachePath);
-                Directory.CreateDirectory(logPath);
-                Directory.CreateDirectory(configPath);
-                Directory.CreateDirectory(mcpDataPath);
-                Directory.CreateDirectory(dataPath);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    string.Format("Failed to create application directories:\n\n{0}", ex.Message),
-                    "Startup Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
-            }
+            GlobalData.EnsureDirectoriesExist();
 
             // Write startup log
-            LogMessage(logPath, string.Format(
+            GlobalData.LogMessage(string.Format(
                 "\n═══════════════════════════════════════════════════════════\n" +
                 "Svony Browser v7.0.5 (Flash Edition) starting...\n" +
                 "═══════════════════════════════════════════════════════════\n" +
@@ -81,16 +61,20 @@ namespace SvonyBrowser
                 "CefSharp path: {2}\n" +
                 "Plugins path: {3}\n" +
                 "Cache path: {4}",
-                baseDir, assetsPath, cefSharpPath, pluginsPath, cachePath));
+                GlobalData.AppBaseDirectory, GlobalData.AssetsPath, 
+                GlobalData.CefDllPath, GlobalData.PluginsPath, GlobalData.CachePath));
 
             // Validate required assets exist
-            if (!ValidateAssets(baseDir, logPath))
+            string errorMessage;
+            if (!GlobalData.ValidateAssets(out errorMessage))
             {
+                GlobalData.LogMessage("ERROR: " + errorMessage);
                 MessageBox.Show(
-                    "Required assets are missing!\n\n" +
+                    "Required assets are missing!\n\n" + errorMessage + "\n\n" +
                     "Please ensure the Assets folder is in the same directory as the executable:\n" +
-                    "- Assets/CefSharp/ (CefSharp runtime files)\n" +
-                    "- Assets/Plugins/pepflashplayer.dll (Flash plugin)\n\n" +
+                    "- Assets/CefSharp/ (CefSharp runtime files including libcef.dll)\n" +
+                    "- Assets/Plugins/pepflashplayer.dll (Flash plugin)\n" +
+                    "- Assets/SwfPlayer/swfplayer.html (SWF player page)\n\n" +
                     "The application will now exit.",
                     "Missing Assets",
                     MessageBoxButton.OK,
@@ -103,37 +87,39 @@ namespace SvonyBrowser
             {
                 if (!Cef.IsInitialized)
                 {
-                    // Set the path to CefSharp subprocess
-                    var browserSubprocessPath = Path.Combine(cefSharpPath, "CefSharp.BrowserSubprocess.exe");
-                    
+                    // Remove black popup window by setting ComSpec to empty exe
+                    if (File.Exists(GlobalData.EmptyExePath))
+                    {
+                        Environment.SetEnvironmentVariable("ComSpec", GlobalData.EmptyExePath);
+                    }
+
                     var settings = new CefSettings
                     {
-                        CachePath = cachePath,
+                        CachePath = GlobalData.CachePath,
                         PersistSessionCookies = true,
                         PersistUserPreferences = true,
                         WindowlessRenderingEnabled = false,
                         LogSeverity = LogSeverity.Warning,
-                        LogFile = Path.Combine(logPath, "cef.log"),
-                        BrowserSubprocessPath = browserSubprocessPath,
-                        ResourcesDirPath = cefSharpPath,
-                        LocalesDirPath = Path.Combine(cefSharpPath, "locales")
+                        LogFile = GlobalData.CefLogPath,
+                        BrowserSubprocessPath = GlobalData.SubprocessPath,
+                        ResourcesDirPath = GlobalData.CefDllPath,
+                        LocalesDirPath = GlobalData.LocalesPath
                     };
 
-                    // Configure Flash plugin
-                    var flashPath = Path.Combine(pluginsPath, FLASH_PLUGIN);
-                    if (File.Exists(flashPath))
+                    // Configure Flash plugin (PPAPI)
+                    if (File.Exists(GlobalData.FlashPath))
                     {
-                        settings.CefCommandLineArgs.Add("ppapi-flash-path", flashPath);
-                        settings.CefCommandLineArgs.Add("ppapi-flash-version", FLASH_VERSION);
-                        settings.CefCommandLineArgs.Add("allow-outdated-plugins", "1");
-                        settings.CefCommandLineArgs.Add("enable-npapi", "1");
+                        var flashVersion = GlobalData.GetFlashVersion();
+                        settings.CefCommandLineArgs.Add("ppapi-flash-path", GlobalData.FlashPath);
+                        settings.CefCommandLineArgs.Add("ppapi-flash-version", flashVersion);
                         settings.CefCommandLineArgs.Add("enable-system-flash", "1");
                         
-                        LogMessage(logPath, string.Format("Flash plugin configured: {0}", flashPath));
+                        GlobalData.LogMessage(string.Format("Flash plugin configured: {0} (version {1})", 
+                            GlobalData.FlashPath, flashVersion));
                     }
                     else
                     {
-                        LogMessage(logPath, string.Format("WARNING: Flash plugin not found at: {0}", flashPath));
+                        GlobalData.LogMessage(string.Format("WARNING: Flash plugin not found at: {0}", GlobalData.FlashPath));
                     }
 
                     // GPU and rendering settings for stability
@@ -141,10 +127,13 @@ namespace SvonyBrowser
                     settings.CefCommandLineArgs.Add("disable-gpu-vsync", "1");
                     settings.CefCommandLineArgs.Add("enable-begin-frame-scheduling", "1");
                     
+                    // Allow autoplay without user gesture (for Flash content)
+                    settings.CefCommandLineArgs.Add("autoplay-policy", "no-user-gesture-required");
+                    
                     // Disable features that may cause issues
                     settings.CefCommandLineArgs.Add("disable-extensions", "0");
 
-                    LogMessage(logPath, "Initializing CefSharp 84...");
+                    GlobalData.LogMessage("Initializing CefSharp 84...");
                     var success = Cef.Initialize(settings, performDependencyCheck: true, browserProcessHandler: null);
 
                     if (!success)
@@ -152,12 +141,12 @@ namespace SvonyBrowser
                         throw new InvalidOperationException("Cef.Initialize returned false");
                     }
 
-                    LogMessage(logPath, "CefSharp 84 initialized successfully with Flash support!");
+                    GlobalData.LogMessage("CefSharp 84 initialized successfully with Flash support!");
                 }
             }
             catch (Exception ex)
             {
-                LogMessage(logPath, string.Format("FATAL: Failed to initialize CefSharp: {0}\n{1}", ex.Message, ex.StackTrace));
+                GlobalData.LogMessage(string.Format("FATAL: Failed to initialize CefSharp: {0}\n{1}", ex.Message, ex.StackTrace));
                 MessageBox.Show(
                     string.Format("Failed to initialize browser engine:\n\n{0}\n\nThe application will now exit.", ex.Message),
                     "Initialization Error",
@@ -173,28 +162,30 @@ namespace SvonyBrowser
                 app.InitializeComponent();
 
                 // Set static properties for App - these are used throughout the application
-                App.BasePath = baseDir;
-                App.CachePath = cachePath;
-                App.LogPath = logPath;
-                App.ConfigPath = configPath;
-                App.McpDataPath = mcpDataPath;
-                App.DataPath = dataPath;
+                App.BasePath = GlobalData.AppBaseDirectory;
+                App.CachePath = GlobalData.CachePath;
+                App.LogPath = GlobalData.LogsPath;
+                App.ConfigPath = GlobalData.ConfigPath;
+                App.McpDataPath = GlobalData.McpDataPath;
+                App.DataPath = GlobalData.DataPath;
+
+                GlobalData.LogMessage(string.Format("Application started successfully, pid: {0}", Process.GetCurrentProcess().Id));
 
                 var result = app.Run();
 
                 // Cleanup
-                LogMessage(logPath, "Application shutting down...");
+                GlobalData.LogMessage("Application shutting down...");
                 if (Cef.IsInitialized)
                 {
                     Cef.Shutdown();
                 }
-                LogMessage(logPath, "Shutdown complete");
+                GlobalData.LogMessage("Shutdown complete");
 
                 return result;
             }
             catch (Exception ex)
             {
-                LogMessage(logPath, string.Format("FATAL: Application crashed: {0}\n{1}", ex.Message, ex.StackTrace));
+                GlobalData.LogMessage(string.Format("FATAL: Application crashed: {0}\n{1}", ex.Message, ex.StackTrace));
                 MessageBox.Show(
                     string.Format("Application error:\n\n{0}", ex.Message),
                     "Fatal Error",
@@ -205,74 +196,21 @@ namespace SvonyBrowser
         }
 
         /// <summary>
-        /// Validates that all required assets are present.
+        /// Resolves CefSharp assemblies from the Assets\CefSharp folder.
+        /// This is critical for loading CefSharp DLLs from a non-standard location.
         /// </summary>
-        private static bool ValidateAssets(string baseDir, string logPath)
+        private static Assembly ResolveCefSharpAssembly(object sender, ResolveEventArgs e)
         {
-            var assetsPath = Path.Combine(baseDir, ASSETS_FOLDER);
-            var cefSharpPath = Path.Combine(baseDir, CEFSHARP_FOLDER);
-            var pluginsPath = Path.Combine(baseDir, PLUGINS_FOLDER);
-
-            // Check Assets folder exists
-            if (!Directory.Exists(assetsPath))
+            string assemblyName = new AssemblyName(e.Name).Name;
+            string assemblyPath = Path.Combine(GlobalData.CefDllPath, assemblyName + ".dll");
+            
+            if (File.Exists(assemblyPath))
             {
-                LogMessage(logPath, string.Format("ERROR: Assets folder not found: {0}", assetsPath));
-                return false;
+                GlobalData.LogMessage(string.Format("Resolved assembly: {0} from {1}", assemblyName, assemblyPath));
+                return Assembly.LoadFrom(assemblyPath);
             }
-
-            // Check CefSharp folder exists
-            if (!Directory.Exists(cefSharpPath))
-            {
-                LogMessage(logPath, string.Format("ERROR: CefSharp folder not found: {0}", cefSharpPath));
-                return false;
-            }
-
-            // Check critical CefSharp files
-            var criticalFiles = new[]
-            {
-                Path.Combine(cefSharpPath, "libcef.dll"),
-                Path.Combine(cefSharpPath, "CefSharp.dll"),
-                Path.Combine(cefSharpPath, "CefSharp.Core.dll"),
-                Path.Combine(cefSharpPath, "CefSharp.BrowserSubprocess.exe"),
-                Path.Combine(cefSharpPath, "icudtl.dat")
-            };
-
-            foreach (var file in criticalFiles)
-            {
-                if (!File.Exists(file))
-                {
-                    LogMessage(logPath, string.Format("ERROR: Critical file missing: {0}", file));
-                    return false;
-                }
-            }
-
-            // Check Flash plugin (warning only, not critical)
-            var flashPath = Path.Combine(pluginsPath, FLASH_PLUGIN);
-            if (!File.Exists(flashPath))
-            {
-                LogMessage(logPath, string.Format("WARNING: Flash plugin not found: {0}", flashPath));
-                LogMessage(logPath, "Flash/SWF content will not work without pepflashplayer.dll");
-            }
-
-            LogMessage(logPath, "Asset validation passed");
-            return true;
-        }
-
-        /// <summary>
-        /// Writes a message to the log file.
-        /// </summary>
-        private static void LogMessage(string logPath, string message)
-        {
-            try
-            {
-                var logFile = Path.Combine(logPath, string.Format("svony-{0:yyyy-MM-dd}.log", DateTime.Now));
-                var timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                File.AppendAllText(logFile, string.Format("[{0}] {1}\n", timestamp, message));
-            }
-            catch
-            {
-                // Ignore logging errors
-            }
+            
+            return null;
         }
     }
 }
