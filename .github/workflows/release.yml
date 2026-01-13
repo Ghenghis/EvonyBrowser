@@ -1,0 +1,209 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  DOTNET_VERSION: '6.0.x'
+  NODE_VERSION: '18.x'
+
+jobs:
+  build-release:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Get Version
+      id: version
+      run: |
+        $tag = "${{ github.ref_name }}"
+        $version = $tag -replace '^v', ''
+        echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+        echo "Version: $version"
+      shell: pwsh
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+
+    - name: Cache NuGet packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
+    - name: Restore NuGet packages
+      run: |
+        dotnet restore SvonyBrowser/SvonyBrowser.csproj -r win-x64
+
+    - name: Build Release
+      run: |
+        dotnet build SvonyBrowser/SvonyBrowser.csproj -c Release -r win-x64 --no-restore
+
+    - name: Publish Win-x64 Self-Contained
+      run: |
+        dotnet publish SvonyBrowser/SvonyBrowser.csproj `
+          -c Release `
+          -r win-x64 `
+          --self-contained true `
+          -p:PublishSingleFile=false `
+          -p:IncludeNativeLibrariesForSelfExtract=true `
+          -p:IncludeAllContentForSelfExtract=true `
+          -o ./publish/win-x64
+      shell: pwsh
+
+    - name: Publish Portable (Framework-Dependent)
+      run: |
+        dotnet publish SvonyBrowser/SvonyBrowser.csproj `
+          -c Release `
+          -r win-x64 `
+          --no-self-contained `
+          -p:PublishSingleFile=false `
+          -o ./publish/portable
+      shell: pwsh
+
+    - name: Remove BrowserSubprocess runtimeconfig for self-contained
+      run: |
+        # For self-contained apps, the BrowserSubprocess.runtimeconfig.json must be removed
+        # This is a known CefSharp requirement for self-contained deployments
+        $runtimeConfig = "./publish/win-x64/CefSharp.BrowserSubprocess.runtimeconfig.json"
+        if (Test-Path $runtimeConfig) {
+          Remove-Item $runtimeConfig -Force
+          Write-Host "Removed CefSharp.BrowserSubprocess.runtimeconfig.json for self-contained deployment"
+        }
+      shell: pwsh
+
+    - name: Verify CefSharp Files
+      run: |
+        Write-Host "=== Verifying CefSharp files in win-x64 ==="
+        $requiredFiles = @(
+          "libcef.dll",
+          "CefSharp.dll",
+          "CefSharp.Core.dll",
+          "CefSharp.Core.Runtime.dll",
+          "CefSharp.Wpf.dll",
+          "CefSharp.BrowserSubprocess.exe",
+          "icudtl.dat",
+          "chrome_elf.dll"
+        )
+        
+        $missingFiles = @()
+        foreach ($file in $requiredFiles) {
+          $path = "./publish/win-x64/$file"
+          if (Test-Path $path) {
+            $size = (Get-Item $path).Length
+            Write-Host "✓ $file ($size bytes)"
+          } else {
+            Write-Host "✗ $file MISSING!"
+            $missingFiles += $file
+          }
+        }
+        
+        if ($missingFiles.Count -gt 0) {
+          Write-Host ""
+          Write-Host "WARNING: Missing files: $($missingFiles -join ', ')"
+        }
+      shell: pwsh
+
+    - name: Build MCP Servers
+      run: |
+        $servers = @("evony-complete", "evony-rag", "evony-rte", "evony-tools", "evony-advanced", "evony-cdp", "evony-v4")
+        foreach ($server in $servers) {
+          $path = "mcp-servers/$server"
+          if (Test-Path $path) {
+            Push-Location $path
+            npm install --production
+            Pop-Location
+          }
+        }
+      shell: pwsh
+      continue-on-error: true
+
+    - name: Create Archives
+      run: |
+        if (Test-Path "./publish/win-x64") {
+          Compress-Archive -Path ./publish/win-x64/* -DestinationPath ./SvonyBrowser-v${{ steps.version.outputs.VERSION }}-win-x64.zip -Force
+        }
+        if (Test-Path "./publish/portable") {
+          Compress-Archive -Path ./publish/portable/* -DestinationPath ./SvonyBrowser-v${{ steps.version.outputs.VERSION }}-portable.zip -Force
+        }
+        # Create source archive excluding git and build artifacts
+        $excludePatterns = @(".git", "publish", "*.zip", "bin", "obj", "node_modules")
+        Get-ChildItem -Exclude $excludePatterns | Compress-Archive -DestinationPath ./SvonyBrowser-v${{ steps.version.outputs.VERSION }}-source.zip -Force
+      shell: pwsh
+
+    - name: List Build Artifacts
+      run: |
+        Write-Host "=== Build Artifacts ==="
+        Get-ChildItem -Path . -Filter "*.zip" | ForEach-Object { 
+          $size = [math]::Round($_.Length / 1MB, 2)
+          Write-Host "$($_.Name) ($size MB)"
+        }
+        Write-Host ""
+        Write-Host "=== Win-x64 Contents (first 50 files) ==="
+        if (Test-Path "./publish/win-x64") { 
+          Get-ChildItem ./publish/win-x64 | Select-Object -First 50 Name, Length 
+        }
+      shell: pwsh
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        name: Svony Browser v${{ steps.version.outputs.VERSION }}
+        body: |
+          ## 🏰 Svony Browser v${{ steps.version.outputs.VERSION }}
+          
+          ### Downloads
+          - **Windows x64**: Self-contained executable (includes .NET runtime)
+          - **Portable**: Requires .NET 6.0 runtime installed
+          - **Source**: Full source code
+          
+          ### What's New in v7.0.2
+          - **Fixed CefSharp initialization** - Implemented self-hosting pattern for self-contained deployments
+          - All CefSharp native files are now properly included
+          - Application should start without "CefSharp.Core.Runtime" errors
+          
+          ### Features
+          - 35 services with 23,000+ lines of code
+          - 753 unit tests
+          - MCP server integration (300+ tools)
+          - Combat simulator and strategic advisor
+          - Full automation suite
+          - 200+ failsafes
+          
+          ### Requirements
+          - Windows 10/11 (64-bit)
+          - Visual C++ Redistributable 2019 or later
+          - Node.js 18+ (for MCP servers)
+          - Flash Player PPAPI plugin (for Evony)
+          
+          See [README.md](https://github.com/${{ github.repository }}/blob/main/README.md) for full documentation.
+        files: |
+          ./SvonyBrowser-v${{ steps.version.outputs.VERSION }}-win-x64.zip
+          ./SvonyBrowser-v${{ steps.version.outputs.VERSION }}-portable.zip
+          ./SvonyBrowser-v${{ steps.version.outputs.VERSION }}-source.zip
+        draft: false
+        prerelease: false
+        fail_on_unmatched_files: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

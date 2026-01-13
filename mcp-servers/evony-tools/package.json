@@ -1,0 +1,17 @@
+{
+  "name": "evony-tools",
+  "version": "1.0.0",
+  "description": "Evony Tools MCP Server - Automation, calculations, and utilities",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "keywords": ["mcp", "evony", "tools", "automation", "calculator"],
+  "author": "ShadowByte Labs",
+  "license": "MIT"
+}

@@ -1,0 +1,74 @@
+{
+  "name": "@svony/mcp-complete",
+  "version": "5.0.0",
+  "description": "Complete MCP server for Svony Browser - 168 tools for full browser control",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "evony-complete": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": [
+    "mcp",
+    "evony",
+    "svony",
+    "browser",
+    "automation",
+    "reverse-engineering",
+    "protocol-analysis",
+    "claude-desktop",
+    "windsurf",
+    "lm-studio"
+  ],
+  "author": "Svony Team",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "ws": "^8.14.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ghenghis/Svony-Browser"
+  },
+  "mcp": {
+    "name": "evony-complete",
+    "version": "5.0.0",
+    "description": "Complete Svony Browser control with 168 tools",
+    "capabilities": {
+      "tools": true,
+      "resources": true,
+      "prompts": true
+    },
+    "toolCategories": [
+      "browser-control",
+      "session-management",
+      "account-management",
+      "game-state",
+      "autopilot",
+      "combat",
+      "map-intelligence",
+      "packet-operations",
+      "protocol-analysis",
+      "fuzzing",
+      "fiddler-integration",
+      "llm-integration",
+      "chat-interface",
+      "analytics",
+      "webhooks",
+      "recording",
+      "status-bar",
+      "settings",
+      "mcp-management",
+      "export-import"
+    ],
+    "toolCount": 168,
+    "resourceCount": 8,
+    "promptCount": 5
+  }
+}

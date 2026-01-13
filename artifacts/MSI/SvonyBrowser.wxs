@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="*" 
+             Name="Svony Browser" 
+             Language="1033" 
+             Version="7.0.0" 
+             Manufacturer="Svony Browser Team" 
+             UpgradeCode="12345678-1234-1234-1234-123456789012">
+        <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"/>
+        <MajorUpgrade DowngradeErrorMessage="A newer version is already installed."/>
+        <MediaTemplate EmbedCab="yes"/>
+        
+        <Feature Id="ProductFeature" Title="Svony Browser" Level="1">
+            <ComponentGroupRef Id="ProductComponents"/>
+        </Feature>
+        
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="INSTALLFOLDER" Name="SvonyBrowser"/>
+            </Directory>
+        </Directory>
+        
+        <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+            <Component Id="MainExecutable">
+                <File Source="files\SvonyBrowser.exe"/>
+            </Component>
+        </ComponentGroup>
+    </Product>
+</Wix>

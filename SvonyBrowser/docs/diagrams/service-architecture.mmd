@@ -1,0 +1,113 @@
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#3B82F6', 'secondaryColor': '#10B981', 'tertiaryColor': '#1E293B'}}}%%
+flowchart TB
+    subgraph UI["User Interface Layer"]
+        MW[MainWindow]
+        CP[ChatbotPanel]
+        TV[TrafficViewer]
+        PE[ProtocolExplorer]
+        SB[StatusBarV4]
+        PB[PacketBuilder]
+        SC[SettingsControlCenter]
+    end
+
+    subgraph Core["Core Services"]
+        MCM[McpConnectionManager]
+        PH[ProtocolHandler]
+        GSE[GameStateEngine]
+        CS[ChatbotService]
+        SM[SessionManager]
+        TPC[TrafficPipeClient]
+        PM[ProxyMonitor]
+    end
+
+    subgraph Analysis["Analysis Services"]
+        PAE[PacketAnalysisEngine]
+        PF[ProtocolFuzzer]
+        CBS[CombatSimulator]
+        SA[StrategicAdvisor]
+        MS[MapScanner]
+        AD[AnalyticsDashboard]
+    end
+
+    subgraph Automation["Automation Services"]
+        APS[AutoPilotService]
+        SR[SessionRecorder]
+        MAO[MultiAccountOrchestrator]
+        CDP[CdpConnectionService]
+        VAS[VisualAutomationService]
+        PTE[PromptTemplateEngine]
+    end
+
+    subgraph Infra["Infrastructure Services"]
+        STM[SettingsManager]
+        MM[MemoryManager]
+        EH[ErrorHandler]
+        CONN[ConnectionPool]
+        TM[ThemeManager]
+        KSM[KeyboardShortcutManager]
+        RDP[RealDataProvider]
+        WH[WebhookHub]
+        EIM[ExportImportManager]
+        FB[FiddlerBridge]
+        LLM[LlmIntegrationService]
+        SBM[StatusBarManager]
+    end
+
+    subgraph External["External Systems"]
+        MCP[MCP Servers]
+        FID[Fiddler Proxy]
+        LMS[LM Studio]
+        EVY[Evony Servers]
+        WEB[Webhooks]
+    end
+
+    %% UI to Core
+    MW --> MCM
+    MW --> GSE
+    CP --> CS
+    TV --> TPC
+    PE --> PH
+    SB --> SBM
+    SC --> STM
+
+    %% Core to Analysis
+    TPC --> PAE
+    PH --> PAE
+    GSE --> SA
+    GSE --> CBS
+    GSE --> MS
+
+    %% Core to Automation
+    GSE --> APS
+    PH --> SR
+    MCM --> MAO
+
+    %% Analysis to Automation
+    SA --> APS
+    CBS --> APS
+    MS --> APS
+
+    %% Automation to External
+    CDP --> VAS
+    APS --> CDP
+    MAO --> CDP
+
+    %% Infrastructure connections
+    STM --> Core
+    MM --> Core
+    EH --> Core
+    CONN --> MCM
+    TM --> UI
+    KSM --> UI
+    RDP --> GSE
+    WH --> External
+    EIM --> Core
+    FB --> FID
+    LLM --> LMS
+    SBM --> SB
+
+    %% External connections
+    MCM --> MCP
+    TPC --> FID
+    FID --> EVY
+    WH --> WEB

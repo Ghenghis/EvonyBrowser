@@ -1,0 +1,64 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DAA520"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#B8860B"/>
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a1a0a"/>
+      <stop offset="100%" style="stop-color:#1a0a00"/>
+    </linearGradient>
+    <linearGradient id="castleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a3a2a"/>
+      <stop offset="100%" style="stop-color:#2a1a0a"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <rect width="300" height="300" fill="#0a0505"/>
+  <rect x="5" y="5" width="290" height="290" fill="none" stroke="url(#goldGrad)" stroke-width="3" rx="10"/>
+  <rect x="12" y="12" width="276" height="276" fill="none" stroke="#3a2a1a" stroke-width="1" rx="8"/>
+
+  <path d="M150,30 L230,80 L230,180 L150,240 L70,180 L70,80 Z" fill="url(#shieldGrad)" stroke="url(#goldGrad)" stroke-width="4" filter="url(#shadow)"/>
+  <path d="M150,40 L220,85 L220,175 L150,230 L80,175 L80,85 Z" fill="none" stroke="#C0A050" stroke-width="1"/>
+
+  <path d="M120,70 L120,100 L110,100 L110,70 L100,70 L100,110 L90,110 L90,70 L80,85 L80,175 L150,230 L150,140 Z" fill="url(#castleGrad)" stroke="#8B7355" stroke-width="1"/>
+  <path d="M180,70 L180,100 L190,100 L190,70 L200,70 L200,110 L210,110 L210,70 L220,85 L220,175 L150,230 L150,140 Z" fill="url(#castleGrad)" stroke="#8B7355" stroke-width="1"/>
+
+  <rect x="140" y="160" width="20" height="35" fill="#1a0a00" stroke="#5a4a3a"/>
+  <circle cx="155" cy="178" r="2" fill="#DAA520"/>
+
+  <rect x="115" y="100" width="15" height="20" fill="#0a0505" stroke="#3a2a1a"/>
+  <rect x="170" y="100" width="15" height="20" fill="#0a0505" stroke="#3a2a1a"/>
+  <rect x="135" y="85" width="30" height="25" fill="#0a0505" stroke="#3a2a1a"/>
+
+  <polygon points="150,50 145,65 155,65" fill="url(#goldGrad)" filter="url(#glow)"/>
+  <circle cx="150" cy="72" r="8" fill="none" stroke="url(#goldGrad)" stroke-width="2"/>
+  <circle cx="150" cy="72" r="4" fill="#DAA520"/>
+
+  <path d="M95,130 Q90,145 95,160" stroke="#8B4513" stroke-width="3" fill="none"/>
+  <polygon points="88,125 95,130 88,135" fill="#DAA520"/>
+  <polygon points="88,155 95,160 88,165" fill="#C0C0C0"/>
+
+  <path d="M205,130 Q210,145 205,160" stroke="#8B4513" stroke-width="3" fill="none"/>
+  <polygon points="212,125 205,130 212,135" fill="#DAA520"/>
+  <polygon points="212,155 205,160 212,165" fill="#C0C0C0"/>
+
+  <text x="150" y="265" text-anchor="middle" font-family="Georgia, serif" font-size="32" font-weight="bold" fill="url(#goldGrad)" filter="url(#glow)">SVONY</text>
+  <text x="150" y="282" text-anchor="middle" font-family="Arial" font-size="10" fill="#8B7355" letter-spacing="3">BROWSER</text>
+
+  <circle cx="50" cy="50" r="3" fill="#DAA520" opacity="0.6"/>
+  <circle cx="250" cy="50" r="3" fill="#DAA520" opacity="0.6"/>
+  <circle cx="50" cy="250" r="3" fill="#DAA520" opacity="0.6"/>
+  <circle cx="250" cy="250" r="3" fill="#DAA520" opacity="0.6"/>
+</svg>

@@ -1,0 +1,163 @@
+<UserControl x:Class="SvonyBrowser.Controls.StatusBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SvonyBrowser.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="1600"
+             Background="#0A0A12">
+    
+    <UserControl.Resources>
+        <!-- Color Palette -->
+        <SolidColorBrush x:Key="StatusBarBackground" Color="#0A0A12"/>
+        <SolidColorBrush x:Key="RowBackground" Color="#12121A"/>
+        <SolidColorBrush x:Key="WidgetBackground" Color="#1A1A24"/>
+        <SolidColorBrush x:Key="WidgetBorder" Color="#2D2D3D"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#F8FAFC"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#94A3B8"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#64748B"/>
+        
+        <!-- Progress Bar Colors -->
+        <SolidColorBrush x:Key="ProgressPurple" Color="#7C3AED"/>
+        <SolidColorBrush x:Key="ProgressBlue" Color="#3B82F6"/>
+        <SolidColorBrush x:Key="ProgressGreen" Color="#10B981"/>
+        <SolidColorBrush x:Key="ProgressYellow" Color="#F59E0B"/>
+        <SolidColorBrush x:Key="ProgressRed" Color="#EF4444"/>
+        <SolidColorBrush x:Key="ProgressCyan" Color="#06B6D4"/>
+        <SolidColorBrush x:Key="ProgressOrange" Color="#F97316"/>
+        <SolidColorBrush x:Key="ProgressGray" Color="#6B7280"/>
+        
+        <!-- Traffic Light Colors -->
+        <SolidColorBrush x:Key="TrafficGreen" Color="#22C55E"/>
+        <SolidColorBrush x:Key="TrafficYellow" Color="#EAB308"/>
+        <SolidColorBrush x:Key="TrafficRed" Color="#EF4444"/>
+        <SolidColorBrush x:Key="TrafficGray" Color="#6B7280"/>
+        
+        <!-- Widget Style -->
+        <Style x:Key="WidgetContainer" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource WidgetBackground}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource WidgetBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Margin" Value="2,0"/>
+        </Style>
+        
+        <!-- Progress Bar Style -->
+        <Style x:Key="StatusProgressBar" TargetType="ProgressBar">
+            <Setter Property="Height" Value="6"/>
+            <Setter Property="Background" Value="#2D2D3D"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ProgressBar">
+                        <Grid>
+                            <Border x:Name="PART_Track" 
+                                    Background="{TemplateBinding Background}"
+                                    CornerRadius="3"/>
+                            <Border x:Name="PART_Indicator" 
+                                    Background="{TemplateBinding Foreground}"
+                                    CornerRadius="3"
+                                    HorizontalAlignment="Left"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Widget Label Style -->
+        <Style x:Key="WidgetLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Margin" Value="0,0,4,0"/>
+        </Style>
+        
+        <!-- Widget Value Style -->
+        <Style x:Key="WidgetValue" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Row 1: MCP & LLM Status -->
+        <Border Grid.Row="0" Background="{StaticResource RowBackground}" 
+                BorderBrush="{StaticResource WidgetBorder}" BorderThickness="0,0,0,1"
+                Padding="8,4">
+            <ItemsControl x:Name="Row1Widgets">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:StatusBarWidgetControl Widget="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+        
+        <!-- Row 2: Game State -->
+        <Border Grid.Row="1" Background="{StaticResource RowBackground}" 
+                BorderBrush="{StaticResource WidgetBorder}" BorderThickness="0,0,0,1"
+                Padding="8,4">
+            <ItemsControl x:Name="Row2Widgets">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:StatusBarWidgetControl Widget="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+        
+        <!-- Row 3: Network & Automation -->
+        <Border Grid.Row="2" Background="{StaticResource RowBackground}" 
+                Padding="8,4">
+            <ItemsControl x:Name="Row3Widgets">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:StatusBarWidgetControl Widget="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+        
+        <!-- Context Menu for Customization -->
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Customize Status Bar..." Click="Customize_Click"/>
+                <Separator/>
+                <MenuItem Header="Show Row 1" IsCheckable="True" IsChecked="True" 
+                          Click="ToggleRow1_Click"/>
+                <MenuItem Header="Show Row 2" IsCheckable="True" IsChecked="True" 
+                          Click="ToggleRow2_Click"/>
+                <MenuItem Header="Show Row 3" IsCheckable="True" IsChecked="True" 
+                          Click="ToggleRow3_Click"/>
+                <Separator/>
+                <MenuItem Header="Reset to Defaults" Click="ResetDefaults_Click"/>
+                <MenuItem Header="Save Configuration..." Click="SaveConfig_Click"/>
+                <MenuItem Header="Load Configuration..." Click="LoadConfig_Click"/>
+            </ContextMenu>
+        </Grid.ContextMenu>
+    </Grid>
+</UserControl>

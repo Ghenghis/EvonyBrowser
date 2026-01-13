@@ -1,0 +1,60 @@
+{
+  "$schema": "https://lmstudio.ai/schemas/mcp-config.json",
+  "version": "1.0.0",
+  "name": "Svony Browser CDP + LLM Integration",
+  "description": "CefFlashBrowser automation powered by local LLM on RTX 3090 Ti",
+  
+  "llmSettings": {
+    "defaultModel": "evony-7b-re-v2-Q4_K_M.gguf",
+    "contextLength": 8192,
+    "temperature": 0.7,
+    "gpuLayers": -1,
+    "flashAttention": true
+  },
+  
+  "mcpServers": {
+    "evony-cdp": {
+      "command": "node",
+      "args": ["${SVONY_PATH}/mcp-servers/evony-cdp/index.js"],
+      "env": {
+        "CDP_HOST": "localhost",
+        "CDP_PORT": "9222",
+        "CEF_BROWSER_PATH": "C:\\Program Files\\CefFlashBrowser\\CefFlashBrowser.exe"
+      },
+      "autoStart": true,
+      "priority": 1
+    },
+    "evony-rag": {
+      "command": "node",
+      "args": ["${SVONY_PATH}/mcp-servers/evony-rag/index.js"],
+      "autoStart": true,
+      "priority": 2
+    }
+  },
+  
+  "systemPrompt": {
+    "base": "You are an expert Evony game automation assistant with access to CefFlashBrowser via Chrome DevTools Protocol (CDP).\n\nYou can control the Flash-based Evony game using coordinate-based clicking and visual automation.\n\nIMPORTANT LIMITATIONS:\n- Flash content is a 'black box' - you cannot select elements by ID or class\n- You must use coordinate-based clicking (cdp_click) or named elements (cdp_click_element)\n- The browser window must remain visible\n- Coordinates are based on 1920x1080 resolution and auto-scaled\n\nAVAILABLE UI ELEMENTS:\n- Navigation: cityView, worldMap, alliance, mail, events\n- Buildings: castle, barracks, stables, workshop, academy\n- Buttons: confirmButton, cancelButton, closeButton, upgradeButton, trainButton\n\nWhen automating:\n1. First connect using cdp_connect\n2. Take screenshots to verify state\n3. Use named elements when possible\n4. Add delays between actions (cdp_wait)\n5. Verify results with screenshots",
+    
+    "coordinateFinding": "To find coordinates for a new UI element:\n1. Take a screenshot with cdp_screenshot\n2. Analyze the screenshot to estimate coordinates\n3. Test with cdp_click at estimated position\n4. Adjust and retry if needed\n5. Save with cdp_add_element for future use"
+  },
+  
+  "tools": {
+    "enabled": true,
+    "autoInvoke": true,
+    "favorites": [
+      "cdp_connect",
+      "cdp_click_element",
+      "cdp_screenshot",
+      "evony_go_to_city",
+      "evony_upgrade_building",
+      "evony_train_troops"
+    ]
+  },
+  
+  "shortcuts": {
+    "ctrl+shift+l": "cdp_connect",
+    "ctrl+shift+s": "cdp_screenshot",
+    "ctrl+shift+c": "evony_go_to_city",
+    "ctrl+shift+w": "evony_go_to_world"
+  }
+}

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>SvonyBrowser</RootNamespace>
+    <AssemblyName>SvonyBrowser</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <Prefer32Bit>false</Prefer32Bit>
+    <ApplicationIcon>Resources\svony.ico</ApplicationIcon>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NET462</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CefSharp, Version=84.4.10.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
+      <HintPath>..\packages\CefSharp.Common.84.4.10\lib\net462\CefSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp.Core, Version=84.4.10.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=AMD64">
+      <HintPath>..\packages\CefSharp.Common.84.4.10\lib\net462\CefSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp.Wpf, Version=84.4.10.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
+      <HintPath>..\packages\CefSharp.Wpf.84.4.10\lib\net462\CefSharp.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SettingsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SettingsControlCenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ChatbotPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\TrafficViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ProtocolExplorer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\PacketBuilder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\StatusBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\StatusBarV4.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\StatusBarWidgetControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Main Application Files -->
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsControlCenter.xaml.cs">
+      <DependentUpon>SettingsControlCenter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    
+    <!-- Controls -->
+    <Compile Include="Controls\ChatbotPanel.xaml.cs">
+      <DependentUpon>ChatbotPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TrafficViewer.xaml.cs">
+      <DependentUpon>TrafficViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProtocolExplorer.xaml.cs">
+      <DependentUpon>ProtocolExplorer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PacketBuilder.xaml.cs">
+      <DependentUpon>PacketBuilder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StatusBar.xaml.cs">
+      <DependentUpon>StatusBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StatusBarV4.xaml.cs">
+      <DependentUpon>StatusBarV4.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StatusBarWidgetControl.xaml.cs">
+      <DependentUpon>StatusBarWidgetControl.xaml</DependentUpon>
+    </Compile>
+    
+    <!-- Helpers -->
+    <Compile Include="Helpers\BrowserHelper.cs" />
+    <Compile Include="Helpers\NetFrameworkExtensions.cs" />
+    
+    <!-- Converters -->
+    <Compile Include="Converters\Converters.cs" />
+    
+    <!-- Models -->
+    <Compile Include="Models\AppSettings.cs" />
+    <Compile Include="Models\ChatContext.cs" />
+    <Compile Include="Models\ChatMessage.cs" />
+    <Compile Include="Models\TrafficEntry.cs" />
+    
+    <!-- Properties -->
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    
+    <!-- Services -->
+    <Compile Include="Services\AnalyticsDashboard.cs" />
+    <Compile Include="Services\AutoPilotService.cs" />
+    <Compile Include="Services\CdpConnectionService.cs" />
+    <Compile Include="Services\ChatbotService.cs" />
+    <Compile Include="Services\CombatSimulator.cs" />
+    <Compile Include="Services\ConnectionPool.cs" />
+    <Compile Include="Services\DebugService.cs" />
+    <Compile Include="Services\ErrorHandler.cs" />
+    <Compile Include="Services\ExportImportManager.cs" />
+    <Compile Include="Services\FailsafeManager.cs" />
+    <Compile Include="Services\FiddlerBridge.cs" />
+    <Compile Include="Services\GameStateEngine.cs" />
+    <Compile Include="Services\KeyboardShortcutManager.cs" />
+    <Compile Include="Services\LlmIntegrationService.cs" />
+    <Compile Include="Services\MapScanner.cs" />
+    <Compile Include="Services\McpConnectionManager.cs" />
+    <Compile Include="Services\MemoryGuard.cs" />
+    <Compile Include="Services\MemoryManager.cs" />
+    <Compile Include="Services\MultiAccountOrchestrator.cs" />
+    <Compile Include="Services\PacketAnalysisEngine.cs" />
+    <Compile Include="Services\PromptTemplateEngine.cs" />
+    <Compile Include="Services\ProtocolFuzzer.cs" />
+    <Compile Include="Services\ProtocolHandler.cs" />
+    <Compile Include="Services\ProxyMonitor.cs" />
+    <Compile Include="Services\RealDataProvider.cs" />
+    <Compile Include="Services\SessionManager.cs" />
+    <Compile Include="Services\SessionRecorder.cs" />
+    <Compile Include="Services\SettingsManager.cs" />
+    <Compile Include="Services\StatusBarManager.cs" />
+    <Compile Include="Services\StrategicAdvisor.cs" />
+    <Compile Include="Services\ThemeManager.cs" />
+    <Compile Include="Services\TrafficPipeClient.cs" />
+    <Compile Include="Services\VisualAutomationService.cs" />
+    <Compile Include="Services\WebhookHub.cs" />
+    
+    <!-- Stubs for .NET Framework compatibility -->
+    <Compile Include="Stubs\AppStub.cs" />
+    <Compile Include="Stubs\CefSharpStub.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\svony.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\CefSharp.Common.84.4.10\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.84.4.10\build\CefSharp.Common.targets')" />
+  <Import Project="..\packages\CefSharp.Wpf.84.4.10\build\CefSharp.Wpf.targets" Condition="Exists('..\packages\CefSharp.Wpf.84.4.10\build\CefSharp.Wpf.targets')" />
+  
+  <!-- Post-build: Copy Assets folder to output directory -->
+  <Target Name="CopyAssets" AfterTargets="Build">
+    <Message Text="Copying Assets folder to output directory..." Importance="high" />
+    <!-- Copy Assets folder structure -->
+    <ItemGroup>
+      <AssetsFiles Include="..\release\Assets\**\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(AssetsFiles)" 
+          DestinationFiles="@(AssetsFiles->'$(OutputPath)Assets\%(RecursiveDir)%(Filename)%(Extension)')" 
+          SkipUnchangedFiles="true" />
+    <Message Text="Assets copied to $(OutputPath)Assets" Importance="high" />
+  </Target>
+</Project>

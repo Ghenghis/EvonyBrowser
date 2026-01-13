@@ -1,0 +1,27 @@
+name: svonybrowser
+version: '7.0.0'
+summary: Advanced Evony Game Browser with MCP Integration
+description: |
+  Svony Browser is a specialized browser for Evony game with
+  MCP server integration, AI chatbot, and automation features.
+base: core22
+confinement: strict
+grade: stable
+
+apps:
+  svonybrowser:
+    command: SvonyBrowser
+    plugs:
+      - network
+      - network-bind
+      - desktop
+      - desktop-legacy
+      - x11
+      - wayland
+
+parts:
+  svonybrowser:
+    plugin: dotnet
+    source: .
+    dotnet-build-configuration: Release
+    dotnet-self-contained-runtime-identifier: linux-x64

@@ -1,0 +1,366 @@
+name: Build and Release V7.0
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 7.0.0)'
+        required: true
+        default: '7.0.0'
+
+env:
+  DOTNET_VERSION: '6.0.x'
+  PROJECT_NAME: SvonyBrowser
+
+jobs:
+  # ============================================================================
+  # BUILD MATRIX - All 20 configurations
+  # ============================================================================
+  
+  build-windows:
+    name: Build Windows (${{ matrix.config }})
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - Debug
+          - Release
+          - SingleFile
+          - Trimmed
+          - R2R
+          - SelfContained
+          - FDD
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          
+      - name: Restore dependencies
+        run: dotnet restore
+        
+      - name: Build ${{ matrix.config }}
+        run: |
+          $version = "${{ github.event.inputs.version || github.ref_name }}"
+          $version = $version -replace '^v', ''
+          
+          switch ("${{ matrix.config }}") {
+            "Debug" {
+              dotnet build --configuration Debug --output artifacts/Debug /p:Version=$version
+            }
+            "Release" {
+              dotnet build --configuration Release --output artifacts/Release /p:Version=$version
+            }
+            "SingleFile" {
+              dotnet publish --configuration Release --output artifacts/SingleFile --runtime win-x64 --self-contained true /p:PublishSingleFile=true /p:Version=$version
+            }
+            "Trimmed" {
+              dotnet publish --configuration Release --output artifacts/Trimmed --runtime win-x64 --self-contained true /p:PublishTrimmed=true /p:Version=$version
+            }
+            "R2R" {
+              dotnet publish --configuration Release --output artifacts/R2R --runtime win-x64 /p:PublishReadyToRun=true /p:Version=$version
+            }
+            "SelfContained" {
+              dotnet publish --configuration Release --output artifacts/SelfContained --runtime win-x64 --self-contained true /p:Version=$version
+            }
+            "FDD" {
+              dotnet publish --configuration Release --output artifacts/FDD --runtime win-x64 --self-contained false /p:Version=$version
+            }
+          }
+        shell: pwsh
+        
+      - name: Create ZIP
+        run: |
+          Compress-Archive -Path "artifacts/${{ matrix.config }}/*" -DestinationPath "SvonyBrowser_${{ matrix.config }}.zip"
+        shell: pwsh
+        
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.config }}
+          path: SvonyBrowser_${{ matrix.config }}.zip
+          
+  build-portable:
+    name: Build Portable ZIP
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          
+      - name: Build Portable
+        run: |
+          $version = "${{ github.event.inputs.version || github.ref_name }}"
+          $version = $version -replace '^v', ''
+          dotnet publish --configuration Release --output artifacts/Portable --runtime win-x64 --self-contained true /p:Version=$version
+          Compress-Archive -Path "artifacts/Portable/*" -DestinationPath "SvonyBrowser_v${version}_Portable.zip"
+        shell: pwsh
+        
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Portable
+          path: SvonyBrowser_v*_Portable.zip
+
+  build-installers:
+    name: Build Installers
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          
+      - name: Install InnoSetup
+        run: choco install innosetup -y
+        
+      - name: Build Release
+        run: |
+          $version = "${{ github.event.inputs.version || github.ref_name }}"
+          $version = $version -replace '^v', ''
+          dotnet publish --configuration Release --output artifacts/installer-files --runtime win-x64 --self-contained true /p:Version=$version
+        shell: pwsh
+        
+      - name: Create InnoSetup Script
+        run: |
+          $version = "${{ github.event.inputs.version || github.ref_name }}"
+          $version = $version -replace '^v', ''
+          
+          @"
+          [Setup]
+          AppName=Svony Browser
+          AppVersion=$version
+          AppPublisher=Svony Browser Team
+          DefaultDirName={autopf}\SvonyBrowser
+          DefaultGroupName=Svony Browser
+          OutputDir=.
+          OutputBaseFilename=SvonyBrowser_v${version}_Setup
+          Compression=lzma2/ultra64
+          SolidCompression=yes
+          WizardStyle=modern
+          
+          [Files]
+          Source: "artifacts\installer-files\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
+          
+          [Icons]
+          Name: "{group}\Svony Browser"; Filename: "{app}\SvonyBrowser.exe"
+          Name: "{commondesktop}\Svony Browser"; Filename: "{app}\SvonyBrowser.exe"
+          
+          [Run]
+          Filename: "{app}\SvonyBrowser.exe"; Description: "Launch Svony Browser"; Flags: nowait postinstall skipifsilent
+          "@ | Out-File -FilePath "setup.iss" -Encoding UTF8
+        shell: pwsh
+        
+      - name: Build Installer
+        run: iscc setup.iss
+        
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Installer
+          path: SvonyBrowser_v*_Setup.exe
+
+  build-nuget:
+    name: Build NuGet Package
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          
+      - name: Build NuGet
+        run: |
+          $version = "${{ github.event.inputs.version || github.ref_name }}"
+          $version = $version -replace '^v', ''
+          dotnet pack --configuration Release --output artifacts/NuGet /p:Version=$version
+        shell: pwsh
+        
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NuGet
+          path: artifacts/NuGet/*.nupkg
+
+  build-chocolatey:
+    name: Build Chocolatey Package
+    runs-on: windows-latest
+    needs: build-portable
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Download Portable
+        uses: actions/download-artifact@v4
+        with:
+          name: Portable
+          
+      - name: Create Chocolatey Package
+        run: |
+          $version = "${{ github.event.inputs.version || github.ref_name }}"
+          $version = $version -replace '^v', ''
+          
+          mkdir choco/tools -Force
+          
+          # Calculate checksum
+          $hash = (Get-FileHash "SvonyBrowser_v${version}_Portable.zip" -Algorithm SHA256).Hash
+          
+          # Create nuspec
+          @"
+          <?xml version="1.0" encoding="utf-8"?>
+          <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+            <metadata>
+              <id>svonybrowser</id>
+              <version>$version</version>
+              <title>Svony Browser</title>
+              <authors>Svony Browser Team</authors>
+              <projectUrl>https://github.com/Ghenghis/Svony-Browser</projectUrl>
+              <tags>evony game browser mcp automation</tags>
+              <summary>Advanced Evony Game Browser with MCP Integration</summary>
+              <description>Svony Browser is a specialized browser for Evony game with MCP server integration, AI chatbot, and automation features.</description>
+            </metadata>
+          </package>
+          "@ | Out-File -FilePath "choco/svonybrowser.nuspec" -Encoding UTF8
+          
+          # Create install script
+          @"
+          `$ErrorActionPreference = 'Stop'
+          `$toolsDir = "`$(Split-Path -parent `$MyInvocation.MyCommand.Definition)"
+          `$url = 'https://github.com/Ghenghis/Svony-Browser/releases/download/v$version/SvonyBrowser_v${version}_Portable.zip'
+          
+          `$packageArgs = @{
+            packageName   = 'svonybrowser'
+            unzipLocation = `$toolsDir
+            url           = `$url
+            checksum      = '$hash'
+            checksumType  = 'sha256'
+          }
+          
+          Install-ChocolateyZipPackage @packageArgs
+          "@ | Out-File -FilePath "choco/tools/chocolateyinstall.ps1" -Encoding UTF8
+          
+          cd choco
+          choco pack
+        shell: pwsh
+        
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Chocolatey
+          path: choco/*.nupkg
+
+  # ============================================================================
+  # TEST JOB
+  # ============================================================================
+  
+  test:
+    name: Run Tests
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          
+      - name: Restore dependencies
+        run: dotnet restore
+        
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+        
+      - name: Run Tests
+        run: dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+        
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage
+
+  # ============================================================================
+  # RELEASE JOB
+  # ============================================================================
+  
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs:
+      - build-windows
+      - build-portable
+      - build-installers
+      - build-nuget
+      - build-chocolatey
+      - test
+    if: startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          
+      - name: List artifacts
+        run: find artifacts -type f
+        
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Svony Browser ${{ github.ref_name }}
+          body: |
+            ## Svony Browser ${{ github.ref_name }}
+            
+            ### Downloads
+            
+            | Type | Description |
+            |------|-------------|
+            | **Portable ZIP** | Self-contained, no installation required |
+            | **Setup Installer** | Windows installer with desktop shortcut |
+            | **Chocolatey** | Install via `choco install svonybrowser` |
+            | **NuGet** | For .NET integration |
+            
+            ### Build Types Included
+            - Debug, Release, SingleFile, Trimmed, R2R
+            - Self-Contained, Framework-Dependent
+            - Portable ZIP, Installer, Chocolatey, NuGet
+            
+            ### Checksums
+            SHA256 checksums are included in the release assets.
+            
+            ### Requirements
+            - Windows 10/11 (x64)
+            - .NET 6.0 Runtime (for FDD builds)
+            
+          files: |
+            artifacts/**/*.zip
+            artifacts/**/*.exe
+            artifacts/**/*.nupkg
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

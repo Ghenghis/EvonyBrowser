@@ -1,0 +1,35 @@
+{
+  "name": "svony-browser-e2e-tests",
+  "version": "7.0.0",
+  "description": "End-to-end tests for Svony Browser v7.0",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report",
+    "test:browser": "playwright test specs/browser.spec.ts",
+    "test:chatbot": "playwright test specs/chatbot.spec.ts",
+    "test:mcp": "playwright test specs/mcp.spec.ts",
+    "test:settings": "playwright test specs/settings.spec.ts",
+    "test:traffic": "playwright test specs/traffic.spec.ts",
+    "test:automation": "playwright test specs/automation.spec.ts",
+    "test:statusbar": "playwright test specs/statusbar.spec.ts",
+    "test:all": "playwright test --reporter=html",
+    "test:ci": "playwright test --reporter=github",
+    "coverage": "playwright test --coverage",
+    "lint": "eslint specs/ pages/",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0",
+    "eslint": "^8.55.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

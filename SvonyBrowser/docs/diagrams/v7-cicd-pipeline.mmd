@@ -1,0 +1,80 @@
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#1a1a2e', 'primaryTextColor': '#eee', 'primaryBorderColor': '#6c5ce7', 'lineColor': '#6c5ce7'}}}%%
+flowchart LR
+    subgraph Source["📁 Source"]
+        GitHub["GitHub<br/>Svony-Browser"]
+    end
+
+    subgraph Build["🔨 Build Stage"]
+        direction TB
+        Restore["dotnet restore"]
+        Compile["dotnet build"]
+        Analyze["Code Analysis<br/>Roslyn Analyzers"]
+    end
+
+    subgraph Test["🧪 Test Stage"]
+        direction TB
+        Unit["Unit Tests<br/>xUnit"]
+        Integration["Integration Tests"]
+        E2E["E2E Tests<br/>Playwright"]
+        Coverage["Coverage Report<br/>Coverlet"]
+    end
+
+    subgraph Package["📦 Package Stage"]
+        direction TB
+        Publish["dotnet publish"]
+        MSIX["MSIX Package"]
+        Portable["Portable ZIP"]
+        Chocolatey["Chocolatey Package"]
+    end
+
+    subgraph Deploy["🚀 Deploy Stage"]
+        direction TB
+        Staging["Staging<br/>Internal Test"]
+        Production["Production<br/>GitHub Release"]
+        Store["Microsoft Store"]
+    end
+
+    subgraph Artifacts["📋 Artifacts"]
+        direction TB
+        Binaries["Binaries"]
+        TestReports["Test Reports"]
+        CoverageReports["Coverage Reports"]
+        Logs["Build Logs"]
+    end
+
+    %% Flow
+    GitHub -->|"Push/PR"| Restore
+    Restore --> Compile
+    Compile --> Analyze
+    Analyze -->|"Pass"| Unit
+    Unit --> Integration
+    Integration --> E2E
+    E2E --> Coverage
+    Coverage -->|"≥80%"| Publish
+    Publish --> MSIX
+    Publish --> Portable
+    Publish --> Chocolatey
+    MSIX --> Staging
+    Portable --> Staging
+    Chocolatey --> Staging
+    Staging -->|"QA Pass"| Production
+    Production --> Store
+
+    Compile --> Binaries
+    E2E --> TestReports
+    Coverage --> CoverageReports
+    Analyze --> Logs
+
+    classDef sourceNode fill:#2d3436,stroke:#74b9ff,stroke-width:2px
+    classDef buildNode fill:#1a1a2e,stroke:#a29bfe,stroke-width:2px
+    classDef testNode fill:#16213e,stroke:#81ecec,stroke-width:2px
+    classDef packageNode fill:#0f3460,stroke:#ffeaa7,stroke-width:2px
+    classDef deployNode fill:#2d3436,stroke:#55efc4,stroke-width:2px
+    classDef artifactNode fill:#1a1a2e,stroke:#fab1a0,stroke-width:2px
+
+    class GitHub sourceNode
+    class Restore,Compile,Analyze buildNode
+    class Unit,Integration,E2E,Coverage testNode
+    class Publish,MSIX,Portable,Chocolatey packageNode
+    class Staging,Production,Store deployNode
+    class Binaries,TestReports,CoverageReports,Logs artifactNode

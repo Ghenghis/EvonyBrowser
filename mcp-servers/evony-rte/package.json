@@ -1,0 +1,17 @@
+{
+  "name": "evony-rte",
+  "version": "1.0.0",
+  "description": "Evony RTE MCP Server - Real-time traffic analysis and AMF3 decoding",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "keywords": ["mcp", "evony", "rte", "amf3", "traffic-analysis"],
+  "author": "ShadowByte Labs",
+  "license": "MIT"
+}

@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "evony-rag": {
+      "command": "node",
+      "args": ["${SVONY_PATH}/mcp-servers/evony-rag/index.js"],
+      "env": {
+        "CHROMA_DB_PATH": "${SVONY_PATH}/data/chroma-db",
+        "KNOWLEDGE_PATH": "${SVONY_PATH}/knowledge-base"
+      }
+    },
+    "evony-rte": {
+      "command": "node",
+      "args": ["${SVONY_PATH}/mcp-servers/evony-rte/index.js"],
+      "env": {
+        "CAPTURES_PATH": "${SVONY_PATH}/data/captures"
+      }
+    },
+    "evony-tools": {
+      "command": "node",
+      "args": ["${SVONY_PATH}/mcp-servers/evony-tools/index.js"],
+      "env": {}
+    }
+  }
+}

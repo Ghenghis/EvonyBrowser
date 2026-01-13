@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DAA520"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#B8860B"/>
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3a2a1a"/>
+      <stop offset="100%" style="stop-color:#1a0a00"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#DAA520"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="800" fill="#0a0505"/>
+  <rect x="10" y="10" width="980" height="780" fill="none" stroke="url(#goldGrad)" stroke-width="3" rx="8"/>
+
+  <rect x="20" y="20" width="960" height="45" fill="url(#headerGrad)" rx="5" filter="url(#shadow)"/>
+  <text x="500" y="50" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="url(#goldGrad)" filter="url(#glow)">🏰 SVONY BROWSER 2.0 - COMPLETE SYSTEM ARCHITECTURE 🏰</text>
+
+  <rect x="30" y="80" width="600" height="320" rx="8" fill="#1a1208" stroke="url(#goldGrad)" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="30" y="80" width="600" height="30" fill="url(#headerGrad)" rx="8"/>
+  <text x="330" y="100" text-anchor="middle" font-family="Georgia, serif" font-size="12" font-weight="bold" fill="#FFD700">BROWSER INTERFACE</text>
+
+  <rect x="50" y="120" width="180" height="130" rx="6" fill="#0a0805" stroke="#4a8a4a" stroke-width="2"/>
+  <rect x="50" y="120" width="180" height="25" fill="#1a3a1a" rx="6"/>
+  <text x="140" y="138" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#88ff88">🤖 AutoEvony Panel</text>
+  <rect x="60" y="155" width="160" height="85" fill="#050503" stroke="#2a3a1a" rx="4"/>
+  <text x="140" y="200" text-anchor="middle" font-family="Arial" font-size="11" fill="#66aa44">AutoEvony.swf</text>
+
+  <rect x="250" y="120" width="180" height="130" rx="6" fill="#0a0805" stroke="#4a4a8a" stroke-width="2"/>
+  <rect x="250" y="120" width="180" height="25" fill="#1a1a3a" rx="6"/>
+  <text x="340" y="138" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#8888ff">🎮 EvonyClient Panel</text>
+  <rect x="260" y="155" width="160" height="85" fill="#050305" stroke="#1a2a3a" rx="4"/>
+  <text x="340" y="200" text-anchor="middle" font-family="Arial" font-size="11" fill="#4488ff">EvonyClient1921.swf</text>
+
+  <rect x="450" y="120" width="170" height="270" rx="6" fill="#0a0505" stroke="#DAA520" stroke-width="2"/>
+  <rect x="450" y="120" width="170" height="25" fill="#2a2008" rx="6"/>
+  <text x="535" y="138" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#FFD700">🤖 AI Co-Pilot</text>
+  <rect x="460" y="155" width="150" height="60" fill="#1a1208" stroke="#5a4a3a" rx="4"/>
+  <text x="535" y="180" text-anchor="middle" font-family="Arial" font-size="9" fill="#B8860B">Chat History</text>
+  <text x="535" y="200" text-anchor="middle" font-family="Arial" font-size="8" fill="#8a6a3a">RAG + RTE Queries</text>
+  <rect x="460" y="225" width="150" height="40" fill="#1a1208" stroke="#5a4a3a" rx="4"/>
+  <text x="535" y="250" text-anchor="middle" font-family="Arial" font-size="9" fill="#B8860B">Tools: 📁 📤 🔧 📦</text>
+  <rect x="460" y="275" width="150" height="35" fill="#2a2a2a" stroke="#5a4a3a" rx="4"/>
+  <text x="535" y="297" text-anchor="middle" font-family="Arial" font-size="9" fill="#888">Input Area [➤]</text>
+  <rect x="460" y="320" width="150" height="60" fill="#0a1a0a" stroke="#3a5a3a" rx="4"/>
+  <text x="535" y="340" text-anchor="middle" font-family="Arial" font-size="8" fill="#66aa66">Live Traffic Feed</text>
+  <text x="535" y="355" text-anchor="middle" font-family="Arial" font-size="8" fill="#4a8a4a">Auto-decode AMF3</text>
+  <text x="535" y="370" text-anchor="middle" font-family="Arial" font-size="8" fill="#4a8a4a">cc2.evony.com</text>
+
+  <rect x="50" y="260" width="180" height="50" rx="5" fill="#2a2008" stroke="url(#goldGrad)" stroke-width="2"/>
+  <text x="140" y="285" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#FFD700">📦 SHARED CACHE</text>
+  <text x="140" y="300" text-anchor="middle" font-family="Arial" font-size="8" fill="#B8860B">SOL • Cookies • Session</text>
+
+  <rect x="250" y="260" width="180" height="50" rx="5" fill="#1a2020" stroke="#4a8a8a" stroke-width="2"/>
+  <text x="340" y="285" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#88ffff">🔍 Proxy Integration</text>
+  <text x="340" y="300" text-anchor="middle" font-family="Arial" font-size="8" fill="#5a8a8a">Fiddler @ 127.0.0.1:8888</text>
+
+  <rect x="50" y="320" width="380" height="70" rx="5" fill="#1a1a1a" stroke="#5a5a5a"/>
+  <text x="240" y="345" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#aaa">STATUS BAR</text>
+  <text x="240" y="365" text-anchor="middle" font-family="Arial" font-size="9" fill="#888">[RAG: 🟢] [RTE: 🟢] [Fiddler: 🟢] [Traffic: LIVE]</text>
+  <text x="240" y="380" text-anchor="middle" font-family="Arial" font-size="8" fill="#666">cc2.evony.com │ 1,234 packets captured │ 5 decoded/sec</text>
+
+  <rect x="650" y="80" width="330" height="320" rx="8" fill="#0a1a0a" stroke="#4a8a4a" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="650" y="80" width="330" height="30" fill="#1a3a1a" rx="8"/>
+  <text x="815" y="100" text-anchor="middle" font-family="Georgia, serif" font-size="12" font-weight="bold" fill="#88ff88">MCP SERVER CLUSTER</text>
+
+  <rect x="665" y="120" width="145" height="85" rx="5" fill="#0a1a0a" stroke="#66aa66"/>
+  <text x="737" y="140" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="#88ff88">📚 EVONY RAG</text>
+  <text x="737" y="158" text-anchor="middle" font-family="Arial" font-size="8" fill="#66aa66">Port: 3100</text>
+  <text x="737" y="175" text-anchor="middle" font-family="Arial" font-size="7" fill="#4a8a4a">ChromaDB • Embeddings</text>
+  <text x="737" y="190" text-anchor="middle" font-family="Arial" font-size="7" fill="#4a8a4a">search • query • index</text>
+
+  <rect x="820" y="120" width="145" height="85" rx="5" fill="#0a0a1a" stroke="#6666aa"/>
+  <text x="892" y="140" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="#8888ff">⚡ EVONY RTE</text>
+  <text x="892" y="158" text-anchor="middle" font-family="Arial" font-size="8" fill="#6666aa">Port: 3101</text>
+  <text x="892" y="175" text-anchor="middle" font-family="Arial" font-size="7" fill="#4a4a8a">AMF3 Codec • Protocol DB</text>
+  <text x="892" y="190" text-anchor="middle" font-family="Arial" font-size="7" fill="#4a4a8a">decode • traffic • inject</text>
+
+  <rect x="665" y="215" width="145" height="85" rx="5" fill="#1a0a0a" stroke="#aa6666"/>
+  <text x="737" y="235" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="#ff8888">🔧 EVONY TOOLS</text>
+  <text x="737" y="253" text-anchor="middle" font-family="Arial" font-size="8" fill="#aa6666">Port: 3102</text>
+  <text x="737" y="270" text-anchor="middle" font-family="Arial" font-size="7" fill="#8a4a4a">SWF Decompile • Scripts</text>
+  <text x="737" y="285" text-anchor="middle" font-family="Arial" font-size="7" fill="#8a4a4a">analyze • generate</text>
+
+  <rect x="820" y="215" width="145" height="85" rx="5" fill="#1a1a08" stroke="#aaaa44"/>
+  <text x="892" y="235" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="#ffff88">📟 CLI TOOLS</text>
+  <text x="892" y="253" text-anchor="middle" font-family="Arial" font-size="8" fill="#aaaa44">svony-cli.exe</text>
+  <text x="892" y="270" text-anchor="middle" font-family="Arial" font-size="7" fill="#8a8a3a">Windsurf • Claude</text>
+  <text x="892" y="285" text-anchor="middle" font-family="Arial" font-size="7" fill="#8a8a3a">LM Studio • Batch</text>
+
+  <rect x="665" y="310" width="300" height="80" rx="5" fill="#1a1208" stroke="#DAA520"/>
+  <text x="815" y="335" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="#FFD700">📦 KNOWLEDGE BASE</text>
+  <text x="815" y="355" text-anchor="middle" font-family="Arial" font-size="8" fill="#B8860B">Heroes • Buildings • Combat • Strategies</text>
+  <text x="815" y="370" text-anchor="middle" font-family="Arial" font-size="8" fill="#8a6a3a">Protocol Definitions • Traffic History</text>
+  <text x="815" y="385" text-anchor="middle" font-family="Arial" font-size="7" fill="#6a5a2a">Auto-indexed from captured traffic</text>
+
+  <line x1="630" y1="200" x2="660" y2="160" stroke="#88ff88" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="630" y1="200" x2="660" y2="250" stroke="#ff8888" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="30" y="420" width="940" height="160" rx="8" fill="#0a0a1a" stroke="#4a4a8a" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="30" y="420" width="940" height="30" fill="#1a1a3a" rx="8"/>
+  <text x="500" y="440" text-anchor="middle" font-family="Georgia, serif" font-size="12" font-weight="bold" fill="#8888ff">EXTERNAL INTEGRATIONS</text>
+
+  <rect x="50" y="460" width="200" height="100" rx="5" fill="#1a1a2a" stroke="#4a8aaa"/>
+  <text x="150" y="485" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#88ccff">🌊 Windsurf IDE</text>
+  <text x="150" y="505" text-anchor="middle" font-family="Arial" font-size="8" fill="#5a8aaa">Full MCP Integration</text>
+  <text x="150" y="520" text-anchor="middle" font-family="Arial" font-size="7" fill="#4a7a9a">Tools • Resources • Prompts</text>
+  <text x="150" y="535" text-anchor="middle" font-family="Arial" font-size="7" fill="#4a7a9a">Real-time code assistance</text>
+  <text x="150" y="550" text-anchor="middle" font-family="Arial" font-size="7" fill="#3a6a8a">Evony RE workflow</text>
+
+  <rect x="270" y="460" width="200" height="100" rx="5" fill="#1a1a2a" stroke="#aa8a4a"/>
+  <text x="370" y="485" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#ffcc88">🤖 Claude Desktop</text>
+  <text x="370" y="505" text-anchor="middle" font-family="Arial" font-size="8" fill="#aa8a4a">MCP Server Config</text>
+  <text x="370" y="520" text-anchor="middle" font-family="Arial" font-size="7" fill="#8a6a3a">@evony-rag queries</text>
+  <text x="370" y="535" text-anchor="middle" font-family="Arial" font-size="7" fill="#8a6a3a">@evony-rte decode</text>
+  <text x="370" y="550" text-anchor="middle" font-family="Arial" font-size="7" fill="#6a5a2a">Context-aware AI</text>
+
+  <rect x="490" y="460" width="200" height="100" rx="5" fill="#1a1a2a" stroke="#8aaa4a"/>
+  <text x="590" y="485" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#ccff88">🧠 LM Studio</text>
+  <text x="590" y="505" text-anchor="middle" font-family="Arial" font-size="8" fill="#8aaa4a">Local LLM Bridge</text>
+  <text x="590" y="520" text-anchor="middle" font-family="Arial" font-size="7" fill="#6a8a3a">RAG Augmentation</text>
+  <text x="590" y="535" text-anchor="middle" font-family="Arial" font-size="7" fill="#6a8a3a">Offline Analysis</text>
+  <text x="590" y="550" text-anchor="middle" font-family="Arial" font-size="7" fill="#5a7a2a">Custom Models</text>
+
+  <rect x="710" y="460" width="250" height="100" rx="5" fill="#1a1208" stroke="#DAA520"/>
+  <text x="835" y="485" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#FFD700">🔍 Fiddler Classic</text>
+  <text x="835" y="505" text-anchor="middle" font-family="Arial" font-size="8" fill="#B8860B">Traffic Capture & Analysis</text>
+  <text x="835" y="520" text-anchor="middle" font-family="Arial" font-size="7" fill="#8a6a3a">Filter: cc2.evony.com</text>
+  <text x="835" y="535" text-anchor="middle" font-family="Arial" font-size="7" fill="#8a6a3a">Named Pipe → Svony Browser</text>
+  <text x="835" y="550" text-anchor="middle" font-family="Arial" font-size="7" fill="#6a5a2a">FiddlerScript automation</text>
+
+  <rect x="30" y="600" width="940" height="180" rx="8" fill="#1a0a1a" stroke="#aa66aa" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="30" y="600" width="940" height="30" fill="#2a1a2a" rx="8"/>
+  <text x="500" y="620" text-anchor="middle" font-family="Georgia, serif" font-size="12" font-weight="bold" fill="#ff88ff">EVONY NETWORK</text>
+
+  <rect x="50" y="640" width="150" height="60" rx="5" fill="#1a0a1a" stroke="#aa66aa"/>
+  <text x="125" y="665" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#ff88ff">🌐 cc2.evony.com</text>
+  <text x="125" y="685" text-anchor="middle" font-family="Arial" font-size="8" fill="#aa66aa">Primary Game Server</text>
+
+  <rect x="220" y="640" width="150" height="60" rx="5" fill="#1a0a1a" stroke="#8a4a8a"/>
+  <text x="295" y="665" text-anchor="middle" font-family="Arial" font-size="10" fill="#cc66cc">cc1, cc3-cc5</text>
+  <text x="295" y="685" text-anchor="middle" font-family="Arial" font-size="8" fill="#8a4a8a">Backup Servers</text>
+
+  <rect x="390" y="640" width="200" height="60" rx="5" fill="#2a1a2a" stroke="#DAA520"/>
+  <text x="490" y="660" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="#FFD700">AMF3 PROTOCOL</text>
+  <text x="490" y="680" text-anchor="middle" font-family="Arial" font-size="8" fill="#B8860B">Binary Serialization</text>
+  <text x="490" y="695" text-anchor="middle" font-family="Arial" font-size="7" fill="#8a6a3a">ActionScript 3 Objects</text>
+
+  <rect x="610" y="640" width="170" height="60" rx="5" fill="#1a1a0a" stroke="#aaaa44"/>
+  <text x="695" y="665" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="#ffff88">Actions</text>
+  <text x="695" y="680" text-anchor="middle" font-family="Arial" font-size="7" fill="#aaaa44">hero.* building.* army.*</text>
+  <text x="695" y="695" text-anchor="middle" font-family="Arial" font-size="7" fill="#8a8a3a">march.* battle.* event.*</text>
+
+  <rect x="800" y="640" width="160" height="60" rx="5" fill="#0a1a0a" stroke="#66aa66"/>
+  <text x="880" y="665" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="#88ff88">SWF Assets</text>
+  <text x="880" y="680" text-anchor="middle" font-family="Arial" font-size="7" fill="#66aa66">AutoEvony.swf</text>
+  <text x="880" y="695" text-anchor="middle" font-family="Arial" font-size="7" fill="#4a8a4a">EvonyClient1921.swf</text>
+
+  <rect x="50" y="710" width="910" height="60" rx="5" fill="#0a0a0a" stroke="#5a5a5a"/>
+  <text x="500" y="735" text-anchor="middle" font-family="Georgia, serif" font-size="11" font-weight="bold" fill="#888">TRAFFIC FLOW</text>
+  <text x="500" y="755" text-anchor="middle" font-family="Arial" font-size="9" fill="#666">Browser ←→ Fiddler Proxy ←→ cc2.evony.com │ All AMF3 packets decoded in real-time │ Indexed to RAG for future queries</text>
+</svg>

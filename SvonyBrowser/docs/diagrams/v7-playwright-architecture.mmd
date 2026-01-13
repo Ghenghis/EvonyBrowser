@@ -1,0 +1,32 @@
+%%{init: {'theme': 'dark'}}%%
+flowchart TB
+    subgraph Runner["Test Runner"]
+        Config["playwright.config.ts"]
+        Setup["global-setup.ts"]
+    end
+
+    subgraph Suites["Test Suites"]
+        Browser["browser.spec.ts"]
+        Chatbot["chatbot.spec.ts"]
+        Traffic["traffic.spec.ts"]
+        Settings["settings.spec.ts"]
+        StatusBar["statusbar.spec.ts"]
+        MCP["mcp.spec.ts"]
+    end
+
+    subgraph Pages["Page Objects"]
+        MainPage["MainPage"]
+        ChatbotPage["ChatbotPage"]
+        TrafficPage["TrafficPage"]
+        SettingsPage["SettingsPage"]
+    end
+
+    subgraph Reports["Reports"]
+        HTML["HTML Report"]
+        JUnit["JUnit XML"]
+        Traces["Trace Files"]
+    end
+
+    Runner --> Suites
+    Suites --> Pages
+    Suites --> Reports

@@ -1,0 +1,33 @@
+{
+  "name": "@svony/mcp-evony-cdp",
+  "version": "1.0.0",
+  "description": "MCP server for CefFlashBrowser automation via Chrome DevTools Protocol",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "evony-cdp-mcp": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "mcp",
+    "evony",
+    "cdp",
+    "playwright",
+    "automation",
+    "flash",
+    "cef",
+    "claude-desktop",
+    "windsurf"
+  ],
+  "author": "Svony Team",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "playwright": "^1.40.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

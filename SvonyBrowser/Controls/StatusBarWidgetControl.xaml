@@ -1,0 +1,55 @@
+<UserControl x:Class="SvonyBrowser.Controls.StatusBarWidgetControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SvonyBrowser.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="28" d:DesignWidth="150">
+    
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="WidgetBackground" Color="#1A1A24"/>
+        <SolidColorBrush x:Key="WidgetBorder" Color="#2D2D3D"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#F8FAFC"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#94A3B8"/>
+        
+        <!-- Progress Bar Colors -->
+        <SolidColorBrush x:Key="ProgressPurple" Color="#7C3AED"/>
+        <SolidColorBrush x:Key="ProgressBlue" Color="#3B82F6"/>
+        <SolidColorBrush x:Key="ProgressGreen" Color="#10B981"/>
+        <SolidColorBrush x:Key="ProgressYellow" Color="#F59E0B"/>
+        <SolidColorBrush x:Key="ProgressRed" Color="#EF4444"/>
+        <SolidColorBrush x:Key="ProgressCyan" Color="#06B6D4"/>
+        <SolidColorBrush x:Key="ProgressOrange" Color="#F97316"/>
+        <SolidColorBrush x:Key="ProgressGray" Color="#6B7280"/>
+        
+        <!-- Traffic Light Colors -->
+        <SolidColorBrush x:Key="TrafficGreen" Color="#22C55E"/>
+        <SolidColorBrush x:Key="TrafficYellow" Color="#EAB308"/>
+        <SolidColorBrush x:Key="TrafficRed" Color="#EF4444"/>
+        <SolidColorBrush x:Key="TrafficGray" Color="#6B7280"/>
+    </UserControl.Resources>
+    
+    <Border Background="{StaticResource WidgetBackground}" 
+            BorderBrush="{StaticResource WidgetBorder}" 
+            BorderThickness="1" 
+            CornerRadius="4" 
+            Padding="8,4" 
+            Margin="2,0"
+            x:Name="WidgetBorder">
+        
+        <Grid x:Name="ContentGrid">
+            <!-- Content will be set programmatically based on widget type -->
+        </Grid>
+        
+        <Border.ToolTip>
+            <ToolTip x:Name="WidgetTooltip">
+                <StackPanel>
+                    <TextBlock x:Name="TooltipTitle" FontWeight="Bold"/>
+                    <TextBlock x:Name="TooltipValue"/>
+                    <TextBlock x:Name="TooltipDetails" Foreground="Gray"/>
+                </StackPanel>
+            </ToolTip>
+        </Border.ToolTip>
+    </Border>
+</UserControl>

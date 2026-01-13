@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>svonybrowser</id>
+    <version>7.0.0</version>
+    <title>Svony Browser</title>
+    <authors>Svony Browser Team</authors>
+    <projectUrl>https://github.com/Ghenghis/Svony-Browser</projectUrl>
+    <tags>evony game browser mcp automation</tags>
+    <summary>Advanced Evony Game Browser with MCP Integration</summary>
+    <description>Svony Browser is a specialized browser for Evony game with MCP server integration, AI chatbot, and automation features.</description>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>

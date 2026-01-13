@@ -1,0 +1,235 @@
+{
+  "$schema": "https://windsurf.ai/schemas/mcp-config.json",
+  "version": "5.0.0",
+  "name": "Svony Browser Integration",
+  "description": "Complete Svony Browser control for Evony protocol analysis and automation",
+  
+  "mcpServers": {
+    "evony-complete": {
+      "command": "node",
+      "args": ["${workspaceFolder}/mcp-servers/evony-complete/index.js"],
+      "env": {
+        "SVONY_BROWSER_HOST": "localhost",
+        "SVONY_BROWSER_PORT": "9876",
+        "LM_STUDIO_HOST": "localhost",
+        "LM_STUDIO_PORT": "1234"
+      },
+      "autoStart": true,
+      "restartOnCrash": true,
+      "capabilities": {
+        "tools": true,
+        "resources": true,
+        "prompts": true
+      }
+    },
+    "evony-rag": {
+      "command": "node",
+      "args": ["${workspaceFolder}/mcp-servers/evony-rag/index.js"],
+      "env": {
+        "RAG_DATA_PATH": "${workspaceFolder}/data/rag"
+      },
+      "autoStart": true
+    },
+    "evony-rte": {
+      "command": "node",
+      "args": ["${workspaceFolder}/mcp-servers/evony-rte/index.js"],
+      "env": {
+        "FIDDLER_PIPE": "SvonyFiddlerPipe"
+      },
+      "autoStart": true
+    }
+  },
+  
+  "tasks": {
+    "start-browser": {
+      "label": "Start Svony Browser",
+      "type": "shell",
+      "command": "dotnet run --project SvonyBrowser/SvonyBrowser.csproj",
+      "problemMatcher": [],
+      "group": "build"
+    },
+    "start-mcp-servers": {
+      "label": "Start All MCP Servers",
+      "type": "shell",
+      "command": "npm run start",
+      "options": {
+        "cwd": "${workspaceFolder}/mcp-servers/evony-complete"
+      },
+      "problemMatcher": []
+    },
+    "start-capture": {
+      "label": "Start Packet Capture",
+      "type": "mcp",
+      "server": "evony-complete",
+      "tool": "packet_capture_start",
+      "args": {
+        "filter": "*"
+      }
+    },
+    "analyze-traffic": {
+      "label": "Analyze Recent Traffic",
+      "type": "mcp",
+      "server": "evony-complete",
+      "tool": "packet_list",
+      "args": {
+        "limit": 50
+      }
+    }
+  },
+  
+  "keybindings": [
+    {
+      "key": "ctrl+shift+e",
+      "command": "mcp.callTool",
+      "args": {
+        "server": "evony-complete",
+        "tool": "game_get_status"
+      },
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "ctrl+shift+p",
+      "command": "mcp.callTool",
+      "args": {
+        "server": "evony-complete",
+        "tool": "packet_list",
+        "params": { "limit": 20 }
+      },
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "ctrl+shift+a",
+      "command": "mcp.callTool",
+      "args": {
+        "server": "evony-complete",
+        "tool": "autopilot_get_status"
+      },
+      "when": "editorTextFocus"
+    }
+  ],
+  
+  "snippets": {
+    "evony-packet-decode": {
+      "prefix": "evony-decode",
+      "body": [
+        "// Decode Evony packet",
+        "const result = await mcp.callTool('evony-complete', 'packet_decode', {",
+        "  data: '${1:hex_data}',",
+        "  format: 'hex'",
+        "});",
+        "console.log(result);"
+      ],
+      "description": "Decode an Evony packet"
+    },
+    "evony-inject-packet": {
+      "prefix": "evony-inject",
+      "body": [
+        "// Inject Evony packet",
+        "await mcp.callTool('evony-complete', 'packet_inject', {",
+        "  action: '${1:action_name}',",
+        "  params: {",
+        "    ${2:param}: ${3:value}",
+        "  }",
+        "});"
+      ],
+      "description": "Inject a packet into the game"
+    },
+    "evony-combat-sim": {
+      "prefix": "evony-combat",
+      "body": [
+        "// Simulate combat",
+        "const result = await mcp.callTool('evony-complete', 'combat_simulate', {",
+        "  attacker: {",
+        "    troops: { ${1:infantry}: ${2:10000} },",
+        "    heroes: [${3:heroId}]",
+        "  },",
+        "  defender: {",
+        "    troops: { ${4:infantry}: ${5:5000} }",
+        "  },",
+        "  iterations: 1000",
+        "});",
+        "console.log('Win rate:', result.winRate);"
+      ],
+      "description": "Simulate a combat scenario"
+    }
+  },
+  
+  "codeActions": {
+    "analyzeSelection": {
+      "title": "Analyze with Evony RAG",
+      "kind": "refactor.analyze",
+      "command": "mcp.callTool",
+      "args": {
+        "server": "evony-rag",
+        "tool": "query_knowledge",
+        "params": {
+          "query": "${selectedText}"
+        }
+      }
+    },
+    "explainPacket": {
+      "title": "Explain Packet with LLM",
+      "kind": "refactor.explain",
+      "command": "mcp.callTool",
+      "args": {
+        "server": "evony-complete",
+        "tool": "llm_explain_packet",
+        "params": {
+          "packetId": "${selectedText}"
+        }
+      }
+    }
+  },
+  
+  "panels": {
+    "evonyTraffic": {
+      "title": "Evony Traffic",
+      "icon": "network",
+      "resource": "evony://packets/recent",
+      "refreshInterval": 5000
+    },
+    "evonyGameState": {
+      "title": "Game State",
+      "icon": "game",
+      "resource": "evony://game/state",
+      "refreshInterval": 10000
+    },
+    "evonyMcpStatus": {
+      "title": "MCP Status",
+      "icon": "server",
+      "resource": "evony://mcp/status",
+      "refreshInterval": 30000
+    }
+  },
+  
+  "statusBarItems": [
+    {
+      "id": "evony.connection",
+      "text": "$(plug) Evony",
+      "tooltip": "Svony Browser Connection Status",
+      "command": "mcp.callTool",
+      "args": {
+        "server": "evony-complete",
+        "tool": "browser_get_status"
+      }
+    },
+    {
+      "id": "evony.packets",
+      "text": "$(package) 0 pkts",
+      "tooltip": "Captured Packets",
+      "resource": "evony://packets/recent",
+      "format": "$(package) ${count} pkts"
+    }
+  ],
+  
+  "settings": {
+    "svony.autoConnect": true,
+    "svony.captureOnStart": false,
+    "svony.defaultPanel": "left",
+    "svony.llmModel": "evony-7b-re",
+    "svony.llmTemperature": 0.7,
+    "svony.fiddlerPipe": "SvonyFiddlerPipe",
+    "svony.webhookUrl": "",
+    "svony.logLevel": "info"
+  }
+}

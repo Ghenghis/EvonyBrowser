@@ -1,0 +1,19 @@
+{
+  "name": "evony-rag",
+  "version": "1.0.0",
+  "description": "Evony RAG MCP Server - Knowledge retrieval and semantic search",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "chromadb": "^1.8.1",
+    "openai": "^4.20.0"
+  },
+  "keywords": ["mcp", "evony", "rag", "knowledge-base"],
+  "author": "ShadowByte Labs",
+  "license": "MIT"
+}

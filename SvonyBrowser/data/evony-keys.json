@@ -1,0 +1,144 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-11",
+  "encryption": {
+    "amf3": {
+      "description": "AMF3 serialization encryption keys",
+      "keys": {
+        "primary": "evony_amf_key_2024",
+        "secondary": "backup_amf_key"
+      }
+    },
+    "session": {
+      "description": "Session token encryption",
+      "salt": "evony_session_salt",
+      "algorithm": "AES-256-CBC"
+    }
+  },
+  "servers": {
+    "cc1": {
+      "host": "cc1.evony.com",
+      "port": 443,
+      "amfGateway": "/amf/gateway.php",
+      "socketPort": 9339
+    },
+    "cc2": {
+      "host": "cc2.evony.com",
+      "port": 443,
+      "amfGateway": "/amf/gateway.php",
+      "socketPort": 9339
+    },
+    "cc3": {
+      "host": "cc3.evony.com",
+      "port": 443,
+      "amfGateway": "/amf/gateway.php",
+      "socketPort": 9339
+    },
+    "cc4": {
+      "host": "cc4.evony.com",
+      "port": 443,
+      "amfGateway": "/amf/gateway.php",
+      "socketPort": 9339
+    },
+    "cc5": {
+      "host": "cc5.evony.com",
+      "port": 443,
+      "amfGateway": "/amf/gateway.php",
+      "socketPort": 9339
+    }
+  },
+  "buildingTypes": {
+    "1": "Cottage",
+    "2": "Barracks",
+    "3": "Warehouse",
+    "4": "Sawmill",
+    "5": "Quarry",
+    "6": "Iron Mine",
+    "7": "Farm",
+    "8": "Rally Spot",
+    "9": "Marketplace",
+    "10": "Inn",
+    "11": "Feasting Hall",
+    "12": "Embassy",
+    "13": "Academy",
+    "14": "Forge",
+    "15": "Workshop",
+    "16": "Relief Station",
+    "17": "Stable",
+    "18": "Beacon Tower",
+    "19": "Town Hall",
+    "20": "Walls"
+  },
+  "troopTypes": {
+    "1": "Worker",
+    "2": "Warrior",
+    "3": "Scout",
+    "4": "Pikeman",
+    "5": "Swordsman",
+    "6": "Archer",
+    "7": "Cavalry",
+    "8": "Cataphract",
+    "9": "Transporter",
+    "10": "Ballista",
+    "11": "Battering Ram",
+    "12": "Catapult"
+  },
+  "resourceTypes": {
+    "1": "Gold",
+    "2": "Food",
+    "3": "Lumber",
+    "4": "Stone",
+    "5": "Iron"
+  },
+  "heroAttributes": {
+    "1": "Politics",
+    "2": "Attack",
+    "3": "Intelligence"
+  },
+  "missionTypes": {
+    "1": "Attack",
+    "2": "Transport",
+    "3": "Scout",
+    "4": "Reinforce",
+    "5": "Occupy",
+    "6": "Conquest"
+  },
+  "itemCategories": {
+    "1": "Resource",
+    "2": "Speedup",
+    "3": "Hero",
+    "4": "Equipment",
+    "5": "Buff",
+    "6": "Chest",
+    "7": "Special"
+  },
+  "techCategories": {
+    "1": "Military",
+    "2": "Economy",
+    "3": "Defense"
+  },
+  "allianceRanks": {
+    "1": "Member",
+    "2": "Officer",
+    "3": "Presbyter",
+    "4": "Vice Host",
+    "5": "Host"
+  },
+  "constants": {
+    "maxCities": 10,
+    "maxHeroes": 100,
+    "maxArmies": 10,
+    "maxTroopsPerArmy": 100000,
+    "maxBuildingLevel": 10,
+    "maxTechLevel": 10,
+    "maxHeroLevel": 100,
+    "heartbeatInterval": 30000,
+    "sessionTimeout": 1800000
+  },
+  "endpoints": {
+    "login": "/api/login",
+    "amfGateway": "/amf/gateway.php",
+    "websocket": "/ws/game",
+    "cdn": "https://cdn.evony.com"
+  }
+}

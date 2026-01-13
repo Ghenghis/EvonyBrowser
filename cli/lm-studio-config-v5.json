@@ -1,0 +1,215 @@
+{
+  "$schema": "https://lmstudio.ai/schemas/mcp-config.json",
+  "version": "5.0.0",
+  "name": "Svony Browser LM Studio Integration",
+  "description": "Complete Svony Browser control powered by local LLM on RTX 3090 Ti",
+  
+  "llmSettings": {
+    "defaultModel": "evony-7b-re-v2-Q4_K_M.gguf",
+    "contextLength": 8192,
+    "temperature": 0.7,
+    "topP": 0.9,
+    "topK": 40,
+    "repeatPenalty": 1.1,
+    "gpuLayers": -1,
+    "threads": 8,
+    "batchSize": 512,
+    "flashAttention": true,
+    "mmap": true
+  },
+  
+  "gpuSettings": {
+    "device": "RTX 3090 Ti",
+    "vramLimit": 22,
+    "cudaDevice": 0,
+    "tensorCores": true,
+    "fp16": true
+  },
+  
+  "mcpServers": {
+    "evony-complete": {
+      "command": "node",
+      "args": ["${SVONY_PATH}/mcp-servers/evony-complete/index.js"],
+      "env": {
+        "SVONY_BROWSER_HOST": "localhost",
+        "SVONY_BROWSER_PORT": "9876",
+        "LM_STUDIO_HOST": "localhost",
+        "LM_STUDIO_PORT": "1234"
+      },
+      "autoStart": true,
+      "priority": 1
+    },
+    "evony-rag": {
+      "command": "node",
+      "args": ["${SVONY_PATH}/mcp-servers/evony-rag/index.js"],
+      "env": {
+        "RAG_DATA_PATH": "${SVONY_PATH}/data/rag",
+        "EMBEDDING_MODEL": "nomic-embed-text-v1.5"
+      },
+      "autoStart": true,
+      "priority": 2
+    },
+    "evony-rte": {
+      "command": "node",
+      "args": ["${SVONY_PATH}/mcp-servers/evony-rte/index.js"],
+      "autoStart": true,
+      "priority": 3
+    }
+  },
+  
+  "systemPrompt": {
+    "base": "You are an expert Evony reverse engineering assistant with deep knowledge of:\n- AMF3 protocol encoding/decoding\n- Flash 10 client architecture\n- Game automation patterns\n- Combat mechanics and optimization\n- Resource management strategies\n\nYou have access to the Svony Browser toolkit which provides:\n- Real-time packet capture and analysis\n- Protocol database with 50+ documented actions\n- Combat simulation with Monte Carlo analysis\n- Map intelligence and target discovery\n- Multi-account coordination\n\nWhen analyzing packets, always:\n1. Decode the AMF3 structure\n2. Identify the action and parameters\n3. Explain the game mechanics involved\n4. Suggest automation opportunities\n5. Note any security implications",
+    
+    "ragContext": "The following context is from the Evony RAG knowledge base:\n\n{context}\n\nUse this information to provide accurate and detailed responses.",
+    
+    "packetAnalysis": "Analyze the following Evony packet:\n\nAction: {action}\nParameters: {params}\nRaw Data: {raw}\n\nProvide:\n1. Decoded structure explanation\n2. Parameter meanings\n3. Expected server response\n4. Automation potential\n5. Security considerations"
+  },
+  
+  "tools": {
+    "enabled": true,
+    "autoInvoke": true,
+    "confirmBeforeInvoke": false,
+    "maxToolCalls": 10,
+    "timeout": 30000,
+    
+    "favorites": [
+      "game_get_status",
+      "packet_list",
+      "packet_decode",
+      "protocol_lookup",
+      "combat_simulate",
+      "map_find_targets",
+      "llm_explain_packet"
+    ],
+    
+    "categories": {
+      "browser": {
+        "enabled": true,
+        "tools": ["browser_*"]
+      },
+      "game": {
+        "enabled": true,
+        "tools": ["game_*"]
+      },
+      "packet": {
+        "enabled": true,
+        "tools": ["packet_*"]
+      },
+      "protocol": {
+        "enabled": true,
+        "tools": ["protocol_*"]
+      },
+      "combat": {
+        "enabled": true,
+        "tools": ["combat_*"]
+      },
+      "map": {
+        "enabled": true,
+        "tools": ["map_*"]
+      },
+      "autopilot": {
+        "enabled": true,
+        "tools": ["autopilot_*"]
+      },
+      "llm": {
+        "enabled": true,
+        "tools": ["llm_*"]
+      },
+      "fuzz": {
+        "enabled": true,
+        "tools": ["fuzz_*"]
+      }
+    }
+  },
+  
+  "resources": {
+    "autoLoad": true,
+    "refreshInterval": 10000,
+    "enabled": [
+      "evony://browser/status",
+      "evony://game/state",
+      "evony://packets/recent",
+      "evony://protocols/database",
+      "evony://mcp/status",
+      "evony://llm/status"
+    ]
+  },
+  
+  "prompts": {
+    "enabled": true,
+    "favorites": [
+      "analyze_packet",
+      "optimize_army",
+      "generate_automation",
+      "explain_protocol",
+      "daily_strategy"
+    ]
+  },
+  
+  "ragIntegration": {
+    "enabled": true,
+    "autoQuery": true,
+    "minRelevanceScore": 0.7,
+    "maxResults": 5,
+    "sources": [
+      "evony-client-source",
+      "autoevony-source",
+      "flash10-docs",
+      "game-scripts",
+      "protocol-docs"
+    ]
+  },
+  
+  "inference": {
+    "streamResponse": true,
+    "showTokenCount": true,
+    "showInferenceTime": true,
+    "showVramUsage": true,
+    "showGpuTemp": true
+  },
+  
+  "ui": {
+    "theme": "dark",
+    "fontSize": 14,
+    "showToolCalls": true,
+    "showRagContext": true,
+    "showResourceUpdates": true,
+    "sidePanel": {
+      "enabled": true,
+      "width": 400,
+      "tabs": [
+        "game-state",
+        "packets",
+        "protocols",
+        "mcp-status"
+      ]
+    },
+    "statusBar": {
+      "enabled": true,
+      "items": [
+        "connection",
+        "packets",
+        "tokens",
+        "vram",
+        "gpu-temp"
+      ]
+    }
+  },
+  
+  "logging": {
+    "level": "info",
+    "file": "${SVONY_PATH}/logs/lm-studio.log",
+    "maxSize": "10MB",
+    "maxFiles": 5
+  },
+  
+  "shortcuts": {
+    "ctrl+shift+g": "game_get_status",
+    "ctrl+shift+p": "packet_list",
+    "ctrl+shift+d": "packet_decode",
+    "ctrl+shift+l": "protocol_lookup",
+    "ctrl+shift+c": "combat_simulate",
+    "ctrl+shift+m": "map_scan_area",
+    "ctrl+shift+a": "autopilot_get_status"
+  }
+}

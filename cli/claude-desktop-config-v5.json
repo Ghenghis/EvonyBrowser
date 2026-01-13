@@ -1,0 +1,112 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/claude-desktop/main/schemas/mcp-config.json",
+  "mcpServers": {
+    "evony-complete": {
+      "command": "node",
+      "args": [
+        "${SVONY_PATH}/mcp-servers/evony-complete/index.js"
+      ],
+      "env": {
+        "SVONY_BROWSER_HOST": "localhost",
+        "SVONY_BROWSER_PORT": "9876",
+        "LM_STUDIO_HOST": "localhost",
+        "LM_STUDIO_PORT": "1234"
+      },
+      "description": "Complete Svony Browser control with 168 tools",
+      "capabilities": {
+        "tools": true,
+        "resources": true,
+        "prompts": true
+      }
+    },
+    "evony-rag": {
+      "command": "node",
+      "args": [
+        "${SVONY_PATH}/mcp-servers/evony-rag/index.js"
+      ],
+      "env": {
+        "RAG_DATA_PATH": "${SVONY_PATH}/data/rag",
+        "EMBEDDING_MODEL": "text-embedding-3-small"
+      },
+      "description": "Evony knowledge base and RAG queries"
+    },
+    "evony-rte": {
+      "command": "node",
+      "args": [
+        "${SVONY_PATH}/mcp-servers/evony-rte/index.js"
+      ],
+      "env": {
+        "FIDDLER_PIPE": "SvonyFiddlerPipe",
+        "CAPTURE_ENABLED": "true"
+      },
+      "description": "Real-time traffic analysis and AMF3 decoding"
+    },
+    "evony-tools": {
+      "command": "node",
+      "args": [
+        "${SVONY_PATH}/mcp-servers/evony-tools/index.js"
+      ],
+      "description": "Combat simulation and strategic calculations"
+    },
+    "evony-v4": {
+      "command": "node",
+      "args": [
+        "${SVONY_PATH}/mcp-servers/evony-v4/index.js"
+      ],
+      "env": {
+        "LM_STUDIO_HOST": "localhost",
+        "LM_STUDIO_PORT": "1234",
+        "GPU_DEVICE": "0"
+      },
+      "description": "V4 features: Status bar, packet analysis, LLM integration"
+    }
+  },
+  "globalSettings": {
+    "defaultServer": "evony-complete",
+    "autoConnect": true,
+    "logLevel": "info",
+    "timeout": 30000
+  },
+  "shortcuts": {
+    "analyze_packet": {
+      "server": "evony-complete",
+      "tool": "packet_decode",
+      "description": "Decode and analyze a packet"
+    },
+    "game_status": {
+      "server": "evony-complete",
+      "tool": "game_get_status",
+      "description": "Get current game state"
+    },
+    "start_capture": {
+      "server": "evony-complete",
+      "tool": "packet_capture_start",
+      "description": "Start packet capture"
+    },
+    "ask_llm": {
+      "server": "evony-complete",
+      "tool": "llm_ask",
+      "description": "Ask the local LLM a question"
+    }
+  },
+  "instructions": {
+    "setup": [
+      "1. Install Node.js 18+ if not already installed",
+      "2. Set SVONY_PATH environment variable to the Svony Browser installation directory",
+      "3. Run 'npm install' in each mcp-servers subdirectory",
+      "4. Start Svony Browser or run 'svony server' to start the WebSocket API",
+      "5. Copy this file to ~/Library/Application Support/Claude/claude_desktop_config.json (macOS)",
+      "   or %APPDATA%\\Claude\\claude_desktop_config.json (Windows)",
+      "6. Restart Claude Desktop"
+    ],
+    "usage": [
+      "Use natural language to interact with the Evony game through Svony Browser.",
+      "Examples:",
+      "  - 'Show me my current resources and troops'",
+      "  - 'Analyze the last 10 packets captured'",
+      "  - 'Find farm targets within 50 tiles of my city'",
+      "  - 'Start autopilot with the farming profile'",
+      "  - 'Explain what the CastleBean.upgradeBuilding action does'"
+    ]
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "name": "Svony Browser Tools",
+  "version": "1.0.0",
+  "description": "Evony protocol analysis and automation tools for LM Studio",
+  "api": {
+    "type": "websocket",
+    "url": "ws://localhost:9876",
+    "reconnect": true,
+    "reconnectInterval": 5000
+  },
+  "functions": [
+    {
+      "name": "protocol_lookup",
+      "description": "Look up Evony protocol action definition by name",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "Action name (e.g., hero.hireHero, castle.upgradeBuilding)"
+          }
+        },
+        "required": ["action"]
+      }
+    },
+    {
+      "name": "protocol_search",
+      "description": "Search Evony protocol actions by keyword",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search query"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum results to return",
+            "default": 20
+          }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "amf_decode",
+      "description": "Decode AMF3 binary data to JSON",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "description": "Hex-encoded AMF3 data"
+          },
+          "format": {
+            "type": "string",
+            "enum": ["hex", "base64"],
+            "default": "hex"
+          }
+        },
+        "required": ["data"]
+      }
+    },
+    {
+      "name": "amf_encode",
+      "description": "Encode JSON data to AMF3 binary format",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "description": "JSON data to encode"
+          },
+          "output_format": {
+            "type": "string",
+            "enum": ["hex", "base64"],
+            "default": "hex"
+          }
+        },
+        "required": ["data"]
+      }
+    },
+    {
+      "name": "evony_search",
+      "description": "Search Evony knowledge base",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search query"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 10
+          },
+          "category": {
+            "type": "string",
+            "default": "all"
+          }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "evony_query",
+      "description": "Ask a question about Evony and get an answer",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "Question to ask"
+          },
+          "include_sources": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "required": ["question"]
+      }
+    },
+    {
+      "name": "calc_training",
+      "description": "Calculate troop training costs and time",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "troop_type": {
+            "type": "string",
+            "description": "Troop code (wo, w, s, p, sw, a, c, cata, t, b, r, cp)"
+          },
+          "amount": {
+            "type": "integer",
+            "description": "Number of troops"
+          },
+          "barracks_level": {
+            "type": "integer",
+            "default": 10
+          },
+          "tech_bonus": {
+            "type": "integer",
+            "default": 0
+          }
+        },
+        "required": ["troop_type", "amount"]
+      }
+    },
+    {
+      "name": "calc_march",
+      "description": "Calculate march time between coordinates",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "from_x": { "type": "integer" },
+          "from_y": { "type": "integer" },
+          "to_x": { "type": "integer" },
+          "to_y": { "type": "integer" },
+          "slowest_troop": { "type": "string", "default": "a" },
+          "logistics_level": { "type": "integer", "default": 0 }
+        },
+        "required": ["from_x", "from_y", "to_x", "to_y"]
+      }
+    },
+    {
+      "name": "generate_build_order",
+      "description": "Generate optimal building order for a new city",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "focus": {
+            "type": "string",
+            "enum": ["balanced", "military", "economy", "research"],
+            "default": "balanced"
+          },
+          "target_level": {
+            "type": "integer",
+            "default": 5
+          }
+        }
+      }
+    },
+    {
+      "name": "traffic_list",
+      "description": "List captured traffic entries",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "limit": { "type": "integer", "default": 50 },
+          "direction": { "type": "string", "enum": ["request", "response", "all"], "default": "all" },
+          "decoded_only": { "type": "boolean", "default": false }
+        }
+      }
+    }
+  ],
+  "systemPrompt": "You are an Evony game assistant with access to protocol analysis tools, knowledge base, and calculators. Help users understand game mechanics, decode traffic, and optimize their gameplay. Use the available tools to provide accurate information."
+}

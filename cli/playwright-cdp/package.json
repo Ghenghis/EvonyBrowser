@@ -1,0 +1,33 @@
+{
+  "name": "@svony/playwright-cdp",
+  "version": "1.0.0",
+  "description": "Playwright CDP bridge for CefFlashBrowser automation",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "svony-playwright": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "launch": "node index.js launch",
+    "connect": "node index.js connect",
+    "test": "node index.js test"
+  },
+  "keywords": [
+    "svony",
+    "evony",
+    "playwright",
+    "cdp",
+    "automation",
+    "flash",
+    "cef"
+  ],
+  "author": "Svony Team",
+  "license": "MIT",
+  "dependencies": {
+    "playwright": "^1.40.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

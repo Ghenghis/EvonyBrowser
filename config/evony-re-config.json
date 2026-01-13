@@ -1,0 +1,150 @@
+{
+  "$schema": "evony-re-config-schema.json",
+  "_comment": "Evony RE Toolkit Configuration - Fiddler + FlashBrowser Integration",
+  
+  "target_server": {
+    "name": "cc2",
+    "domain": "cc2.evony.com",
+    "description": "Evony Classic Server 2 (Default)",
+    "game_port": 443,
+    "alternate_servers": [
+      { "name": "cc1", "domain": "cc1.evony.com" },
+      { "name": "cc3", "domain": "cc3.evony.com" },
+      { "name": "cc4", "domain": "cc4.evony.com" },
+      { "name": "cc5", "domain": "cc5.evony.com" }
+    ]
+  },
+  
+  "proxy_settings": {
+    "fiddler_port": 8888,
+    "fiddler_host": "127.0.0.1",
+    "decrypt_https": true,
+    "trust_fiddler_root_cert": true
+  },
+  
+  "capture_settings": {
+    "auto_log_traffic": true,
+    "log_directory": "logs",
+    "capture_directory": "captures",
+    "swf_extract_directory": "extracted-swf",
+    "max_log_size_mb": 100,
+    "log_rotation_days": 30,
+    "capture_format": "saz",
+    "export_formats": ["json", "har", "raw"]
+  },
+  
+  "filter_settings": {
+    "only_target_domain": true,
+    "exclude_other_domains": true,
+    "excluded_domains": [
+      "*.google.com",
+      "*.googleapis.com",
+      "*.gstatic.com",
+      "*.facebook.com",
+      "*.doubleclick.net",
+      "*.google-analytics.com",
+      "*.microsoft.com"
+    ],
+    "include_domain_patterns": [
+      "cc2.evony.com",
+      "*.cc2.evony.com"
+    ]
+  },
+  
+  "packet_highlighting": {
+    "enabled": true,
+    "colors": {
+      "login": "#00FF00",
+      "march": "#FF6600",
+      "battle": "#FF0000",
+      "resource": "#00FFFF",
+      "chat": "#FFFF00",
+      "building": "#9966FF",
+      "research": "#FF66FF",
+      "alliance": "#66FF66",
+      "swf_file": "#0099FF",
+      "amf_binary": "#FF9900",
+      "error": "#FF0000",
+      "unknown": "#CCCCCC"
+    }
+  },
+  
+  "swf_extraction": {
+    "enabled": true,
+    "auto_extract": true,
+    "extract_on_load": true,
+    "target_patterns": [
+      "*.swf",
+      "*tutorial*.swf",
+      "*guide*.swf",
+      "*advisor*.swf",
+      "*intro*.swf",
+      "*newbie*.swf"
+    ],
+    "preserve_path_structure": true
+  },
+  
+  "stealth_settings": {
+    "enabled": true,
+    "randomize_timing": true,
+    "timing_variance_ms": 50,
+    "mask_fiddler_headers": true,
+    "remove_proxy_headers": true,
+    "spoof_direct_connection": true,
+    "headers_to_remove": [
+      "Via",
+      "X-Forwarded-For",
+      "X-Forwarded-Host",
+      "X-Forwarded-Proto",
+      "Proxy-Connection"
+    ],
+    "fake_headers": {
+      "Connection": "keep-alive"
+    }
+  },
+  
+  "amf_decoding": {
+    "enabled": true,
+    "decode_realtime": true,
+    "show_decoded_in_inspector": true,
+    "log_decoded_packets": true,
+    "amf_version": 3,
+    "pretty_print": true
+  },
+  
+  "autoevony_detection": {
+    "enabled": true,
+    "highlight_autoevony_traffic": true,
+    "autoevony_color": "#FF00FF",
+    "known_autoevony_patterns": [
+      "AutoEvony",
+      "YAEB",
+      "evony-bot"
+    ]
+  },
+  
+  "hotkeys": {
+    "toggle_capture": "Ctrl+Shift+C",
+    "export_session": "Ctrl+Shift+E",
+    "clear_session": "Ctrl+Shift+X",
+    "extract_swf": "Ctrl+Shift+S",
+    "toggle_stealth": "Ctrl+Shift+T"
+  },
+  
+  "browser_settings": {
+    "use_64bit": true,
+    "browser_path": "FlashBrowser_x64\\CefFlashBrowser.exe",
+    "start_url": "https://cc2.evony.com/",
+    "user_agent": null,
+    "enable_flash": true,
+    "cache_enabled": false,
+    "clear_cache_on_start": true
+  },
+  
+  "rte_integration": {
+    "enabled": true,
+    "rte_export_path": null,
+    "auto_export_captures": false,
+    "export_format": "json"
+  }
+}

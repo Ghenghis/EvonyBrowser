@@ -1,0 +1,108 @@
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#1a1a2e', 'primaryTextColor': '#eee', 'primaryBorderColor': '#00b894', 'lineColor': '#00b894'}}}%%
+flowchart TB
+    subgraph Trigger["🚀 Test Triggers"]
+        GitPush["Git Push"]
+        PR["Pull Request"]
+        Manual["Manual Run"]
+        Schedule["Scheduled<br/>Daily 2AM"]
+    end
+
+    subgraph UnitTests["🧪 Unit Tests"]
+        direction TB
+        ServiceTests["Service Tests<br/>49 files"]
+        ModelTests["Model Tests<br/>15 classes"]
+        ConverterTests["Converter Tests<br/>12 converters"]
+        UtilityTests["Utility Tests"]
+    end
+
+    subgraph IntegrationTests["🔗 Integration Tests"]
+        direction TB
+        MCPTests["MCP Server Tests<br/>6 servers"]
+        FiddlerTests["Fiddler Integration"]
+        CDPTests["CDP Automation"]
+        DatabaseTests["Data Layer Tests"]
+    end
+
+    subgraph E2ETests["🎭 E2E Tests (Playwright)"]
+        direction TB
+        BrowserTests["Browser Tests"]
+        ChatbotTests["Chatbot Tests"]
+        TrafficTests["Traffic Viewer Tests"]
+        SettingsTests["Settings Tests"]
+        StatusBarTests["Status Bar Tests"]
+    end
+
+    subgraph PerformanceTests["⚡ Performance Tests"]
+        direction TB
+        LoadTests["Load Tests<br/>1000 packets/sec"]
+        MemoryTests["Memory Leak Tests<br/>24hr soak"]
+        LatencyTests["Latency Tests<br/><100ms"]
+        ThroughputTests["Throughput Tests"]
+    end
+
+    subgraph SecurityTests["🔒 Security Tests"]
+        direction TB
+        InputValidation["Input Validation"]
+        InjectionTests["Injection Tests"]
+        AuthTests["Auth Tests"]
+        EncryptionTests["Encryption Tests"]
+    end
+
+    subgraph Reports["📊 Reports"]
+        direction TB
+        Coverage["Code Coverage<br/>Target: 100%"]
+        TestResults["Test Results<br/>JUnit XML"]
+        Screenshots["Failure Screenshots"]
+        Traces["Playwright Traces"]
+    end
+
+    subgraph Actions["✅ Actions"]
+        Pass["All Pass<br/>✅ Deploy"]
+        Fail["Any Fail<br/>❌ Block"]
+        Notify["Notify Team<br/>Discord/Slack"]
+    end
+
+    %% Flow
+    GitPush --> UnitTests
+    PR --> UnitTests
+    Manual --> UnitTests
+    Schedule --> UnitTests
+
+    UnitTests -->|"Pass"| IntegrationTests
+    UnitTests -->|"Fail"| Fail
+
+    IntegrationTests -->|"Pass"| E2ETests
+    IntegrationTests -->|"Fail"| Fail
+
+    E2ETests -->|"Pass"| PerformanceTests
+    E2ETests -->|"Fail"| Fail
+
+    PerformanceTests -->|"Pass"| SecurityTests
+    PerformanceTests -->|"Fail"| Fail
+
+    SecurityTests -->|"Pass"| Reports
+    SecurityTests -->|"Fail"| Fail
+
+    Reports --> Pass
+    Reports --> Notify
+    Fail --> Notify
+
+    classDef triggerNode fill:#2d3436,stroke:#74b9ff,stroke-width:2px
+    classDef unitNode fill:#1a1a2e,stroke:#a29bfe,stroke-width:2px
+    classDef integrationNode fill:#16213e,stroke:#81ecec,stroke-width:2px
+    classDef e2eNode fill:#0f3460,stroke:#ffeaa7,stroke-width:2px
+    classDef perfNode fill:#2d3436,stroke:#55efc4,stroke-width:2px
+    classDef securityNode fill:#1a1a2e,stroke:#fd79a8,stroke-width:2px
+    classDef reportNode fill:#16213e,stroke:#fab1a0,stroke-width:2px
+    classDef passNode fill:#00b894,stroke:#00b894,stroke-width:2px
+    classDef failNode fill:#d63031,stroke:#d63031,stroke-width:2px
+
+    class GitPush,PR,Manual,Schedule triggerNode
+    class ServiceTests,ModelTests,ConverterTests,UtilityTests unitNode
+    class MCPTests,FiddlerTests,CDPTests,DatabaseTests integrationNode
+    class BrowserTests,ChatbotTests,TrafficTests,SettingsTests,StatusBarTests e2eNode
+    class LoadTests,MemoryTests,LatencyTests,ThroughputTests perfNode
+    class InputValidation,InjectionTests,AuthTests,EncryptionTests securityNode
+    class Coverage,TestResults,Screenshots,Traces reportNode
+    class Pass passNode
+    class Fail failNode

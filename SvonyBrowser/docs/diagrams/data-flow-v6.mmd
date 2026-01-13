@@ -1,0 +1,35 @@
+%%{init: {'theme': 'dark'}}%%
+sequenceDiagram
+    participant User
+    participant UI as Svony Browser UI
+    participant GSE as GameStateEngine
+    participant TPC as TrafficPipeClient
+    participant FID as Fiddler Proxy
+    participant EVY as Evony Server
+    participant MCP as MCP Servers
+    participant LLM as LM Studio
+
+    Note over User,LLM: Traffic Capture Flow
+    EVY->>FID: Game Response
+    FID->>TPC: Named Pipe
+    TPC->>GSE: Packet Data
+    GSE->>UI: State Update
+
+    Note over User,LLM: User Query Flow
+    User->>UI: Ask Question
+    UI->>MCP: RAG Query
+    MCP->>LLM: Generate Response
+    LLM->>MCP: Response
+    MCP->>UI: Answer
+    UI->>User: Display
+
+    Note over User,LLM: Automation Flow
+    User->>UI: Start AutoPilot
+    UI->>GSE: Get State
+    GSE->>UI: Current State
+    UI->>MCP: Get Strategy
+    MCP->>UI: Actions
+    UI->>FID: Inject Packet
+    FID->>EVY: Game Action
+    EVY->>FID: Result
+    FID->>UI: Confirmation

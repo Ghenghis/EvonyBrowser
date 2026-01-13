@@ -1,0 +1,587 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-11",
+  "categories": [
+    {
+      "name": "castle",
+      "description": "Castle and city management commands",
+      "actions": [
+        {
+          "name": "castle.getAvailableBuildingListInside",
+          "commandId": 34101,
+          "description": "Get list of buildings that can be built inside the city",
+          "parameters": {
+            "castleId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["building", "city"]
+        },
+        {
+          "name": "castle.getAvailableBuildingListOutside",
+          "commandId": 34102,
+          "description": "Get list of buildings that can be built outside the city",
+          "parameters": {
+            "castleId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["building", "city"]
+        },
+        {
+          "name": "castle.newBuilding",
+          "commandId": 34103,
+          "description": "Start construction of a new building",
+          "parameters": {
+            "castleId": "int",
+            "positionId": "int",
+            "buildingType": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["building", "construction"]
+        },
+        {
+          "name": "castle.upgradeBuilding",
+          "commandId": 34104,
+          "description": "Upgrade an existing building",
+          "parameters": {
+            "castleId": "int",
+            "positionId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["building", "upgrade"]
+        },
+        {
+          "name": "castle.destructBuilding",
+          "commandId": 34105,
+          "description": "Demolish a building",
+          "parameters": {
+            "castleId": "int",
+            "positionId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["building", "demolish"]
+        },
+        {
+          "name": "castle.speedUpBuild",
+          "commandId": 34106,
+          "description": "Speed up building construction using items",
+          "parameters": {
+            "castleId": "int",
+            "positionId": "int",
+            "itemId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["building", "speedup"]
+        }
+      ]
+    },
+    {
+      "name": "hero",
+      "description": "Hero management commands",
+      "actions": [
+        {
+          "name": "hero.hireHero",
+          "commandId": 34201,
+          "description": "Hire a hero from the tavern",
+          "parameters": {
+            "castleId": "int",
+            "heroId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["hero", "tavern"]
+        },
+        {
+          "name": "hero.fireHero",
+          "commandId": 34202,
+          "description": "Fire/dismiss a hero",
+          "parameters": {
+            "heroId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["hero", "dismiss"]
+        },
+        {
+          "name": "hero.levelUpHero",
+          "commandId": 34203,
+          "description": "Level up a hero using experience items",
+          "parameters": {
+            "heroId": "int",
+            "itemId": "int",
+            "count": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["hero", "levelup"]
+        },
+        {
+          "name": "hero.resetHeroPoint",
+          "commandId": 34204,
+          "description": "Reset hero attribute points",
+          "parameters": {
+            "heroId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["hero", "reset"]
+        },
+        {
+          "name": "hero.addHeroPoint",
+          "commandId": 34205,
+          "description": "Add attribute points to a hero",
+          "parameters": {
+            "heroId": "int",
+            "politics": "int",
+            "attack": "int",
+            "intelligence": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["hero", "attributes"]
+        },
+        {
+          "name": "hero.equipItem",
+          "commandId": 34206,
+          "description": "Equip an item to a hero",
+          "parameters": {
+            "heroId": "int",
+            "itemId": "int",
+            "slot": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["hero", "equipment"]
+        },
+        {
+          "name": "hero.unequipItem",
+          "commandId": 34207,
+          "description": "Unequip an item from a hero",
+          "parameters": {
+            "heroId": "int",
+            "slot": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["hero", "equipment"]
+        },
+        {
+          "name": "hero.refreshHeroList",
+          "commandId": 34208,
+          "description": "Refresh the tavern hero list",
+          "parameters": {
+            "castleId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["hero", "tavern"]
+        }
+      ]
+    },
+    {
+      "name": "troop",
+      "description": "Troop training and management commands",
+      "actions": [
+        {
+          "name": "troop.produceTroop",
+          "commandId": 34301,
+          "description": "Start training troops",
+          "parameters": {
+            "castleId": "int",
+            "buildingId": "int",
+            "troopType": "int",
+            "count": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["troop", "training"]
+        },
+        {
+          "name": "troop.cancelProduceTroop",
+          "commandId": 34302,
+          "description": "Cancel troop training",
+          "parameters": {
+            "castleId": "int",
+            "buildingId": "int",
+            "queueId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["troop", "cancel"]
+        },
+        {
+          "name": "troop.speedUpProduceTroop",
+          "commandId": 34303,
+          "description": "Speed up troop training",
+          "parameters": {
+            "castleId": "int",
+            "buildingId": "int",
+            "itemId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["troop", "speedup"]
+        },
+        {
+          "name": "troop.disbandTroop",
+          "commandId": 34304,
+          "description": "Disband troops",
+          "parameters": {
+            "castleId": "int",
+            "troopType": "int",
+            "count": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["troop", "disband"]
+        },
+        {
+          "name": "troop.healTroop",
+          "commandId": 34305,
+          "description": "Heal wounded troops",
+          "parameters": {
+            "castleId": "int",
+            "troopType": "int",
+            "count": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["troop", "heal"]
+        }
+      ]
+    },
+    {
+      "name": "army",
+      "description": "Army and march commands",
+      "actions": [
+        {
+          "name": "army.createArmy",
+          "commandId": 34401,
+          "description": "Create an army for marching",
+          "parameters": {
+            "castleId": "int",
+            "heroId": "int",
+            "troops": "object"
+          },
+          "requiresAuth": true,
+          "tags": ["army", "march"]
+        },
+        {
+          "name": "army.disbandArmy",
+          "commandId": 34402,
+          "description": "Disband an army",
+          "parameters": {
+            "armyId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["army", "disband"]
+        },
+        {
+          "name": "army.march",
+          "commandId": 34403,
+          "description": "Send an army to march",
+          "parameters": {
+            "armyId": "int",
+            "targetX": "int",
+            "targetY": "int",
+            "missionType": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["army", "march"]
+        },
+        {
+          "name": "army.callBackArmy",
+          "commandId": 34404,
+          "description": "Recall a marching army",
+          "parameters": {
+            "armyId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["army", "recall"]
+        },
+        {
+          "name": "army.speedUpArmy",
+          "commandId": 34405,
+          "description": "Speed up army march",
+          "parameters": {
+            "armyId": "int",
+            "itemId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["army", "speedup"]
+        }
+      ]
+    },
+    {
+      "name": "tech",
+      "description": "Technology research commands",
+      "actions": [
+        {
+          "name": "tech.research",
+          "commandId": 34501,
+          "description": "Start researching a technology",
+          "parameters": {
+            "castleId": "int",
+            "techType": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["tech", "research"]
+        },
+        {
+          "name": "tech.cancelResearch",
+          "commandId": 34502,
+          "description": "Cancel ongoing research",
+          "parameters": {
+            "castleId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["tech", "cancel"]
+        },
+        {
+          "name": "tech.speedUpResearch",
+          "commandId": 34503,
+          "description": "Speed up research",
+          "parameters": {
+            "castleId": "int",
+            "itemId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["tech", "speedup"]
+        }
+      ]
+    },
+    {
+      "name": "alliance",
+      "description": "Alliance management commands",
+      "actions": [
+        {
+          "name": "alliance.createAlliance",
+          "commandId": 34601,
+          "description": "Create a new alliance",
+          "parameters": {
+            "name": "string",
+            "description": "string"
+          },
+          "requiresAuth": true,
+          "tags": ["alliance", "create"]
+        },
+        {
+          "name": "alliance.joinAlliance",
+          "commandId": 34602,
+          "description": "Apply to join an alliance",
+          "parameters": {
+            "allianceId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["alliance", "join"]
+        },
+        {
+          "name": "alliance.leaveAlliance",
+          "commandId": 34603,
+          "description": "Leave current alliance",
+          "parameters": {},
+          "requiresAuth": true,
+          "tags": ["alliance", "leave"]
+        },
+        {
+          "name": "alliance.donate",
+          "commandId": 34604,
+          "description": "Donate resources to alliance",
+          "parameters": {
+            "resourceType": "int",
+            "amount": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["alliance", "donate"]
+        },
+        {
+          "name": "alliance.sendMail",
+          "commandId": 34605,
+          "description": "Send alliance mail",
+          "parameters": {
+            "subject": "string",
+            "content": "string"
+          },
+          "requiresAuth": true,
+          "tags": ["alliance", "mail"]
+        }
+      ]
+    },
+    {
+      "name": "quest",
+      "description": "Quest and mission commands",
+      "actions": [
+        {
+          "name": "quest.getQuestList",
+          "commandId": 34701,
+          "description": "Get list of available quests",
+          "parameters": {
+            "castleId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["quest", "list"]
+        },
+        {
+          "name": "quest.completeQuest",
+          "commandId": 34702,
+          "description": "Complete and claim quest rewards",
+          "parameters": {
+            "questId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["quest", "complete"]
+        },
+        {
+          "name": "quest.refreshQuest",
+          "commandId": 34703,
+          "description": "Refresh quest list",
+          "parameters": {
+            "castleId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["quest", "refresh"]
+        }
+      ]
+    },
+    {
+      "name": "item",
+      "description": "Item and inventory commands",
+      "actions": [
+        {
+          "name": "item.useItem",
+          "commandId": 34801,
+          "description": "Use an item from inventory",
+          "parameters": {
+            "itemId": "int",
+            "count": "int",
+            "targetId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["item", "use"]
+        },
+        {
+          "name": "item.sellItem",
+          "commandId": 34802,
+          "description": "Sell an item",
+          "parameters": {
+            "itemId": "int",
+            "count": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["item", "sell"]
+        },
+        {
+          "name": "item.buyItem",
+          "commandId": 34803,
+          "description": "Buy an item from shop",
+          "parameters": {
+            "itemId": "int",
+            "count": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["item", "buy"]
+        },
+        {
+          "name": "item.openChest",
+          "commandId": 34804,
+          "description": "Open a chest item",
+          "parameters": {
+            "itemId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["item", "chest"]
+        }
+      ]
+    },
+    {
+      "name": "trade",
+      "description": "Trading and market commands",
+      "actions": [
+        {
+          "name": "trade.createTrade",
+          "commandId": 34901,
+          "description": "Create a trade offer",
+          "parameters": {
+            "castleId": "int",
+            "offerType": "int",
+            "offerAmount": "int",
+            "requestType": "int",
+            "requestAmount": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["trade", "create"]
+        },
+        {
+          "name": "trade.cancelTrade",
+          "commandId": 34902,
+          "description": "Cancel a trade offer",
+          "parameters": {
+            "tradeId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["trade", "cancel"]
+        },
+        {
+          "name": "trade.acceptTrade",
+          "commandId": 34903,
+          "description": "Accept a trade offer",
+          "parameters": {
+            "tradeId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["trade", "accept"]
+        },
+        {
+          "name": "trade.sendResources",
+          "commandId": 34904,
+          "description": "Send resources to another player",
+          "parameters": {
+            "castleId": "int",
+            "targetPlayerId": "int",
+            "resources": "object"
+          },
+          "requiresAuth": true,
+          "tags": ["trade", "send"]
+        }
+      ]
+    },
+    {
+      "name": "common",
+      "description": "Common game commands",
+      "actions": [
+        {
+          "name": "common.login",
+          "commandId": 30101,
+          "description": "Login to game server",
+          "parameters": {
+            "username": "string",
+            "password": "string",
+            "server": "string"
+          },
+          "requiresAuth": false,
+          "tags": ["auth", "login"]
+        },
+        {
+          "name": "common.logout",
+          "commandId": 30102,
+          "description": "Logout from game server",
+          "parameters": {},
+          "requiresAuth": true,
+          "tags": ["auth", "logout"]
+        },
+        {
+          "name": "common.heartbeat",
+          "commandId": 30103,
+          "description": "Send heartbeat to keep connection alive",
+          "parameters": {},
+          "requiresAuth": true,
+          "tags": ["system", "heartbeat"]
+        },
+        {
+          "name": "common.getServerTime",
+          "commandId": 30104,
+          "description": "Get current server time",
+          "parameters": {},
+          "requiresAuth": true,
+          "tags": ["system", "time"]
+        },
+        {
+          "name": "common.getPlayerInfo",
+          "commandId": 30105,
+          "description": "Get player information",
+          "parameters": {
+            "playerId": "int"
+          },
+          "requiresAuth": true,
+          "tags": ["player", "info"]
+        }
+      ]
+    }
+  ]
+}

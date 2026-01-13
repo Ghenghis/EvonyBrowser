@@ -1,0 +1,132 @@
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#1a1a2e', 'primaryTextColor': '#eee', 'primaryBorderColor': '#fdcb6e', 'lineColor': '#fdcb6e'}}}%%
+flowchart TB
+    subgraph Clients["🖥️ MCP Clients"]
+        direction LR
+        Claude["Claude Desktop"]
+        Windsurf["Windsurf IDE"]
+        LMStudio["LM Studio"]
+        CLI["svony-cli"]
+    end
+
+    subgraph MCPServers["🔌 MCP Servers"]
+        subgraph RAG["evony-rag :3001"]
+            direction TB
+            RAGTools["Tools"]
+            RAGSearch["search_knowledge"]
+            RAGQuery["query_protocol"]
+            RAGExplain["explain_action"]
+            RAGFind["find_examples"]
+        end
+
+        subgraph RTE["evony-rte :3002"]
+            direction TB
+            RTETools["Tools"]
+            RTECapture["capture_traffic"]
+            RTEDecode["decode_packet"]
+            RTEAnalyze["analyze_pattern"]
+            RTEInject["inject_packet"]
+        end
+
+        subgraph Tools["evony-tools :3003"]
+            direction TB
+            ToolsTools["Tools"]
+            ToolsCalc["calculate_combat"]
+            ToolsOptimize["optimize_build"]
+            ToolsSimulate["simulate_march"]
+            ToolsSchedule["schedule_action"]
+        end
+
+        subgraph Advanced["evony-advanced :3004"]
+            direction TB
+            AdvTools["Tools"]
+            AdvVision["vision_analyze"]
+            AdvAgent["agent_execute"]
+            AdvSwarm["swarm_coordinate"]
+            AdvLearn["learning_record"]
+        end
+
+        subgraph CDP["evony-cdp :3005"]
+            direction TB
+            CDPTools["Tools"]
+            CDPClick["cdp_click"]
+            CDPScreenshot["cdp_screenshot"]
+            CDPNavigate["cdp_navigate"]
+            CDPAutomate["cdp_automate"]
+        end
+
+        subgraph Complete["evony-complete :3006"]
+            direction TB
+            CompleteTools["168 Tools"]
+            CompleteBrowser["Browser Control"]
+            CompleteGame["Game State"]
+            CompleteAnalysis["Analysis"]
+            CompleteAutomation["Automation"]
+        end
+    end
+
+    subgraph Resources["📚 Resources"]
+        direction LR
+        ProtocolDB["protocol://database"]
+        GameState["game://state"]
+        Traffic["traffic://live"]
+        Config["config://settings"]
+    end
+
+    subgraph Prompts["💬 Prompts"]
+        direction LR
+        AnalyzePrompt["analyze_packet"]
+        ExplainPrompt["explain_protocol"]
+        StrategyPrompt["suggest_strategy"]
+        DebugPrompt["debug_issue"]
+    end
+
+    %% Connections
+    Claude --> MCPServers
+    Windsurf --> MCPServers
+    LMStudio --> MCPServers
+    CLI --> MCPServers
+
+    RAGTools --> RAGSearch
+    RAGTools --> RAGQuery
+    RAGTools --> RAGExplain
+    RAGTools --> RAGFind
+
+    RTETools --> RTECapture
+    RTETools --> RTEDecode
+    RTETools --> RTEAnalyze
+    RTETools --> RTEInject
+
+    ToolsTools --> ToolsCalc
+    ToolsTools --> ToolsOptimize
+    ToolsTools --> ToolsSimulate
+    ToolsTools --> ToolsSchedule
+
+    AdvTools --> AdvVision
+    AdvTools --> AdvAgent
+    AdvTools --> AdvSwarm
+    AdvTools --> AdvLearn
+
+    CDPTools --> CDPClick
+    CDPTools --> CDPScreenshot
+    CDPTools --> CDPNavigate
+    CDPTools --> CDPAutomate
+
+    CompleteTools --> CompleteBrowser
+    CompleteTools --> CompleteGame
+    CompleteTools --> CompleteAnalysis
+    CompleteTools --> CompleteAutomation
+
+    MCPServers --> Resources
+    MCPServers --> Prompts
+
+    classDef clientNode fill:#2d3436,stroke:#74b9ff,stroke-width:2px
+    classDef serverNode fill:#1a1a2e,stroke:#fdcb6e,stroke-width:2px
+    classDef toolNode fill:#16213e,stroke:#81ecec,stroke-width:2px
+    classDef resourceNode fill:#0f3460,stroke:#55efc4,stroke-width:2px
+    classDef promptNode fill:#2d3436,stroke:#a29bfe,stroke-width:2px
+
+    class Claude,Windsurf,LMStudio,CLI clientNode
+    class RAGTools,RTETools,ToolsTools,AdvTools,CDPTools,CompleteTools serverNode
+    class RAGSearch,RAGQuery,RAGExplain,RAGFind,RTECapture,RTEDecode,RTEAnalyze,RTEInject,ToolsCalc,ToolsOptimize,ToolsSimulate,ToolsSchedule,AdvVision,AdvAgent,AdvSwarm,AdvLearn,CDPClick,CDPScreenshot,CDPNavigate,CDPAutomate,CompleteBrowser,CompleteGame,CompleteAnalysis,CompleteAutomation toolNode
+    class ProtocolDB,GameState,Traffic,Config resourceNode
+    class AnalyzePrompt,ExplainPrompt,StrategyPrompt,DebugPrompt promptNode

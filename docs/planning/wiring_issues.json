@@ -1,0 +1,192 @@
+{
+  "missing_implementations": [],
+  "disconnected_handlers": [],
+  "uninitialized_services": [
+    {
+      "service": "ProxyMonitor",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "SessionManager",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "McpConnectionManager",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "ChatbotService",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "TrafficPipeClient",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "ProtocolHandler",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "GameStateEngine",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "StrategicAdvisor",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "AutoPilotService",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "SessionRecorder",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "WebhookHub",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "CombatSimulator",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "AnalyticsDashboard",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "MultiAccountOrchestrator",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "PromptTemplateEngine",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "MapScanner",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "ExportImportManager",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "StatusBarManager",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "PacketAnalysisEngine",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "LlmIntegrationService",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "FiddlerBridge",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "ProtocolFuzzer",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "CdpConnectionService",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "VisualAutomationService",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "SettingsManager",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "MemoryManager",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "ErrorHandler",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "ConnectionPool",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "RealDataProvider",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "ThemeManager",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "KeyboardShortcutManager",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "FailsafeManager",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "DebugService",
+      "reason": "Not referenced in App.xaml.cs"
+    },
+    {
+      "service": "MemoryGuard",
+      "reason": "Not referenced in App.xaml.cs"
+    }
+  ],
+  "missing_mcp_connections": [
+    {
+      "issue": "No actual network connection implementation found",
+      "servers": [
+        "evony-rte",
+        "evony-rag"
+      ]
+    }
+  ],
+  "incomplete_settings": [
+    {
+      "file": "SettingsWindow.xaml.cs",
+      "issue": "SettingsManager not used for persistence"
+    }
+  ],
+  "status_bar_issues": [
+    {
+      "file": "StatusBar.xaml.cs",
+      "issue": "Not connected to McpConnectionManager"
+    },
+    {
+      "file": "StatusBar.xaml.cs",
+      "issue": "Not connected to FiddlerBridge"
+    },
+    {
+      "file": "StatusBarV4.xaml.cs",
+      "issue": "Not connected to McpConnectionManager"
+    },
+    {
+      "file": "StatusBarV4.xaml.cs",
+      "issue": "Not connected to FiddlerBridge"
+    }
+  ],
+  "fiddler_issues": [
+    {
+      "issue": "Pipe name may not match Fiddler extension",
+      "suggestion": "Verify pipe name matches FiddlerScript"
+    },
+    {
+      "issue": "No FiddlerCore integration found",
+      "suggestion": "Consider using FiddlerCore for direct integration"
+    }
+  ],
+  "chatbot_issues": [],
+  "browser_issues": [
+    {
+      "issue": "CefSharp initialization may be incomplete",
+      "suggestion": "Check Program.cs for Cef.Initialize"
+    }
+  ]
+}

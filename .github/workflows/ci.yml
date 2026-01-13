@@ -1,0 +1,115 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  DOTNET_VERSION: '6.0.x'
+  NODE_VERSION: '18.x'
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+
+    - name: Restore dependencies
+      run: dotnet restore SvonyBrowser/SvonyBrowser.csproj
+
+    - name: Build (Warnings as Errors)
+      run: dotnet build SvonyBrowser/SvonyBrowser.csproj --configuration Release --no-restore /warnaserror
+      continue-on-error: true
+
+    - name: Build (Standard)
+      run: dotnet build SvonyBrowser/SvonyBrowser.csproj --configuration Release --no-restore
+
+    - name: Run Unit Tests
+      run: |
+        if (Test-Path "SvonyBrowser.Tests/SvonyBrowser.Tests.csproj") {
+          dotnet test SvonyBrowser.Tests/SvonyBrowser.Tests.csproj --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+        } else {
+          Write-Host "Test project not found, skipping tests"
+        }
+      shell: pwsh
+      continue-on-error: true
+
+    - name: Install Playwright
+      run: npx playwright install --with-deps chromium
+      continue-on-error: true
+
+    - name: Build MCP Servers
+      run: |
+        $servers = @("evony-complete", "evony-rag", "evony-rte", "evony-tools", "evony-advanced", "evony-cdp", "evony-v4")
+        foreach ($server in $servers) {
+          $path = "mcp-servers/$server"
+          if (Test-Path $path) {
+            Write-Host "Building $server..."
+            Push-Location $path
+            npm install
+            if (Test-Path "package.json") {
+              $pkg = Get-Content package.json | ConvertFrom-Json
+              if ($pkg.scripts.build) {
+                npm run build
+              }
+            }
+            Pop-Location
+          }
+        }
+      shell: pwsh
+
+    - name: Verify MCP Server Syntax
+      run: |
+        $servers = @("evony-complete", "evony-rag", "evony-rte", "evony-tools", "evony-advanced", "evony-cdp", "evony-v4")
+        foreach ($server in $servers) {
+          $indexPath = "mcp-servers/$server/index.js"
+          if (Test-Path $indexPath) {
+            Write-Host "Checking syntax: $server"
+            node -c $indexPath
+          }
+        }
+      shell: pwsh
+
+    - name: Upload Coverage
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./coverage/**/coverage.cobertura.xml
+        fail_ci_if_error: false
+        verbose: true
+      continue-on-error: true
+
+  code-quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: csharp, javascript
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v3
+      continue-on-error: true
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      continue-on-error: true

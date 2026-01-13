@@ -1,0 +1,101 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/claude-desktop/main/schemas/mcp-config.json",
+  "mcpServers": {
+    "evony-cdp": {
+      "command": "node",
+      "args": [
+        "${SVONY_PATH}/mcp-servers/evony-cdp/index.js"
+      ],
+      "env": {
+        "CDP_HOST": "localhost",
+        "CDP_PORT": "9222",
+        "CEF_BROWSER_PATH": "C:\\Program Files\\CefFlashBrowser\\CefFlashBrowser.exe"
+      },
+      "description": "CefFlashBrowser automation via CDP - 35+ tools for Flash-based Evony control",
+      "capabilities": {
+        "tools": true,
+        "resources": true,
+        "prompts": true
+      }
+    },
+    "playwright-cdp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@lars-hagen/mcp-playwright-cdp"
+      ],
+      "env": {
+        "CDP_ENDPOINT": "http://localhost:9222"
+      },
+      "description": "Alternative Playwright CDP connector"
+    },
+    "evony-complete": {
+      "command": "node",
+      "args": [
+        "${SVONY_PATH}/mcp-servers/evony-complete/index.js"
+      ],
+      "env": {
+        "SVONY_BROWSER_HOST": "localhost",
+        "SVONY_BROWSER_PORT": "9876"
+      },
+      "description": "Complete Svony Browser control (168 tools)"
+    },
+    "evony-rag": {
+      "command": "node",
+      "args": [
+        "${SVONY_PATH}/mcp-servers/evony-rag/index.js"
+      ],
+      "description": "Evony knowledge base and RAG queries"
+    },
+    "evony-rte": {
+      "command": "node",
+      "args": [
+        "${SVONY_PATH}/mcp-servers/evony-rte/index.js"
+      ],
+      "description": "Real-time traffic analysis"
+    }
+  },
+  "globalSettings": {
+    "defaultServer": "evony-cdp",
+    "autoConnect": true,
+    "logLevel": "info"
+  },
+  "instructions": {
+    "setup": [
+      "1. Install CefFlashBrowser from the official source",
+      "2. Set SVONY_PATH environment variable to Svony Browser installation directory",
+      "3. Update CEF_BROWSER_PATH in this config to point to CefFlashBrowser.exe",
+      "4. Run 'npm install' in mcp-servers/evony-cdp directory",
+      "5. Copy this file to:",
+      "   - macOS: ~/Library/Application Support/Claude/claude_desktop_config.json",
+      "   - Windows: %APPDATA%\\Claude\\claude_desktop_config.json",
+      "6. Restart Claude Desktop"
+    ],
+    "usage": [
+      "IMPORTANT: CefFlashBrowser must be launched with CDP enabled BEFORE using these tools.",
+      "",
+      "Option 1: Launch from Claude",
+      "  Say: 'Launch CefFlashBrowser and connect to it'",
+      "  This uses cdp_launch tool (requires CEF_BROWSER_PATH to be set)",
+      "",
+      "Option 2: Manual launch",
+      "  Run in PowerShell:",
+      "  .\\CefFlashBrowser.exe --remote-debugging-port=9222 --remote-allow-origins=*",
+      "  Then say: 'Connect to the browser on port 9222'",
+      "",
+      "Once connected, you can:",
+      "  - 'Go to city view' - Navigate to city",
+      "  - 'Upgrade the barracks' - Upgrade a building",
+      "  - 'Train 1000 cavalry' - Train troops",
+      "  - 'Take a screenshot' - Capture current screen",
+      "  - 'Click at coordinates 500, 300' - Click specific location",
+      "  - 'Pan the map left' - Move world map"
+    ],
+    "limitations": [
+      "- Flash content is a 'black box' - cannot select elements by ID or class",
+      "- Must use coordinate-based clicking or image recognition",
+      "- Browser window must remain visible (cannot run headless)",
+      "- Coordinates may need adjustment for different screen resolutions"
+    ]
+  }
+}

@@ -1,0 +1,246 @@
+name: Build and Release V7.0
+
+on:
+  push:
+    branches: [ main, master ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '6.0.x'
+  SOLUTION_PATH: 'SvonyBrowser/SvonyBrowser.csproj'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          6.0.x
+          7.0.x
+          8.0.x
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+
+    - name: Cache NuGet packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
+    - name: Restore NuGet packages
+      run: |
+        nuget restore ${{ env.SOLUTION_PATH }}
+        dotnet restore ${{ env.SOLUTION_PATH }}
+
+    - name: Build Debug
+      run: |
+        msbuild ${{ env.SOLUTION_PATH }} /t:Build /p:Configuration=Debug /p:Platform=x64
+
+    - name: Build Release
+      run: |
+        msbuild ${{ env.SOLUTION_PATH }} /t:Build /p:Configuration=Release /p:Platform=x64
+
+    - name: Upload Debug Build
+      uses: actions/upload-artifact@v4
+      with:
+        name: SvonyBrowser-Debug
+        path: SvonyBrowser/bin/Debug/net6.0-windows/
+        retention-days: 30
+
+    - name: Upload Release Build
+      uses: actions/upload-artifact@v4
+      with:
+        name: SvonyBrowser-Release
+        path: SvonyBrowser/bin/Release/net6.0-windows/
+        retention-days: 30
+
+  publish:
+    runs-on: windows-latest
+    needs: build
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Restore packages
+      run: dotnet restore ${{ env.SOLUTION_PATH }}
+
+    - name: Publish Self-Contained
+      run: |
+        dotnet publish ${{ env.SOLUTION_PATH }} -c Release -r win-x64 --self-contained true -o publish/selfcontained
+
+    - name: Publish Framework-Dependent
+      run: |
+        dotnet publish ${{ env.SOLUTION_PATH }} -c Release -r win-x64 --no-self-contained -o publish/fdd
+
+    - name: Publish Single File
+      run: |
+        dotnet publish ${{ env.SOLUTION_PATH }} -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o publish/single
+
+    - name: Publish Ready To Run
+      run: |
+        dotnet publish ${{ env.SOLUTION_PATH }} -c Release -r win-x64 -p:PublishReadyToRun=true -o publish/r2r
+
+    - name: Create Portable ZIP
+      run: |
+        Compress-Archive -Path publish/selfcontained/* -DestinationPath publish/SvonyBrowser-Portable.zip
+
+    - name: Upload Self-Contained
+      uses: actions/upload-artifact@v4
+      with:
+        name: SvonyBrowser-SelfContained
+        path: publish/selfcontained/
+        retention-days: 30
+
+    - name: Upload Framework-Dependent
+      uses: actions/upload-artifact@v4
+      with:
+        name: SvonyBrowser-FDD
+        path: publish/fdd/
+        retention-days: 30
+
+    - name: Upload Single File
+      uses: actions/upload-artifact@v4
+      with:
+        name: SvonyBrowser-SingleFile
+        path: publish/single/
+        retention-days: 30
+
+    - name: Upload R2R
+      uses: actions/upload-artifact@v4
+      with:
+        name: SvonyBrowser-R2R
+        path: publish/r2r/
+        retention-days: 30
+
+    - name: Upload Portable ZIP
+      uses: actions/upload-artifact@v4
+      with:
+        name: SvonyBrowser-Portable-ZIP
+        path: publish/SvonyBrowser-Portable.zip
+        retention-days: 30
+
+  test:
+    runs-on: windows-latest
+    needs: build
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Restore packages
+      run: |
+        dotnet restore SvonyBrowser/SvonyBrowser.csproj
+        dotnet restore SvonyBrowser.Tests/SvonyBrowser.Tests.csproj
+
+    - name: Build Test Project
+      run: dotnet build SvonyBrowser.Tests/SvonyBrowser.Tests.csproj -c Release
+
+    - name: Run Tests with Coverage
+      run: |
+        dotnet test SvonyBrowser.Tests/SvonyBrowser.Tests.csproj --collect:"XPlat Code Coverage" --results-directory TestResults --logger "trx;LogFileName=results.trx"
+      continue-on-error: true
+
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: TestResults
+        path: TestResults/
+        retention-days: 30
+
+  release:
+    runs-on: windows-latest
+    needs: [build, publish, test]
+    if: startsWith(github.ref, 'refs/tags/v')
+    
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts/
+
+    - name: Create Release Archives
+      run: |
+        cd artifacts
+        Compress-Archive -Path SvonyBrowser-Debug/* -DestinationPath SvonyBrowser-Debug.zip
+        Compress-Archive -Path SvonyBrowser-Release/* -DestinationPath SvonyBrowser-Release.zip
+        Compress-Archive -Path SvonyBrowser-SelfContained/* -DestinationPath SvonyBrowser-SelfContained.zip
+        Compress-Archive -Path SvonyBrowser-FDD/* -DestinationPath SvonyBrowser-FDD.zip
+        Compress-Archive -Path SvonyBrowser-SingleFile/* -DestinationPath SvonyBrowser-SingleFile.zip
+        Compress-Archive -Path SvonyBrowser-R2R/* -DestinationPath SvonyBrowser-R2R.zip
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        name: Svony Browser ${{ github.ref_name }}
+        body: |
+          ## Svony Browser ${{ github.ref_name }}
+          
+          ### Downloads
+          - **SvonyBrowser-Release.zip** - Standard release build
+          - **SvonyBrowser-SelfContained.zip** - Includes .NET runtime (no .NET install required)
+          - **SvonyBrowser-SingleFile.zip** - Single executable file
+          - **SvonyBrowser-Portable-ZIP.zip** - Portable version
+          - **SvonyBrowser-FDD.zip** - Framework-dependent (requires .NET 6.0)
+          - **SvonyBrowser-R2R.zip** - Ready-to-Run optimized
+          
+          ### Requirements
+          - Windows 10/11 x64
+          - Visual C++ Redistributable 2015-2022
+          - .NET 6.0 Runtime (for FDD builds)
+          
+          ### Features
+          - Dual-panel browser with CefSharp
+          - MCP server integration (300+ tools)
+          - Combat simulator
+          - Strategic advisor
+          - Full automation suite
+          - 200+ failsafes
+        files: |
+          artifacts/SvonyBrowser-Debug.zip
+          artifacts/SvonyBrowser-Release.zip
+          artifacts/SvonyBrowser-SelfContained.zip
+          artifacts/SvonyBrowser-FDD.zip
+          artifacts/SvonyBrowser-SingleFile.zip
+          artifacts/SvonyBrowser-R2R.zip
+          artifacts/SvonyBrowser-Portable-ZIP/SvonyBrowser-Portable.zip
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

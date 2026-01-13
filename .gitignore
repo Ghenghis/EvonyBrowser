@@ -1,0 +1,53 @@
+# Build outputs
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.cache
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# IDE
+.idea/
+*.swp
+
+# Logs and captures
+logs/
+captures/
+*.log
+*.saz
+
+# Cache directories
+Cache/
+cache/
+extracted-swf/
+
+# Large binary files (track separately or use LFS)
+*.swf
+Fiddler/
+FlashBrowser_x64/
+backup-source/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Environment
+.env
+*.local
+
+# Node modules (for MCP servers)
+node_modules/
+package-lock.json
+
+# ChromaDB data
+data/chroma-db/
+
+# Temporary files
+*.tmp
+*.temp
+~$*

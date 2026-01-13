@@ -1,0 +1,121 @@
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#1a1a2e', 'primaryTextColor': '#eee', 'primaryBorderColor': '#7B68EE', 'lineColor': '#7B68EE', 'secondaryColor': '#16213e', 'tertiaryColor': '#0f3460'}}}%%
+flowchart TB
+    subgraph UserLayer["👤 User Layer"]
+        direction LR
+        WinUser["Windows User"]
+        ClaudeDesktop["Claude Desktop"]
+        WindsurfIDE["Windsurf IDE"]
+        LMStudio["LM Studio"]
+    end
+
+    subgraph PresentationLayer["🖥️ Presentation Layer"]
+        direction TB
+        MainWindow["MainWindow.xaml<br/>Dual Browser Panels"]
+        ChatbotPanel["ChatbotPanel<br/>AI Co-Pilot"]
+        TrafficViewer["TrafficViewer<br/>Packet Analysis"]
+        ProtocolExplorer["ProtocolExplorer<br/>Action Library"]
+        StatusBarV4["StatusBarV4<br/>25+ Widgets"]
+        SettingsCenter["SettingsControlCenter<br/>164 Options"]
+        PacketBuilder["PacketBuilder<br/>Visual Editor"]
+    end
+
+    subgraph ServiceLayer["⚙️ Service Layer"]
+        direction TB
+        subgraph CoreServices["Core Services"]
+            SessionManager["SessionManager"]
+            ProxyMonitor["ProxyMonitor"]
+            McpConnection["McpConnectionManager"]
+            SettingsManager["SettingsManager"]
+        end
+        subgraph GameServices["Game Services"]
+            GameStateEngine["GameStateEngine"]
+            StrategicAdvisor["StrategicAdvisor"]
+            CombatSimulator["CombatSimulator"]
+            AutoPilot["AutoPilotService"]
+        end
+        subgraph AnalysisServices["Analysis Services"]
+            ProtocolHandler["ProtocolHandler"]
+            PacketAnalysis["PacketAnalysisEngine"]
+            ProtocolFuzzer["ProtocolFuzzer"]
+            LlmIntegration["LlmIntegrationService"]
+        end
+        subgraph IntegrationServices["Integration Services"]
+            FiddlerBridge["FiddlerBridge"]
+            CdpConnection["CdpConnectionService"]
+            VisualAutomation["VisualAutomationService"]
+            WebhookHub["WebhookHub"]
+        end
+    end
+
+    subgraph MCPLayer["🔌 MCP Server Layer"]
+        direction LR
+        EvonyRAG["evony-rag<br/>:3001"]
+        EvonyRTE["evony-rte<br/>:3002"]
+        EvonyTools["evony-tools<br/>:3003"]
+        EvonyAdvanced["evony-advanced<br/>:3004"]
+        EvonyCDP["evony-cdp<br/>:3005"]
+        EvonyComplete["evony-complete<br/>:3006"]
+    end
+
+    subgraph DataLayer["💾 Data Layer"]
+        direction LR
+        ProtocolDB["protocol-db.json"]
+        EvonyKeys["evony-keys.json"]
+        Settings["settings.json"]
+        Recordings["recordings/"]
+        Analytics["analytics/"]
+    end
+
+    subgraph ExternalLayer["🌐 External Systems"]
+        direction LR
+        EvonyServer["Evony Game Server<br/>cc2.evony.com"]
+        Fiddler["Fiddler Proxy"]
+        Discord["Discord Webhooks"]
+        Telegram["Telegram Bot"]
+    end
+
+    %% Connections
+    WinUser --> MainWindow
+    ClaudeDesktop --> MCPLayer
+    WindsurfIDE --> MCPLayer
+    LMStudio --> MCPLayer
+
+    MainWindow --> ChatbotPanel
+    MainWindow --> TrafficViewer
+    MainWindow --> ProtocolExplorer
+    MainWindow --> StatusBarV4
+    MainWindow --> SettingsCenter
+    MainWindow --> PacketBuilder
+
+    ChatbotPanel --> McpConnection
+    TrafficViewer --> ProtocolHandler
+    ProtocolExplorer --> ProtocolHandler
+    StatusBarV4 --> GameStateEngine
+    SettingsCenter --> SettingsManager
+    PacketBuilder --> ProtocolHandler
+
+    CoreServices --> MCPLayer
+    GameServices --> MCPLayer
+    AnalysisServices --> MCPLayer
+    IntegrationServices --> MCPLayer
+
+    MCPLayer --> DataLayer
+    FiddlerBridge --> Fiddler
+    CdpConnection --> EvonyServer
+    WebhookHub --> Discord
+    WebhookHub --> Telegram
+    Fiddler --> EvonyServer
+
+    classDef userNode fill:#2d3436,stroke:#74b9ff,stroke-width:2px
+    classDef uiNode fill:#1a1a2e,stroke:#a29bfe,stroke-width:2px
+    classDef serviceNode fill:#16213e,stroke:#81ecec,stroke-width:2px
+    classDef mcpNode fill:#0f3460,stroke:#ffeaa7,stroke-width:2px
+    classDef dataNode fill:#2d3436,stroke:#55efc4,stroke-width:2px
+    classDef externalNode fill:#2d3436,stroke:#fd79a8,stroke-width:2px
+
+    class WinUser,ClaudeDesktop,WindsurfIDE,LMStudio userNode
+    class MainWindow,ChatbotPanel,TrafficViewer,ProtocolExplorer,StatusBarV4,SettingsCenter,PacketBuilder uiNode
+    class SessionManager,ProxyMonitor,McpConnection,SettingsManager,GameStateEngine,StrategicAdvisor,CombatSimulator,AutoPilot,ProtocolHandler,PacketAnalysis,ProtocolFuzzer,LlmIntegration,FiddlerBridge,CdpConnection,VisualAutomation,WebhookHub serviceNode
+    class EvonyRAG,EvonyRTE,EvonyTools,EvonyAdvanced,EvonyCDP,EvonyComplete mcpNode
+    class ProtocolDB,EvonyKeys,Settings,Recordings,Analytics dataNode
+    class EvonyServer,Fiddler,Discord,Telegram externalNode

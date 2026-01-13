@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 700">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DAA520"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#B8860B"/>
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3a2a1a"/>
+      <stop offset="100%" style="stop-color:#1a0a00"/>
+    </linearGradient>
+    <linearGradient id="userMsgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2a4a"/>
+      <stop offset="100%" style="stop-color:#0a1a3a"/>
+    </linearGradient>
+    <linearGradient id="aiMsgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a2008"/>
+      <stop offset="100%" style="stop-color:#1a1005"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="700" fill="#0a0505"/>
+  <rect x="5" y="5" width="390" height="690" fill="none" stroke="url(#goldGrad)" stroke-width="2" rx="8"/>
+
+  <rect x="10" y="10" width="380" height="50" fill="url(#headerGrad)" rx="6" filter="url(#shadow)"/>
+  <text x="30" y="42" font-family="Arial" font-size="20">🤖</text>
+  <text x="55" y="40" font-family="Georgia, serif" font-size="16" font-weight="bold" fill="#FFD700">EVONY CO-PILOT</text>
+  <rect x="300" y="20" width="80" height="30" rx="4" fill="#1a1a1a" stroke="#5a4a3a"/>
+  <text x="340" y="40" text-anchor="middle" font-family="Arial" font-size="10" fill="#888">RAG+RTE</text>
+
+  <rect x="10" y="65" width="380" height="520" fill="#0d0808" rx="4"/>
+
+  <rect x="120" y="80" width="260" height="60" rx="8" fill="url(#userMsgGrad)" stroke="#4a6a9a" filter="url(#shadow)"/>
+  <text x="135" y="100" font-family="Arial" font-size="10" font-weight="bold" fill="#88aaff">👤 You</text>
+  <text x="135" y="118" font-family="Arial" font-size="11" fill="#ccc">What's the best hero lineup</text>
+  <text x="135" y="132" font-family="Arial" font-size="11" fill="#ccc">for SvS rally?</text>
+
+  <rect x="20" y="155" width="280" height="120" rx="8" fill="url(#aiMsgGrad)" stroke="#DAA520" filter="url(#shadow)"/>
+  <text x="35" y="175" font-family="Arial" font-size="10" font-weight="bold" fill="#FFD700">🤖 Evony Co-Pilot</text>
+  <text x="35" y="195" font-family="Arial" font-size="10" fill="#ddd">Based on the knowledge base, the</text>
+  <text x="35" y="210" font-family="Arial" font-size="10" fill="#ddd">optimal SvS rally lineup is:</text>
+  <rect x="35" y="220" width="250" height="40" rx="4" fill="#0a0505" stroke="#3a3a1a"/>
+  <text x="45" y="238" font-family="Consolas" font-size="9" fill="#88ff88">Main: Roland (Ground) + Elektra</text>
+  <text x="45" y="252" font-family="Consolas" font-size="9" fill="#88ff88">Sub: Martinus, Scipio, Hannibal</text>
+
+  <rect x="25" y="268" width="100" height="15" rx="3" fill="#1a1a1a"/>
+  <text x="30" y="279" font-family="Arial" font-size="8" fill="#888">📚 Sources: hero_guide.md</text>
+
+  <rect x="120" y="295" width="260" height="45" rx="8" fill="url(#userMsgGrad)" stroke="#4a6a9a" filter="url(#shadow)"/>
+  <text x="135" y="315" font-family="Arial" font-size="10" font-weight="bold" fill="#88aaff">👤 You</text>
+  <text x="135" y="332" font-family="Arial" font-size="11" fill="#ccc">Decode this packet: 0A0B01...</text>
+
+  <rect x="20" y="355" width="280" height="100" rx="8" fill="url(#aiMsgGrad)" stroke="#DAA520" filter="url(#shadow)"/>
+  <text x="35" y="375" font-family="Arial" font-size="10" font-weight="bold" fill="#FFD700">🤖 Evony Co-Pilot</text>
+  <text x="35" y="395" font-family="Arial" font-size="10" fill="#ddd">Decoded AMF3 packet:</text>
+  <rect x="35" y="405" width="250" height="35" rx="4" fill="#0a0505" stroke="#3a5a3a"/>
+  <text x="45" y="420" font-family="Consolas" font-size="9" fill="#88ff88">{"action": "hero.getLevel",</text>
+  <text x="45" y="432" font-family="Consolas" font-size="9" fill="#88ff88"> "heroId": 12345}</text>
+
+  <rect x="20" y="470" width="360" height="40" rx="6" fill="#1a1a1a" stroke="#3a3a3a"/>
+  <text x="35" y="485" font-family="Arial" font-size="10" fill="#888">📡 Live Traffic: hero.getAllHeroLevel</text>
+  <rect x="35" y="493" width="200" height="10" rx="2" fill="#0a1a0a"/>
+  <rect x="35" y="493" width="140" height="10" rx="2" fill="#2a5a2a"/>
+  <text x="250" y="502" font-family="Arial" font-size="8" fill="#4a8a4a">Decoding...</text>
+
+  <rect x="20" y="520" width="360" height="55" rx="4" fill="#1a1208" stroke="#5a4a3a"/>
+  <text x="35" y="540" font-family="Arial" font-size="10" fill="#B8860B">💡 Suggestion:</text>
+  <text x="35" y="555" font-family="Arial" font-size="9" fill="#8a7a5a">I captured a march.startMarch packet.</text>
+  <text x="35" y="568" font-family="Arial" font-size="9" fill="#8a7a5a">Would you like me to decode it?</text>
+
+  <rect x="10" y="590" width="380" height="40" fill="#1a1a1a" rx="4"/>
+  <rect x="20" y="600" width="40" height="25" rx="4" fill="#2a2a2a" stroke="#4a4a4a"/>
+  <text x="40" y="618" text-anchor="middle" font-family="Arial" font-size="14">📁</text>
+  <rect x="65" y="600" width="40" height="25" rx="4" fill="#2a2a2a" stroke="#4a4a4a"/>
+  <text x="85" y="618" text-anchor="middle" font-family="Arial" font-size="14">📤</text>
+  <rect x="110" y="600" width="40" height="25" rx="4" fill="#2a2a2a" stroke="#4a4a4a"/>
+  <text x="130" y="618" text-anchor="middle" font-family="Arial" font-size="14">🔧</text>
+  <rect x="155" y="600" width="40" height="25" rx="4" fill="#2a2a2a" stroke="#4a4a4a"/>
+  <text x="175" y="618" text-anchor="middle" font-family="Arial" font-size="14">📦</text>
+  <text x="210" y="617" font-family="Arial" font-size="9" fill="#666">packet.amf attached</text>
+
+  <rect x="10" y="635" width="380" height="55" fill="url(#headerGrad)" rx="6"/>
+  <rect x="20" y="645" width="300" height="35" rx="4" fill="#2a2a2a" stroke="#5a4a3a"/>
+  <text x="30" y="667" font-family="Arial" font-size="12" fill="#888">Ask about Evony...</text>
+  <rect x="330" y="645" width="50" height="35" rx="4" fill="#DAA520"/>
+  <text x="355" y="668" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#1a1a1a">➤</text>
+</svg>

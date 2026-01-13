@@ -1,0 +1,1525 @@
+{
+  "gui": {
+    "windows": [
+      {
+        "file": "SvonyBrowser/MainWindow.xaml",
+        "name": "MainWindow",
+        "named_elements": [
+          "border",
+          "border",
+          "content",
+          "border",
+          "BtnLeftOnly",
+          "BtnBothPanels",
+          "BtnRightOnly",
+          "ServerSelector",
+          "McpStatusIndicator",
+          "ProxyStatusIndicator",
+          "SidePanelColumn",
+          "ContentGrid",
+          "LeftColumn",
+          "RightColumn",
+          "LeftPanel",
+          "LeftWebToggle",
+          "LeftSwfToggle",
+          "LeftStatusText",
+          "LeftBrowserContainer",
+          "PanelSplitter",
+          "RightPanel",
+          "RightWebToggle",
+          "RightSwfToggle",
+          "RightStatusText",
+          "RightBrowserContainer",
+          "TrafficViewerControl",
+          "ProtocolExplorerControl",
+          "AmfInputTextBox",
+          "AmfOutputTextBox",
+          "TroopTypeComboBox",
+          "TroopAmountTextBox",
+          "CalculatorResultText",
+          "McpStatusList",
+          "SidePanel",
+          "TogglePanelButton",
+          "ChatbotPanelControl",
+          "ConnectionIndicator",
+          "ConnectionStatus",
+          "StatusText",
+          "TrafficCountText",
+          "ProxyStatus",
+          "SessionStatus",
+          "PanelModeText"
+        ],
+        "click_handlers": [
+          "ShowLeftOnly_Click",
+          "ShowBoth_Click",
+          "ShowRightOnly_Click",
+          "SwapPanels_Click",
+          "ReloadLeft_Click",
+          "ReloadRight_Click",
+          "ClearCache_Click",
+          "SolEditor_Click",
+          "OpenFiddler_Click",
+          "Settings_Click",
+          "DecodeAmf_Click",
+          "CalculateTraining_Click",
+          "ReconnectMcp_Click",
+          "TogglePanel_Click"
+        ],
+        "other_handlers": [
+          [
+            "Loaded",
+            "Window_Loaded"
+          ],
+          [
+            "KeyDown",
+            "Window_KeyDown"
+          ],
+          [
+            "SelectionChanged",
+            "ServerSelector_SelectionChanged"
+          ],
+          [
+            "MouseLeftButtonDown",
+            "LeftWebToggle_Click"
+          ],
+          [
+            "MouseLeftButtonDown",
+            "LeftSwfToggle_Click"
+          ],
+          [
+            "MouseLeftButtonDown",
+            "RightWebToggle_Click"
+          ],
+          [
+            "MouseLeftButtonDown",
+            "RightSwfToggle_Click"
+          ]
+        ],
+        "buttons": [
+          "\u25c0 Bot Only",
+          "\u25c0 Both \u25b6",
+          "Client \u25b6",
+          "\u21c4 Swap",
+          "\ud83d\udd04 Reload Left",
+          "\ud83d\udd04 Reload Right",
+          "\ud83d\uddd1 Clear Cache",
+          "\ud83d\udcc1 SOL Editor",
+          "\ud83d\udcca Fiddler",
+          "\u2699 Settings",
+          "Decode",
+          "Calculate",
+          "Reconnect All",
+          "\u25c0"
+        ],
+        "textboxes": [
+          "AmfInputTextBox",
+          "AmfOutputTextBox",
+          "TroopAmountTextBox"
+        ],
+        "comboboxes": [
+          "ServerSelector",
+          "TroopTypeComboBox"
+        ],
+        "checkboxes": [],
+        "toggles": [],
+        "menus": [],
+        "tabs": []
+      },
+      {
+        "file": "SvonyBrowser/SettingsWindow.xaml",
+        "name": "SettingsWindow",
+        "named_elements": [
+          "DefaultServerCombo",
+          "ProxyHostText",
+          "ProxyPortText",
+          "AutoStartFiddlerCheck",
+          "RememberLayoutCheck",
+          "EnableLoggingCheck",
+          "AutoEvonySwfPathText",
+          "BrowseAutoEvonyBtn",
+          "EvonyClientSwfPathText",
+          "BrowseEvonyClientBtn",
+          "FlashPluginPathText",
+          "BrowseFlashPluginBtn",
+          "CachePathText",
+          "LogPathText"
+        ],
+        "click_handlers": [
+          "BrowseAutoEvony_Click",
+          "BrowseEvonyClient_Click",
+          "BrowseFlashPlugin_Click",
+          "Save_Click",
+          "Cancel_Click"
+        ],
+        "other_handlers": [],
+        "buttons": [
+          "Browse...",
+          "Browse...",
+          "Browse...",
+          "Save",
+          "Cancel"
+        ],
+        "textboxes": [
+          "ProxyHostText",
+          "ProxyPortText",
+          "AutoEvonySwfPathText",
+          "EvonyClientSwfPathText",
+          "FlashPluginPathText",
+          "CachePathText",
+          "LogPathText"
+        ],
+        "comboboxes": [
+          "DefaultServerCombo"
+        ],
+        "checkboxes": [
+          "AutoStartFiddlerCheck",
+          "RememberLayoutCheck",
+          "EnableLoggingCheck"
+        ],
+        "toggles": [],
+        "menus": [],
+        "tabs": []
+      }
+    ],
+    "controls": [
+      {
+        "file": "SvonyBrowser/App.xaml",
+        "name": "App",
+        "named_elements": [
+          "border"
+        ],
+        "click_handlers": [],
+        "other_handlers": [],
+        "buttons": [],
+        "textboxes": [],
+        "comboboxes": [],
+        "checkboxes": [],
+        "toggles": [],
+        "menus": [],
+        "tabs": []
+      },
+      {
+        "file": "SvonyBrowser/SettingsControlCenter.xaml",
+        "name": "SettingsControlCenter",
+        "named_elements": [
+          "track",
+          "thumb",
+          "PART_SelectionRange",
+          "PART_Track",
+          "border",
+          "icon",
+          "text",
+          "border",
+          "SearchBox",
+          "CategoryList",
+          "SettingsContent",
+          "GeneralPanel",
+          "ThemeCombo",
+          "LanguageCombo",
+          "StartMinimizedToggle",
+          "StartWithWindowsToggle",
+          "CheckUpdatesToggle",
+          "UpdateChannelCombo",
+          "LogLevelCombo",
+          "LogRetentionSlider",
+          "ConfirmExitToggle",
+          "RememberPositionToggle",
+          "BrowserPanel",
+          "DefaultServerCombo",
+          "CacheSizeSlider",
+          "EnableFlashToggle",
+          "EnableGpuToggle",
+          "ZoomSlider",
+          "EnableDevToolsToggle",
+          "ProxyPanel",
+          "ProxyEnabledToggle",
+          "ProxyHostText",
+          "ProxyPortText",
+          "ProxyTypeCombo",
+          "TestProxyToggle",
+          "McpPanel",
+          "McpEnabledToggle",
+          "McpAutoStartToggle",
+          "RagPortText",
+          "RagEnabledToggle",
+          "RtePortText",
+          "RteEnabledToggle",
+          "HealthCheckSlider",
+          "LlmPanel",
+          "LlmEnabledToggle",
+          "LlmBackendCombo",
+          "LmStudioUrlText",
+          "TemperatureSlider",
+          "MaxTokensSlider",
+          "StreamResponseToggle",
+          "FiddlerPanel",
+          "FiddlerEnabledToggle",
+          "AutoStartFiddlerToggle",
+          "DecodeAmfToggle",
+          "MaxTrafficSlider",
+          "AutomationPanel",
+          "AutoPilotToggle",
+          "SafetyLimitsToggle",
+          "MaxActionsSlider",
+          "ActionDelaySlider",
+          "RandomizeDelayToggle",
+          "TrafficPanel",
+          "TrafficAnalysisToggle",
+          "PatternDetectionToggle",
+          "AutoScrollToggle",
+          "ChatbotPanel",
+          "ChatbotEnabledToggle",
+          "ShowTimestampsToggle",
+          "MarkdownToggle",
+          "StatusBarPanel",
+          "StatusBarEnabledToggle",
+          "ShowRagProgressToggle",
+          "ShowRteProgressToggle",
+          "ShowLlmStatsToggle",
+          "ShowGpuTempToggle",
+          "ShowPacketsToggle",
+          "WebhooksPanel",
+          "WebhooksEnabledToggle",
+          "DiscordWebhookText",
+          "TelegramTokenText",
+          "TelegramChatIdText",
+          "AdvancedPanel",
+          "DebugModeToggle",
+          "PerformanceModeToggle",
+          "MaxMemorySlider"
+        ],
+        "click_handlers": [
+          "Import_Click",
+          "Export_Click",
+          "Reset_Click",
+          "Cancel_Click",
+          "Save_Click",
+          "ResetDefaults_Click",
+          "FactoryReset_Click"
+        ],
+        "other_handlers": [
+          [
+            "SelectionChanged",
+            "CategoryList_SelectionChanged"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ]
+        ],
+        "buttons": [
+          "\ud83d\udce5 Import",
+          "\ud83d\udce4 Export",
+          "\ud83d\udd04 Reset",
+          "Cancel",
+          "\u2713 Save Changes",
+          "\ud83d\udd04 Reset to Defaults",
+          "\ud83d\uddd1 Factory Reset"
+        ],
+        "textboxes": [
+          "SearchBox",
+          "ProxyHostText",
+          "ProxyPortText",
+          "RagPortText",
+          "RtePortText",
+          "LmStudioUrlText",
+          "DiscordWebhookText",
+          "TelegramTokenText",
+          "TelegramChatIdText"
+        ],
+        "comboboxes": [
+          "ThemeCombo",
+          "LanguageCombo",
+          "UpdateChannelCombo",
+          "LogLevelCombo",
+          "DefaultServerCombo",
+          "ProxyTypeCombo",
+          "LlmBackendCombo"
+        ],
+        "checkboxes": [
+          "StartMinimizedToggle",
+          "StartWithWindowsToggle",
+          "CheckUpdatesToggle",
+          "ConfirmExitToggle",
+          "RememberPositionToggle",
+          "EnableFlashToggle",
+          "EnableGpuToggle",
+          "EnableDevToolsToggle",
+          "ProxyEnabledToggle",
+          "TestProxyToggle",
+          "McpEnabledToggle",
+          "McpAutoStartToggle",
+          "RagEnabledToggle",
+          "RteEnabledToggle",
+          "LlmEnabledToggle",
+          "StreamResponseToggle",
+          "FiddlerEnabledToggle",
+          "AutoStartFiddlerToggle",
+          "DecodeAmfToggle",
+          "AutoPilotToggle",
+          "SafetyLimitsToggle",
+          "RandomizeDelayToggle",
+          "TrafficAnalysisToggle",
+          "PatternDetectionToggle",
+          "AutoScrollToggle",
+          "ChatbotEnabledToggle",
+          "ShowTimestampsToggle",
+          "MarkdownToggle",
+          "StatusBarEnabledToggle",
+          "ShowRagProgressToggle",
+          "ShowRteProgressToggle",
+          "ShowLlmStatsToggle",
+          "ShowGpuTempToggle",
+          "ShowPacketsToggle",
+          "WebhooksEnabledToggle",
+          "DebugModeToggle",
+          "PerformanceModeToggle"
+        ],
+        "toggles": [],
+        "menus": [],
+        "tabs": []
+      },
+      {
+        "file": "SvonyBrowser/Controls/ChatbotPanel.xaml",
+        "name": "ChatbotPanel",
+        "named_elements": [
+          "PART_ContentHost",
+          "border",
+          "border",
+          "StatusText",
+          "MessagesScrollViewer",
+          "MessagesItemsControl",
+          "InputTextBox",
+          "SendButton",
+          "LoadingOverlay",
+          "LoadingRotation"
+        ],
+        "click_handlers": [
+          "MenuButton_Click",
+          "QuickAction_ProtocolLookup",
+          "QuickAction_Calculator",
+          "QuickAction_Traffic",
+          "QuickAction_Knowledge",
+          "QuickAction_BuildOrder",
+          "SendButton_Click"
+        ],
+        "other_handlers": [
+          [
+            "KeyDown",
+            "InputTextBox_KeyDown"
+          ]
+        ],
+        "buttons": [
+          "\ud83d\udcca Protocol Lookup",
+          "\ud83e\uddee Calculator",
+          "\ud83d\udce1 Traffic",
+          "\ud83d\udcda Knowledge",
+          "\ud83d\udd27 Build Order",
+          "Send"
+        ],
+        "textboxes": [
+          "InputTextBox"
+        ],
+        "comboboxes": [],
+        "checkboxes": [],
+        "toggles": [],
+        "menus": [],
+        "tabs": []
+      },
+      {
+        "file": "SvonyBrowser/Controls/TrafficViewer.xaml",
+        "name": "TrafficViewer",
+        "named_elements": [
+          "StartCaptureButton",
+          "StopCaptureButton",
+          "FilterTextBox",
+          "DirectionFilter",
+          "StatusText",
+          "CountText",
+          "TrafficDataGrid",
+          "DecodedTextBox",
+          "RawHexTextBox",
+          "HeadersTextBox"
+        ],
+        "click_handlers": [
+          "StartCapture_Click",
+          "StopCapture_Click",
+          "ClearTraffic_Click",
+          "ExportTraffic_Click"
+        ],
+        "other_handlers": [
+          [
+            "TextChanged",
+            "FilterTextBox_TextChanged"
+          ],
+          [
+            "SelectionChanged",
+            "DirectionFilter_SelectionChanged"
+          ],
+          [
+            "SelectionChanged",
+            "TrafficDataGrid_SelectionChanged"
+          ]
+        ],
+        "buttons": [
+          "\u25b6 Start",
+          "\u23f9 Stop",
+          "\ud83d\uddd1 Clear",
+          "\ud83d\udcbe Export"
+        ],
+        "textboxes": [
+          "FilterTextBox",
+          "DecodedTextBox",
+          "RawHexTextBox",
+          "HeadersTextBox"
+        ],
+        "comboboxes": [
+          "DirectionFilter"
+        ],
+        "checkboxes": [],
+        "toggles": [],
+        "menus": [],
+        "tabs": []
+      },
+      {
+        "file": "SvonyBrowser/Controls/ProtocolExplorer.xaml",
+        "name": "ProtocolExplorer",
+        "named_elements": [
+          "SearchTextBox",
+          "ActionsTreeView",
+          "ActionNameText",
+          "ActionCategoryText",
+          "DetailsPanel",
+          "DescriptionText",
+          "CommandIdText",
+          "ParametersItemsControl",
+          "ExampleRequestText"
+        ],
+        "click_handlers": [
+          "CopyToClipboard_Click",
+          "TestInChat_Click"
+        ],
+        "other_handlers": [
+          [
+            "TextChanged",
+            "SearchTextBox_TextChanged"
+          ]
+        ],
+        "buttons": [
+          "Copy to Clipboard",
+          "Test in Chat"
+        ],
+        "textboxes": [
+          "SearchTextBox",
+          "ExampleRequestText"
+        ],
+        "comboboxes": [],
+        "checkboxes": [],
+        "toggles": [],
+        "menus": [],
+        "tabs": []
+      },
+      {
+        "file": "SvonyBrowser/Controls/PacketBuilder.xaml",
+        "name": "PacketBuilder",
+        "named_elements": [
+          "SaveTemplateButton",
+          "LoadTemplateButton",
+          "ActionComboBox",
+          "CategoryComboBox",
+          "ParametersItemsControl",
+          "AutoResponseCheckBox",
+          "MockResponseCheckBox",
+          "ValidateButton",
+          "PreviewButton",
+          "InjectButton",
+          "HexViewRadio",
+          "JsonViewRadio",
+          "PreviewTextBlock"
+        ],
+        "click_handlers": [
+          "SaveTemplateButton_Click",
+          "LoadTemplateButton_Click",
+          "ValidateButton_Click",
+          "PreviewButton_Click",
+          "InjectButton_Click"
+        ],
+        "other_handlers": [
+          [
+            "SelectionChanged",
+            "ActionComboBox_SelectionChanged"
+          ],
+          [
+            "SelectionChanged",
+            "CategoryComboBox_SelectionChanged"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "ViewModeChanged"
+          ],
+          [
+            "Checked",
+            "ViewModeChanged"
+          ]
+        ],
+        "buttons": [
+          "\ud83d\udcbe Save Template",
+          "\ud83d\udcc2 Load Template",
+          "\u2713 Validate",
+          "\ud83d\udc41 Preview",
+          "\ud83d\ude80 Inject Packet"
+        ],
+        "textboxes": [],
+        "comboboxes": [
+          "ActionComboBox",
+          "CategoryComboBox"
+        ],
+        "checkboxes": [
+          "AutoResponseCheckBox",
+          "MockResponseCheckBox"
+        ],
+        "toggles": [],
+        "menus": [],
+        "tabs": []
+      },
+      {
+        "file": "SvonyBrowser/Controls/StatusBar.xaml",
+        "name": "StatusBar",
+        "named_elements": [
+          "PART_Track",
+          "PART_Indicator",
+          "Row1Widgets",
+          "Row2Widgets",
+          "Row3Widgets"
+        ],
+        "click_handlers": [
+          "Customize_Click",
+          "ToggleRow1_Click",
+          "ToggleRow2_Click",
+          "ToggleRow3_Click",
+          "ResetDefaults_Click",
+          "SaveConfig_Click",
+          "LoadConfig_Click"
+        ],
+        "other_handlers": [
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ],
+          [
+            "Checked",
+            "True"
+          ]
+        ],
+        "buttons": [],
+        "textboxes": [],
+        "comboboxes": [],
+        "checkboxes": [],
+        "toggles": [],
+        "menus": [],
+        "tabs": []
+      },
+      {
+        "file": "SvonyBrowser/Controls/StatusBarWidgetControl.xaml",
+        "name": "StatusBarWidgetControl",
+        "named_elements": [
+          "WidgetBorder",
+          "ContentGrid",
+          "WidgetTooltip",
+          "TooltipTitle",
+          "TooltipValue",
+          "TooltipDetails"
+        ],
+        "click_handlers": [],
+        "other_handlers": [],
+        "buttons": [],
+        "textboxes": [],
+        "comboboxes": [],
+        "checkboxes": [],
+        "toggles": [],
+        "menus": [],
+        "tabs": []
+      },
+      {
+        "file": "SvonyBrowser/Controls/StatusBarV4.xaml",
+        "name": "StatusBarV4",
+        "named_elements": [
+          "PART_Track",
+          "PART_Indicator",
+          "RagProgressBar",
+          "RagProgressText",
+          "RteProgressBar",
+          "RteProgressText",
+          "McpStatusLight",
+          "McpStatusText",
+          "TokensPerSecText",
+          "VramProgressBar",
+          "VramText",
+          "GpuTempText",
+          "InferenceProgressBar",
+          "InferenceText",
+          "PacketsPerSecText",
+          "PacketSparkline",
+          "DecodeRateBar",
+          "DecodeRateText",
+          "FiddlerStatusLight",
+          "FiddlerStatusText",
+          "DownloadText",
+          "UploadText",
+          "GameStateWidgets",
+          "FoodRateText",
+          "WoodRateText",
+          "StoneRateText",
+          "IronRateText",
+          "TroopCountText",
+          "MarchCountText",
+          "PowerText",
+          "BuildProgressBar",
+          "BuildTimeText",
+          "ResearchProgressBar",
+          "ResearchTimeText",
+          "TrainingProgressBar",
+          "TrainingTimeText",
+          "AutoPilotLight",
+          "AutoPilotText",
+          "QueueSizeText",
+          "FuzzProgressBar",
+          "FuzzProgressText",
+          "DetailRow",
+          "LlmModelDetails",
+          "McpServerDetails",
+          "McpToolCount",
+          "McpResourceCount",
+          "TotalPacketsText",
+          "DecodedPacketsText",
+          "LearnedActionsText",
+          "SessionIdText",
+          "UptimeText",
+          "LastActivityText"
+        ],
+        "click_handlers": [
+          "ConfigureStatusBar_Click"
+        ],
+        "other_handlers": [],
+        "buttons": [
+          "\u2699"
+        ],
+        "textboxes": [],
+        "comboboxes": [],
+        "checkboxes": [],
+        "toggles": [],
+        "menus": [],
+        "tabs": []
+      }
+    ],
+    "total_buttons": 44,
+    "total_textboxes": 26,
+    "total_handlers": 102
+  },
+  "services": [
+    {
+      "name": "ProxyMonitor",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 2,
+      "line_count": 297,
+      "public_methods": 6,
+      "dependencies": []
+    },
+    {
+      "name": "SessionManager",
+      "has_singleton": true,
+      "has_async": false,
+      "has_events": true,
+      "has_dispose": false,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 431,
+      "public_methods": 6,
+      "dependencies": []
+    },
+    {
+      "name": "McpConnectionManager",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 1,
+      "line_count": 872,
+      "public_methods": 10,
+      "dependencies": []
+    },
+    {
+      "name": "ChatbotService",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 746,
+      "public_methods": 3,
+      "dependencies": [
+        "Manager"
+      ]
+    },
+    {
+      "name": "TrafficPipeClient",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 1,
+      "line_count": 409,
+      "public_methods": 7,
+      "dependencies": [
+        "Manager"
+      ]
+    },
+    {
+      "name": "ProtocolHandler",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": false,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 1,
+      "line_count": 1048,
+      "public_methods": 12,
+      "dependencies": []
+    },
+    {
+      "name": "GameStateEngine",
+      "has_singleton": true,
+      "has_async": false,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 1055,
+      "public_methods": 20,
+      "dependencies": []
+    },
+    {
+      "name": "StrategicAdvisor",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": false,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 749,
+      "public_methods": 4,
+      "dependencies": [
+        "Engine",
+        "Manager",
+        "ChatbotService"
+      ]
+    },
+    {
+      "name": "AutoPilotService",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 858,
+      "public_methods": 6,
+      "dependencies": [
+        "Engine",
+        "Manager"
+      ]
+    },
+    {
+      "name": "SessionRecorder",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 6,
+      "line_count": 702,
+      "public_methods": 7,
+      "dependencies": [
+        "Engine"
+      ]
+    },
+    {
+      "name": "WebhookHub",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 538,
+      "public_methods": 6,
+      "dependencies": [
+        "Engine"
+      ]
+    },
+    {
+      "name": "CombatSimulator",
+      "has_singleton": true,
+      "has_async": false,
+      "has_events": false,
+      "has_dispose": false,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 775,
+      "public_methods": 4,
+      "dependencies": []
+    },
+    {
+      "name": "AnalyticsDashboard",
+      "has_singleton": true,
+      "has_async": false,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 690,
+      "public_methods": 6,
+      "dependencies": [
+        "Engine"
+      ]
+    },
+    {
+      "name": "MultiAccountOrchestrator",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 662,
+      "public_methods": 8,
+      "dependencies": []
+    },
+    {
+      "name": "PromptTemplateEngine",
+      "has_singleton": true,
+      "has_async": false,
+      "has_events": false,
+      "has_dispose": false,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 647,
+      "public_methods": 5,
+      "dependencies": [
+        "Engine"
+      ]
+    },
+    {
+      "name": "MapScanner",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 980,
+      "public_methods": 5,
+      "dependencies": [
+        "Engine"
+      ]
+    },
+    {
+      "name": "ExportImportManager",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": false,
+      "has_dispose": false,
+      "stub_count": 0,
+      "todo_count": 16,
+      "line_count": 608,
+      "public_methods": 0,
+      "dependencies": [
+        "Engine"
+      ]
+    },
+    {
+      "name": "StatusBarManager",
+      "has_singleton": true,
+      "has_async": false,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 1295,
+      "public_methods": 42,
+      "dependencies": [
+        "Manager",
+        "LlmIntegrationService",
+        "Engine",
+        "AutoPilotService"
+      ]
+    },
+    {
+      "name": "PacketAnalysisEngine",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 950,
+      "public_methods": 9,
+      "dependencies": []
+    },
+    {
+      "name": "LlmIntegrationService",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 8,
+      "line_count": 758,
+      "public_methods": 9,
+      "dependencies": []
+    },
+    {
+      "name": "FiddlerBridge",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 723,
+      "public_methods": 16,
+      "dependencies": [
+        "Engine"
+      ]
+    },
+    {
+      "name": "ProtocolFuzzer",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 1,
+      "line_count": 846,
+      "public_methods": 4,
+      "dependencies": []
+    },
+    {
+      "name": "CdpConnectionService",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 3,
+      "line_count": 777,
+      "public_methods": 13,
+      "dependencies": []
+    },
+    {
+      "name": "VisualAutomationService",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": false,
+      "has_dispose": false,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 605,
+      "public_methods": 29,
+      "dependencies": [
+        "CdpConnectionService"
+      ]
+    },
+    {
+      "name": "SettingsManager",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 4,
+      "line_count": 657,
+      "public_methods": 5,
+      "dependencies": []
+    },
+    {
+      "name": "MemoryManager",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 383,
+      "public_methods": 14,
+      "dependencies": []
+    },
+    {
+      "name": "ErrorHandler",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 508,
+      "public_methods": 7,
+      "dependencies": [
+        "Manager"
+      ]
+    },
+    {
+      "name": "ConnectionPool",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 402,
+      "public_methods": 6,
+      "dependencies": []
+    },
+    {
+      "name": "RealDataProvider",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 3,
+      "line_count": 517,
+      "public_methods": 4,
+      "dependencies": []
+    },
+    {
+      "name": "ThemeManager",
+      "has_singleton": true,
+      "has_async": false,
+      "has_events": true,
+      "has_dispose": false,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 392,
+      "public_methods": 4,
+      "dependencies": []
+    },
+    {
+      "name": "KeyboardShortcutManager",
+      "has_singleton": true,
+      "has_async": false,
+      "has_events": true,
+      "has_dispose": false,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 373,
+      "public_methods": 9,
+      "dependencies": []
+    },
+    {
+      "name": "FailsafeManager",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 1,
+      "line_count": 881,
+      "public_methods": 26,
+      "dependencies": []
+    },
+    {
+      "name": "DebugService",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": false,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 256,
+      "public_methods": 12,
+      "dependencies": []
+    },
+    {
+      "name": "MemoryGuard",
+      "has_singleton": true,
+      "has_async": true,
+      "has_events": true,
+      "has_dispose": true,
+      "stub_count": 0,
+      "todo_count": 0,
+      "line_count": 208,
+      "public_methods": 8,
+      "dependencies": []
+    }
+  ],
+  "features": {
+    "implemented": [
+      "ProxyMonitor",
+      "SessionManager",
+      "McpConnectionManager",
+      "ChatbotService",
+      "TrafficPipeClient",
+      "ProtocolHandler",
+      "GameStateEngine",
+      "StrategicAdvisor",
+      "AutoPilotService",
+      "WebhookHub",
+      "CombatSimulator",
+      "AnalyticsDashboard",
+      "MultiAccountOrchestrator",
+      "PromptTemplateEngine",
+      "MapScanner",
+      "StatusBarManager",
+      "PacketAnalysisEngine",
+      "FiddlerBridge",
+      "ProtocolFuzzer",
+      "CdpConnectionService",
+      "VisualAutomationService",
+      "MemoryManager",
+      "ErrorHandler",
+      "ConnectionPool",
+      "RealDataProvider",
+      "ThemeManager",
+      "KeyboardShortcutManager",
+      "FailsafeManager",
+      "DebugService",
+      "MemoryGuard"
+    ],
+    "partial": [
+      "SessionRecorder",
+      "ExportImportManager",
+      "LlmIntegrationService",
+      "SettingsManager"
+    ],
+    "stub": []
+  },
+  "todos": [
+    {
+      "file": "ProxyMonitor.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ProxyMonitor.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "McpConnectionManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "TrafficPipeClient.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ProtocolHandler.cs",
+      "todo": "Send packet through network layer"
+    },
+    {
+      "file": "SessionRecorder.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "SessionRecorder.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "SessionRecorder.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "SessionRecorder.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "SessionRecorder.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "SessionRecorder.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ExportImportManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ExportImportManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ExportImportManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ExportImportManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ExportImportManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ExportImportManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ExportImportManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ExportImportManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ExportImportManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ExportImportManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ExportImportManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ExportImportManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ExportImportManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ExportImportManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ExportImportManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ExportImportManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "LlmIntegrationService.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "LlmIntegrationService.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "LlmIntegrationService.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "LlmIntegrationService.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "LlmIntegrationService.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "LlmIntegrationService.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "LlmIntegrationService.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "LlmIntegrationService.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "ProtocolFuzzer.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "CdpConnectionService.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "CdpConnectionService.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "CdpConnectionService.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "SettingsManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "SettingsManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "SettingsManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "SettingsManager.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "RealDataProvider.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "RealDataProvider.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "RealDataProvider.cs",
+      "todo": "Add using block for proper disposal"
+    },
+    {
+      "file": "FailsafeManager.cs",
+      "todo": "Add using block for proper disposal"
+    }
+  ],
+  "summary": {
+    "total_xaml_files": 11,
+    "total_services": 34,
+    "total_buttons": 44,
+    "total_handlers": 102,
+    "implemented_services": 30,
+    "partial_services": 4,
+    "stub_services": 0,
+    "total_todos": 47,
+    "total_lines": 22598
+  }
+}

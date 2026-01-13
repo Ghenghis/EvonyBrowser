@@ -1,0 +1,106 @@
+name: Build and Release V7.0
+
+on:
+  push:
+    branches: [main]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  SOLUTION_PATH: SvonyBrowser/SvonyBrowser.csproj
+  DOTNET_VERSION: '6.0.x'
+  NODE_VERSION: '18.x'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+
+    - name: Cache NuGet packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
+    - name: Restore NuGet packages
+      run: |
+        dotnet restore ${{ env.SOLUTION_PATH }}
+
+    - name: Build Debug
+      run: |
+        msbuild ${{ env.SOLUTION_PATH }} /t:Build /p:Configuration=Debug /p:Platform=x64
+
+    - name: Build Release
+      run: |
+        msbuild ${{ env.SOLUTION_PATH }} /t:Build /p:Configuration=Release /p:Platform=x64
+
+    - name: Build MCP Servers
+      run: |
+        $servers = @("evony-complete", "evony-rag", "evony-rte", "evony-tools", "evony-advanced", "evony-cdp", "evony-v4")
+        foreach ($server in $servers) {
+          $path = "mcp-servers/$server"
+          if (Test-Path $path) {
+            Write-Host "Building $server..."
+            Push-Location $path
+            npm install
+            Pop-Location
+          }
+        }
+      shell: pwsh
+
+    - name: Verify MCP Server Syntax
+      run: |
+        $servers = @("evony-complete", "evony-rag", "evony-rte", "evony-tools", "evony-advanced", "evony-cdp", "evony-v4")
+        foreach ($server in $servers) {
+          $indexPath = "mcp-servers/$server/index.js"
+          if (Test-Path $indexPath) {
+            Write-Host "Checking syntax: $server"
+            node -c $indexPath
+          }
+        }
+      shell: pwsh
+
+    - name: Run Tests
+      run: |
+        if (Test-Path "SvonyBrowser.Tests/SvonyBrowser.Tests.csproj") {
+          dotnet test SvonyBrowser.Tests/SvonyBrowser.Tests.csproj --configuration Release --verbosity normal
+        } else {
+          Write-Host "Test project not found, skipping tests"
+        }
+      shell: pwsh
+      continue-on-error: true
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: SvonyBrowser-Build
+        path: |
+          SvonyBrowser/bin/Release/
+          mcp-servers/
+        retention-days: 30

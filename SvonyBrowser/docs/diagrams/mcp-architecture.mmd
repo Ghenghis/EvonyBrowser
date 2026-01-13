@@ -1,0 +1,61 @@
+%%{init: {'theme': 'dark'}}%%
+flowchart LR
+    subgraph Clients["MCP Clients"]
+        SB[Svony Browser]
+        CD[Claude Desktop]
+        WS[Windsurf IDE]
+        LMS[LM Studio]
+    end
+
+    subgraph MCPLayer["MCP Protocol Layer"]
+        MCM[McpConnectionManager]
+        JSONRPC[JSON-RPC 2.0]
+    end
+
+    subgraph Servers["MCP Servers"]
+        RAG[evony-rag<br/>Port 3001]
+        RTE[evony-rte<br/>Port 3002]
+        TOOLS[evony-tools<br/>Port 3003]
+        ADV[evony-advanced<br/>Port 3004]
+        V4[evony-v4<br/>Port 3005]
+        COMP[evony-complete<br/>Port 3006]
+        CDP[evony-cdp<br/>Port 3007]
+    end
+
+    subgraph RAGTools["RAG Tools"]
+        SK[search_knowledge]
+        GPI[get_protocol_info]
+        GGD[get_game_data]
+    end
+
+    subgraph RTETools["RTE Tools"]
+        DP[decode_packet]
+        AT[analyze_traffic]
+        GRP[get_recent_packets]
+    end
+
+    subgraph CompTools["Complete Tools (168)"]
+        BC[Browser Control]
+        GS[Game State]
+        AP[AutoPilot]
+        PKT[Packet Ops]
+        SBT[Status Bar]
+    end
+
+    SB --> MCM
+    CD --> MCM
+    WS --> MCM
+    LMS --> MCM
+
+    MCM --> JSONRPC
+    JSONRPC --> RAG
+    JSONRPC --> RTE
+    JSONRPC --> TOOLS
+    JSONRPC --> ADV
+    JSONRPC --> V4
+    JSONRPC --> COMP
+    JSONRPC --> CDP
+
+    RAG --> RAGTools
+    RTE --> RTETools
+    COMP --> CompTools

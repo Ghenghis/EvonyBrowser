@@ -1,0 +1,968 @@
+{
+  "ui_components": {
+    "buttons": {
+      "total": 46,
+      "with_handlers": 0,
+      "missing_handlers": [
+        {
+          "file": "MainWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "MainWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "MainWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "MainWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "MainWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "MainWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "MainWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "MainWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "MainWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "MainWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "MainWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "MainWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "MainWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "MainWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "SettingsWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "SettingsWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "SettingsWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "SettingsWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "SettingsWindow.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "ChatbotPanel.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "ChatbotPanel.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "ChatbotPanel.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "ChatbotPanel.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "ChatbotPanel.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "ChatbotPanel.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "ChatbotPanel.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "TrafficViewer.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "TrafficViewer.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "TrafficViewer.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "TrafficViewer.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "ProtocolExplorer.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "ProtocolExplorer.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "PacketBuilder.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "PacketBuilder.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "PacketBuilder.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "PacketBuilder.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "PacketBuilder.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "StatusBarV4.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        },
+        {
+          "file": "StatusBarV4.xaml",
+          "name": "unnamed",
+          "handler": "none"
+        }
+      ]
+    },
+    "forms": {
+      "total": 0,
+      "with_validation": 0,
+      "missing_validation": []
+    },
+    "displays": {
+      "total": 0,
+      "with_binding": 0,
+      "missing_binding": []
+    },
+    "modals": {
+      "total": 3,
+      "with_close": 2,
+      "missing_close": [
+        "MainWindow.xaml"
+      ]
+    },
+    "textboxes": {
+      "total": 26,
+      "with_handlers": 3,
+      "missing_handlers": [
+        {
+          "file": "MainWindow.xaml",
+          "name": "AmfInputTextBox"
+        },
+        {
+          "file": "MainWindow.xaml",
+          "name": "AmfOutputTextBox"
+        },
+        {
+          "file": "MainWindow.xaml",
+          "name": "TroopAmountTextBox"
+        },
+        {
+          "file": "SettingsWindow.xaml",
+          "name": "ProxyHostText"
+        },
+        {
+          "file": "SettingsWindow.xaml",
+          "name": "ProxyPortText"
+        },
+        {
+          "file": "SettingsWindow.xaml",
+          "name": "AutoEvonySwfPathText"
+        },
+        {
+          "file": "SettingsWindow.xaml",
+          "name": "EvonyClientSwfPathText"
+        },
+        {
+          "file": "SettingsWindow.xaml",
+          "name": "FlashPluginPathText"
+        },
+        {
+          "file": "SettingsWindow.xaml",
+          "name": "CachePathText"
+        },
+        {
+          "file": "SettingsWindow.xaml",
+          "name": "LogPathText"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "SearchBox"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "ProxyHostText"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "ProxyPortText"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "RagPortText"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "RtePortText"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "LmStudioUrlText"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "DiscordWebhookText"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "TelegramTokenText"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "TelegramChatIdText"
+        },
+        {
+          "file": "ChatbotPanel.xaml",
+          "name": "InputTextBox"
+        },
+        {
+          "file": "TrafficViewer.xaml",
+          "name": "DecodedTextBox"
+        },
+        {
+          "file": "TrafficViewer.xaml",
+          "name": "RawHexTextBox"
+        },
+        {
+          "file": "TrafficViewer.xaml",
+          "name": "HeadersTextBox"
+        }
+      ]
+    },
+    "comboboxes": {
+      "total": 13,
+      "with_handlers": 4,
+      "missing_handlers": [
+        {
+          "file": "MainWindow.xaml",
+          "name": "TroopTypeComboBox"
+        },
+        {
+          "file": "SettingsWindow.xaml",
+          "name": "DefaultServerCombo"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "ThemeCombo"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "LanguageCombo"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "UpdateChannelCombo"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "LogLevelCombo"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "DefaultServerCombo"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "ProxyTypeCombo"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "LlmBackendCombo"
+        }
+      ]
+    },
+    "toggles": {
+      "total": 42,
+      "with_handlers": 0,
+      "missing_handlers": [
+        {
+          "file": "SettingsWindow.xaml",
+          "name": "AutoStartFiddlerCheck"
+        },
+        {
+          "file": "SettingsWindow.xaml",
+          "name": "RememberLayoutCheck"
+        },
+        {
+          "file": "SettingsWindow.xaml",
+          "name": "EnableLoggingCheck"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "StartMinimizedToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "StartWithWindowsToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "CheckUpdatesToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "ConfirmExitToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "RememberPositionToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "EnableFlashToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "EnableGpuToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "EnableDevToolsToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "ProxyEnabledToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "TestProxyToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "McpEnabledToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "McpAutoStartToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "RagEnabledToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "RteEnabledToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "LlmEnabledToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "StreamResponseToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "FiddlerEnabledToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "AutoStartFiddlerToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "DecodeAmfToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "AutoPilotToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "SafetyLimitsToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "RandomizeDelayToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "TrafficAnalysisToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "PatternDetectionToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "AutoScrollToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "ChatbotEnabledToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "ShowTimestampsToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "MarkdownToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "StatusBarEnabledToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "ShowRagProgressToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "ShowRteProgressToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "ShowLlmStatsToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "ShowGpuTempToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "ShowPacketsToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "WebhooksEnabledToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "DebugModeToggle"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "PerformanceModeToggle"
+        },
+        {
+          "file": "PacketBuilder.xaml",
+          "name": "AutoResponseCheckBox"
+        },
+        {
+          "file": "PacketBuilder.xaml",
+          "name": "MockResponseCheckBox"
+        }
+      ]
+    },
+    "sliders": {
+      "total": 10,
+      "with_handlers": 0,
+      "missing_handlers": [
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "LogRetentionSlider"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "CacheSizeSlider"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "ZoomSlider"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "HealthCheckSlider"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "TemperatureSlider"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "MaxTokensSlider"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "MaxTrafficSlider"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "MaxActionsSlider"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "ActionDelaySlider"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "name": "MaxMemorySlider"
+        }
+      ]
+    }
+  },
+  "state_management": {
+    "singletons": {
+      "total": 34,
+      "properly_initialized": 29,
+      "issues": [
+        {
+          "file": "StatusBarManager.cs",
+          "issue": "Not using thread-safe lazy initialization"
+        },
+        {
+          "file": "PacketAnalysisEngine.cs",
+          "issue": "Not using thread-safe lazy initialization"
+        },
+        {
+          "file": "LlmIntegrationService.cs",
+          "issue": "Not using thread-safe lazy initialization"
+        },
+        {
+          "file": "FiddlerBridge.cs",
+          "issue": "Not using thread-safe lazy initialization"
+        },
+        {
+          "file": "ProtocolFuzzer.cs",
+          "issue": "Not using thread-safe lazy initialization"
+        }
+      ]
+    },
+    "observable_properties": {
+      "total": 970,
+      "with_notify": 167,
+      "missing_notify": []
+    },
+    "caching": {
+      "implemented": true,
+      "cache_services": [
+        "RealDataProvider.cs",
+        "FailsafeManager.cs"
+      ]
+    },
+    "settings_persistence": {
+      "implemented": true,
+      "issues": []
+    }
+  },
+  "event_handlers": {
+    "click_handlers": {
+      "declared": 52,
+      "implemented": 52,
+      "missing": []
+    },
+    "change_handlers": {
+      "declared": 43,
+      "implemented": 10,
+      "missing": [
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "SettingsControlCenter.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "PacketBuilder.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "StatusBar.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "StatusBar.xaml",
+          "handler": "True"
+        },
+        {
+          "file": "StatusBar.xaml",
+          "handler": "True"
+        }
+      ]
+    },
+    "keyboard_handlers": {
+      "declared": 2,
+      "implemented": 2,
+      "missing": []
+    },
+    "async_handlers": {
+      "total": 9,
+      "properly_async": 9,
+      "sync_issues": []
+    }
+  },
+  "validation": {
+    "client_validation": {
+      "textbox_validation": 27,
+      "form_validation": 6,
+      "missing_validation": []
+    },
+    "server_validation": {
+      "input_sanitization": 0,
+      "type_checking": 8,
+      "missing_validation": []
+    },
+    "validation_messages": {
+      "total": 23,
+      "user_friendly": 2,
+      "technical": [
+        "Clear browser cache and cookies?\\n\\nThis will log ",
+        "SOL Editor not found.\\n\\nYou can use online SOL ed",
+        "Fiddler Classic not found.\\n\\nPlease install Fiddl",
+        "You have unsaved changes. Discard them?",
+        "Settings saved successfully!",
+        "You have unsaved changes. Discard them?",
+        "Settings imported successfully!",
+        "Encrypt the exported settings?",
+        "Settings exported successfully!",
+        "This will reset all settings to their default valu",
+        "Settings have been reset to defaults.",
+        "\u26a0 WARNING: This will delete ALL settings, backups,",
+        "Type 'RESET' to confirm factory reset.",
+        "Factory reset complete.",
+        "You have unsaved changes. Save before closing?",
+        "Copied to clipboard!",
+        "All parameters are valid!",
+        "Template saved successfully!",
+        "Reset Status Bar to default configuration?",
+        "Configuration saved successfully.",
+        "Configuration loaded successfully."
+      ]
+    }
+  },
+  "error_handling": {
+    "try_catch_blocks": {
+      "total": 49,
+      "with_logging": 25,
+      "silent_catches": [
+        {
+          "file": "FiddlerBridge.cs",
+          "count": 1
+        }
+      ]
+    },
+    "error_messages": {
+      "total": 45,
+      "user_friendly": 1,
+      "technical": []
+    },
+    "exception_types": {
+      "generic": 42,
+      "specific": 7
+    },
+    "error_recovery": {
+      "implemented": 0,
+      "missing": []
+    }
+  },
+  "backend_services": {
+    "services": {
+      "total": 34,
+      "with_interface": 25,
+      "with_disposal": 27,
+      "missing_interface": [
+        "SessionManager.cs",
+        "CombatSimulator.cs",
+        "MultiAccountOrchestrator.cs",
+        "PromptTemplateEngine.cs",
+        "ExportImportManager.cs",
+        "StatusBarManager.cs",
+        "VisualAutomationService.cs",
+        "ThemeManager.cs",
+        "KeyboardShortcutManager.cs"
+      ],
+      "missing_disposal": [
+        "SessionManager.cs",
+        "CombatSimulator.cs",
+        "PromptTemplateEngine.cs",
+        "ExportImportManager.cs",
+        "VisualAutomationService.cs",
+        "ThemeManager.cs",
+        "KeyboardShortcutManager.cs"
+      ]
+    },
+    "business_logic": {
+      "async_methods": 152,
+      "sync_methods": 263,
+      "documented_methods": 514
+    },
+    "data_access": {
+      "file_operations": 17,
+      "http_operations": 6,
+      "database_operations": 0
+    },
+    "middleware": {
+      "logging": true,
+      "auth": false,
+      "rate_limiting": false
+    }
+  },
+  "infrastructure": {
+    "configuration": {
+      "settings_file": true,
+      "env_variables": false,
+      "config_validation": false
+    },
+    "authentication": {
+      "implemented": false,
+      "session_management": true
+    },
+    "logging": {
+      "implemented": true,
+      "log_levels": [
+        "Information",
+        "Error",
+        "Warning",
+        "Debug"
+      ],
+      "log_rotation": false
+    },
+    "caching": {
+      "implemented": false,
+      "cache_invalidation": false
+    }
+  },
+  "quality_assurance": {
+    "unit_tests": {
+      "test_files": 44,
+      "test_methods": 0,
+      "coverage_estimate": "0%"
+    },
+    "integration_tests": {
+      "test_files": 0,
+      "test_methods": 0
+    },
+    "documentation": {
+      "xml_comments": 737,
+      "readme_files": 54,
+      "api_docs": false
+    },
+    "error_recovery": {
+      "retry_logic": 3,
+      "fallback_handlers": 4,
+      "graceful_degradation": 0
+    }
+  }
+}

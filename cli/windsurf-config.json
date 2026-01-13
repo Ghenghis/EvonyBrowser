@@ -1,0 +1,78 @@
+{
+  "name": "Svony Browser MCP Integration",
+  "version": "1.0.0",
+  "description": "Evony protocol analysis and automation tools for Windsurf IDE",
+  "mcpServers": {
+    "evony-rag": {
+      "command": "node",
+      "args": ["mcp-servers/evony-rag/index.js"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "CHROMA_DB_PATH": "${workspaceFolder}/data/chroma-db",
+        "KNOWLEDGE_PATH": "${workspaceFolder}/knowledge-base"
+      },
+      "capabilities": {
+        "tools": true,
+        "resources": true
+      }
+    },
+    "evony-rte": {
+      "command": "node",
+      "args": ["mcp-servers/evony-rte/index.js"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "CAPTURES_PATH": "${workspaceFolder}/data/captures"
+      },
+      "capabilities": {
+        "tools": true,
+        "resources": true
+      }
+    },
+    "evony-tools": {
+      "command": "node",
+      "args": ["mcp-servers/evony-tools/index.js"],
+      "cwd": "${workspaceFolder}",
+      "env": {},
+      "capabilities": {
+        "tools": true,
+        "resources": true
+      }
+    }
+  },
+  "tools": {
+    "categories": [
+      {
+        "name": "Protocol Analysis",
+        "tools": ["protocol_lookup", "protocol_list", "protocol_search", "amf_decode", "amf_encode"]
+      },
+      {
+        "name": "Traffic Analysis",
+        "tools": ["traffic_list", "traffic_get", "traffic_capture", "traffic_export"]
+      },
+      {
+        "name": "Knowledge Base",
+        "tools": ["evony_search", "evony_query", "evony_index"]
+      },
+      {
+        "name": "Calculators",
+        "tools": ["calc_training", "calc_march", "calc_combat", "calc_resources"]
+      },
+      {
+        "name": "Automation",
+        "tools": ["generate_build_order", "generate_attack_plan"]
+      }
+    ]
+  },
+  "keybindings": [
+    {
+      "key": "ctrl+shift+e",
+      "command": "svony.protocolLookup",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "ctrl+shift+d",
+      "command": "svony.decodeSelection",
+      "when": "editorHasSelection"
+    }
+  ]
+}

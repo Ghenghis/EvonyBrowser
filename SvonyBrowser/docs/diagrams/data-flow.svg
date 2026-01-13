@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DAA520"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#B8860B"/>
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3a2a1a"/>
+      <stop offset="100%" style="stop-color:#1a0a00"/>
+    </linearGradient>
+    <linearGradient id="flowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2a4a1a"/>
+      <stop offset="100%" style="stop-color:#1a3a4a"/>
+    </linearGradient>
+    <marker id="arrowGold" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#DAA520"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#66aa66"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#6666aa"/>
+    </marker>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <rect width="900" height="600" fill="#0a0505"/>
+  <rect x="10" y="10" width="880" height="580" fill="none" stroke="url(#goldGrad)" stroke-width="3" rx="8"/>
+
+  <rect x="20" y="20" width="860" height="45" fill="url(#headerGrad)" rx="5" filter="url(#shadow)"/>
+  <text x="450" y="50" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="url(#goldGrad)" filter="url(#glow)">📊 DATA FLOW DIAGRAM 📊</text>
+
+  <rect x="50" y="90" width="140" height="80" rx="8" fill="#1a2a1a" stroke="#66aa66" stroke-width="2" filter="url(#shadow)"/>
+  <text x="120" y="125" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#88ff88">👤 USER</text>
+  <text x="120" y="145" text-anchor="middle" font-family="Arial" font-size="9" fill="#66aa66">Input Events</text>
+  <text x="120" y="158" text-anchor="middle" font-family="Arial" font-size="9" fill="#66aa66">Credentials</text>
+
+  <rect x="250" y="80" width="400" height="100" rx="8" fill="#1a1208" stroke="url(#goldGrad)" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="250" y="80" width="400" height="25" fill="url(#headerGrad)" rx="8"/>
+  <text x="450" y="98" text-anchor="middle" font-family="Georgia, serif" font-size="12" font-weight="bold" fill="#FFD700">🏰 SVONY BROWSER</text>
+  <text x="350" y="125" text-anchor="middle" font-family="Arial" font-size="10" fill="#B8860B">MainWindow</text>
+  <text x="350" y="140" text-anchor="middle" font-family="Arial" font-size="9" fill="#8a6a3a">UI Events</text>
+  <text x="350" y="155" text-anchor="middle" font-family="Arial" font-size="9" fill="#8a6a3a">Panel Control</text>
+  <text x="550" y="125" text-anchor="middle" font-family="Arial" font-size="10" fill="#B8860B">Services</text>
+  <text x="550" y="140" text-anchor="middle" font-family="Arial" font-size="9" fill="#8a6a3a">SessionManager</text>
+  <text x="550" y="155" text-anchor="middle" font-family="Arial" font-size="9" fill="#8a6a3a">ProxyMonitor</text>
+
+  <rect x="710" y="90" width="140" height="80" rx="8" fill="#1a1a2a" stroke="#6666aa" stroke-width="2" filter="url(#shadow)"/>
+  <text x="780" y="125" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#8888ff">⚙️ CONFIG</text>
+  <text x="780" y="145" text-anchor="middle" font-family="Arial" font-size="9" fill="#6666aa">svony-settings</text>
+  <text x="780" y="158" text-anchor="middle" font-family="Arial" font-size="9" fill="#6666aa">.json</text>
+
+  <line x1="190" y1="130" x2="240" y2="130" stroke="#88ff88" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <line x1="650" y1="130" x2="700" y2="130" stroke="#DAA520" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+  <rect x="150" y="220" width="200" height="90" rx="8" fill="#1a2a0a" stroke="#4a8a4a" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="150" y="220" width="200" height="25" fill="#2a4a1a" rx="8"/>
+  <text x="250" y="238" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#88ff88">🤖 AutoEvony Panel</text>
+  <text x="250" y="265" text-anchor="middle" font-family="Arial" font-size="9" fill="#66aa66">CefSharp Browser #1</text>
+  <text x="250" y="280" text-anchor="middle" font-family="Arial" font-size="9" fill="#4a8a4a">AutoEvony.swf</text>
+  <text x="250" y="295" text-anchor="middle" font-family="Arial" font-size="9" fill="#4a8a4a">Bot Commands</text>
+
+  <rect x="550" y="220" width="200" height="90" rx="8" fill="#0a1a2a" stroke="#4a4a8a" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="550" y="220" width="200" height="25" fill="#1a2a4a" rx="8"/>
+  <text x="650" y="238" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#8888ff">🎮 Client Panel</text>
+  <text x="650" y="265" text-anchor="middle" font-family="Arial" font-size="9" fill="#6666aa">CefSharp Browser #2</text>
+  <text x="650" y="280" text-anchor="middle" font-family="Arial" font-size="9" fill="#4a4a8a">EvonyClient1921.swf</text>
+  <text x="650" y="295" text-anchor="middle" font-family="Arial" font-size="9" fill="#4a4a8a">Game UI</text>
+
+  <line x1="350" y1="180" x2="250" y2="215" stroke="#DAA520" stroke-width="2" marker-end="url(#arrowGold)"/>
+  <line x1="550" y1="180" x2="650" y2="215" stroke="#DAA520" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+  <rect x="350" y="350" width="200" height="70" rx="10" fill="#2a2008" stroke="url(#goldGrad)" stroke-width="3" filter="url(#shadow)"/>
+  <text x="450" y="380" text-anchor="middle" font-family="Georgia, serif" font-size="14" font-weight="bold" fill="#FFD700">📦 SHARED CACHE</text>
+  <text x="450" y="400" text-anchor="middle" font-family="Arial" font-size="10" fill="#B8860B">Cookies • SOL • Session</text>
+
+  <path d="M250,310 Q250,350 350,375" stroke="#88ff88" stroke-width="2" fill="none" marker-end="url(#arrowGreen)"/>
+  <path d="M650,310 Q650,350 550,375" stroke="#8888ff" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+  <text x="280" y="340" font-family="Arial" font-size="9" fill="#66aa66">Write</text>
+  <text x="600" y="340" font-family="Arial" font-size="9" fill="#6666aa">Read</text>
+
+  <rect x="350" y="450" width="200" height="50" rx="8" fill="#1a2020" stroke="#4a8a8a" stroke-width="2"/>
+  <text x="450" y="475" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#88ffff">🔍 Fiddler Proxy</text>
+  <text x="450" y="490" text-anchor="middle" font-family="Arial" font-size="9" fill="#5a8a8a">127.0.0.1:8888</text>
+
+  <line x1="450" y1="420" x2="450" y2="445" stroke="#DAA520" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+  <rect x="350" y="530" width="200" height="50" rx="8" fill="#1a0a1a" stroke="#aa66aa" stroke-width="2"/>
+  <text x="450" y="555" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#ff88ff">🌐 Evony Server</text>
+  <text x="450" y="570" text-anchor="middle" font-family="Arial" font-size="9" fill="#aa66aa">cc1-cc5.evony.com</text>
+
+  <line x1="450" y1="500" x2="450" y2="525" stroke="#88ffff" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <rect x="50" y="350" width="120" height="60" rx="5" fill="#1a1a08" stroke="#aaaa44" stroke-width="1"/>
+  <text x="110" y="375" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#ffff88">📝 Logs</text>
+  <text x="110" y="395" text-anchor="middle" font-family="Arial" font-size="8" fill="#aaaa44">Serilog Output</text>
+
+  <line x1="350" y1="160" x2="170" y2="350" stroke="#aaaa44" stroke-width="1" stroke-dasharray="4,2"/>
+
+  <rect x="730" y="350" width="120" height="60" rx="5" fill="#2a1a1a" stroke="#aa4444" stroke-width="1"/>
+  <text x="790" y="375" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#ff8888">⚠️ Errors</text>
+  <text x="790" y="395" text-anchor="middle" font-family="Arial" font-size="8" fill="#aa4444">Exception Handlers</text>
+
+  <line x1="550" y1="160" x2="730" y2="350" stroke="#aa4444" stroke-width="1" stroke-dasharray="4,2"/>
+</svg>

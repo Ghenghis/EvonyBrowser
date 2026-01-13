@@ -1,0 +1,6 @@
+{
+  "version": "7.0.0",
+  "entryPoint": "SvonyBrowser.exe",
+  "runtime": "dotnet|6.0",
+  "name": "SvonyBrowser"
+}

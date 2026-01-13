@@ -1,0 +1,32 @@
+{
+  "name": "evony-mcp-v4",
+  "version": "4.0.0",
+  "description": "Evony MCP Server v4.0 - Advanced reverse engineering, packet analysis, and LLM integration",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "evony-mcp-v4": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": [
+    "evony",
+    "mcp",
+    "reverse-engineering",
+    "packet-analysis",
+    "llm",
+    "fiddler",
+    "automation"
+  ],
+  "author": "Svony Browser Team",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "ws": "^8.14.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

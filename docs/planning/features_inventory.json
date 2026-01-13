@@ -1,0 +1,1051 @@
+{
+  "gui_features": [
+    {
+      "name": "ShowLeftOnly",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "ShowRightOnly",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "ShowBoth",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "SwapPanels",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "ReloadLeft",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "ReloadRight",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "ClearCache",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "SolEditor",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "OpenFiddler",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "Settings",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "TogglePanel",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "ReconnectMcp",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "DecodeAmf",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "CalculateTraining",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "LeftWebToggle",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "LeftSwfToggle",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "RightWebToggle",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    },
+    {
+      "name": "RightSwfToggle",
+      "type": "button_click",
+      "file": "MainWindow.xaml.cs"
+    }
+  ],
+  "service_features": [
+    {
+      "name": "CheckProxy",
+      "service": "ProxyMonitor",
+      "type": "async_method"
+    },
+    {
+      "name": "ForceCheck",
+      "service": "ProxyMonitor",
+      "type": "async_method"
+    },
+    {
+      "name": "Initialize",
+      "service": "McpConnectionManager",
+      "type": "async_method"
+    },
+    {
+      "name": "ConnectServer",
+      "service": "McpConnectionManager",
+      "type": "async_method"
+    },
+    {
+      "name": "ConnectAll",
+      "service": "McpConnectionManager",
+      "type": "async_method"
+    },
+    {
+      "name": "DisconnectAll",
+      "service": "McpConnectionManager",
+      "type": "async_method"
+    },
+    {
+      "name": "CallTool",
+      "service": "McpConnectionManager",
+      "type": "async_method"
+    },
+    {
+      "name": "GetResource",
+      "service": "McpConnectionManager",
+      "type": "async_method"
+    },
+    {
+      "name": "ListTools",
+      "service": "McpConnectionManager",
+      "type": "async_method"
+    },
+    {
+      "name": "Start",
+      "service": "McpConnectionManager",
+      "type": "async_method"
+    },
+    {
+      "name": "SendRequest",
+      "service": "McpConnectionManager",
+      "type": "async_method"
+    },
+    {
+      "name": "SendNotification",
+      "service": "McpConnectionManager",
+      "type": "async_method"
+    },
+    {
+      "name": "CheckHealth",
+      "service": "McpConnectionManager",
+      "type": "async_method"
+    },
+    {
+      "name": "SearchKnowledge",
+      "service": "ChatbotService",
+      "type": "async_method"
+    },
+    {
+      "name": "DecodeAmf",
+      "service": "ChatbotService",
+      "type": "async_method"
+    },
+    {
+      "name": "LookupProtocol",
+      "service": "ChatbotService",
+      "type": "async_method"
+    },
+    {
+      "name": "CalculateTraining",
+      "service": "ChatbotService",
+      "type": "async_method"
+    },
+    {
+      "name": "Start",
+      "service": "TrafficPipeClient",
+      "type": "async_method"
+    },
+    {
+      "name": "Reconnect",
+      "service": "TrafficPipeClient",
+      "type": "async_method"
+    },
+    {
+      "name": "Initialize",
+      "service": "ProtocolHandler",
+      "type": "async_method"
+    },
+    {
+      "name": "AnalyzeAttackTarget",
+      "service": "StrategicAdvisor",
+      "type": "async_method"
+    },
+    {
+      "name": "GenerateBuildOrder",
+      "service": "StrategicAdvisor",
+      "type": "async_method"
+    },
+    {
+      "name": "Start",
+      "service": "AutoPilotService",
+      "type": "async_method"
+    },
+    {
+      "name": "Stop",
+      "service": "AutoPilotService",
+      "type": "async_method"
+    },
+    {
+      "name": "StopRecording",
+      "service": "SessionRecorder",
+      "type": "async_method"
+    },
+    {
+      "name": "SaveSession",
+      "service": "SessionRecorder",
+      "type": "async_method"
+    },
+    {
+      "name": "StartReplay",
+      "service": "SessionRecorder",
+      "type": "async_method"
+    },
+    {
+      "name": "TestWebhook",
+      "service": "WebhookHub",
+      "type": "async_method"
+    },
+    {
+      "name": "TriggerEvent",
+      "service": "WebhookHub",
+      "type": "async_method"
+    },
+    {
+      "name": "SendCustomMessage",
+      "service": "WebhookHub",
+      "type": "async_method"
+    },
+    {
+      "name": "SwitchAccount",
+      "service": "MultiAccountOrchestrator",
+      "type": "async_method"
+    },
+    {
+      "name": "StartRallyAttack",
+      "service": "MultiAccountOrchestrator",
+      "type": "async_method"
+    },
+    {
+      "name": "StartMassResourceTransfer",
+      "service": "MultiAccountOrchestrator",
+      "type": "async_method"
+    },
+    {
+      "name": "StartSynchronizedTraining",
+      "service": "MultiAccountOrchestrator",
+      "type": "async_method"
+    },
+    {
+      "name": "StartFarmAutoPilot",
+      "service": "MultiAccountOrchestrator",
+      "type": "async_method"
+    },
+    {
+      "name": "StartFullScan",
+      "service": "MapScanner",
+      "type": "async_method"
+    },
+    {
+      "name": "ScanArea",
+      "service": "MapScanner",
+      "type": "async_method"
+    },
+    {
+      "name": "ExportAll",
+      "service": "ExportImportManager",
+      "type": "async_method"
+    },
+    {
+      "name": "ExportGameState",
+      "service": "ExportImportManager",
+      "type": "async_method"
+    },
+    {
+      "name": "ExportRecording",
+      "service": "ExportImportManager",
+      "type": "async_method"
+    },
+    {
+      "name": "ExportToCsv",
+      "service": "ExportImportManager",
+      "type": "async_method"
+    },
+    {
+      "name": "ExportProtocolDb",
+      "service": "ExportImportManager",
+      "type": "async_method"
+    },
+    {
+      "name": "ImportAll",
+      "service": "ExportImportManager",
+      "type": "async_method"
+    },
+    {
+      "name": "ImportRecording",
+      "service": "ExportImportManager",
+      "type": "async_method"
+    },
+    {
+      "name": "ImportProtocols",
+      "service": "ExportImportManager",
+      "type": "async_method"
+    },
+    {
+      "name": "GenerateShareLink",
+      "service": "ExportImportManager",
+      "type": "async_method"
+    },
+    {
+      "name": "ExportStrategyGuide",
+      "service": "ExportImportManager",
+      "type": "async_method"
+    },
+    {
+      "name": "Connect",
+      "service": "LlmIntegrationService",
+      "type": "async_method"
+    },
+    {
+      "name": "Generate",
+      "service": "LlmIntegrationService",
+      "type": "async_method"
+    },
+    {
+      "name": "ExplainPacket",
+      "service": "LlmIntegrationService",
+      "type": "async_method"
+    },
+    {
+      "name": "GenerateScript",
+      "service": "LlmIntegrationService",
+      "type": "async_method"
+    },
+    {
+      "name": "AnalyzePattern",
+      "service": "LlmIntegrationService",
+      "type": "async_method"
+    },
+    {
+      "name": "DecodeUnknownPacket",
+      "service": "LlmIntegrationService",
+      "type": "async_method"
+    },
+    {
+      "name": "GetStrategicAdvice",
+      "service": "LlmIntegrationService",
+      "type": "async_method"
+    },
+    {
+      "name": "Connect",
+      "service": "FiddlerBridge",
+      "type": "async_method"
+    },
+    {
+      "name": "StartCapture",
+      "service": "FiddlerBridge",
+      "type": "async_method"
+    },
+    {
+      "name": "StopCapture",
+      "service": "FiddlerBridge",
+      "type": "async_method"
+    },
+    {
+      "name": "SetFilter",
+      "service": "FiddlerBridge",
+      "type": "async_method"
+    },
+    {
+      "name": "InjectPacket",
+      "service": "FiddlerBridge",
+      "type": "async_method"
+    },
+    {
+      "name": "ModifyPacket",
+      "service": "FiddlerBridge",
+      "type": "async_method"
+    },
+    {
+      "name": "DropPacket",
+      "service": "FiddlerBridge",
+      "type": "async_method"
+    },
+    {
+      "name": "ReplaySession",
+      "service": "FiddlerBridge",
+      "type": "async_method"
+    },
+    {
+      "name": "AddAutoResponseRule",
+      "service": "FiddlerBridge",
+      "type": "async_method"
+    },
+    {
+      "name": "RemoveAutoResponseRule",
+      "service": "FiddlerBridge",
+      "type": "async_method"
+    },
+    {
+      "name": "ExportSession",
+      "service": "FiddlerBridge",
+      "type": "async_method"
+    },
+    {
+      "name": "ExportAllSessions",
+      "service": "FiddlerBridge",
+      "type": "async_method"
+    },
+    {
+      "name": "ImportSession",
+      "service": "FiddlerBridge",
+      "type": "async_method"
+    },
+    {
+      "name": "StartFuzzing",
+      "service": "ProtocolFuzzer",
+      "type": "async_method"
+    },
+    {
+      "name": "LaunchBrowser",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "Connect",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "Disconnect",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "SendCommand",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "Navigate",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "Reload",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "GoBack",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "GoForward",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "ExecuteScript",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "MouseMove",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "Click",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "DoubleClick",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "RightClick",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "Drag",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "Scroll",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "TypeText",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "PressKey",
+      "service": "CdpConnectionService",
+      "type": "async_method"
+    },
+    {
+      "name": "Initialize",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "ClickAt",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "ClickRelative",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "ClickElement",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "DoubleClickAt",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "RightClickAt",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "Drag",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "Scroll",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "TypeText",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "PressKey",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "SaveScreenshot",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "WaitForElement",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "GoToCity",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "GoToWorldMap",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "OpenAlliance",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "OpenBuildMenu",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "OpenResearch",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "OpenHeroes",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "ClickBuilding",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "UpgradeBuilding",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "TrainTroops",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "SendMarch",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "PanMap",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "CloseDialog",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "Confirm",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "Cancel",
+      "service": "VisualAutomationService",
+      "type": "async_method"
+    },
+    {
+      "name": "Load",
+      "service": "SettingsManager",
+      "type": "async_method"
+    },
+    {
+      "name": "Save",
+      "service": "SettingsManager",
+      "type": "async_method"
+    },
+    {
+      "name": "CreateBackup",
+      "service": "SettingsManager",
+      "type": "async_method"
+    },
+    {
+      "name": "RestoreBackup",
+      "service": "SettingsManager",
+      "type": "async_method"
+    },
+    {
+      "name": "Export",
+      "service": "SettingsManager",
+      "type": "async_method"
+    },
+    {
+      "name": "Import",
+      "service": "SettingsManager",
+      "type": "async_method"
+    },
+    {
+      "name": "ResetToDefaults",
+      "service": "SettingsManager",
+      "type": "async_method"
+    },
+    {
+      "name": "FactoryReset",
+      "service": "SettingsManager",
+      "type": "async_method"
+    },
+    {
+      "name": "AggressiveCleanup",
+      "service": "MemoryManager",
+      "type": "async_method"
+    },
+    {
+      "name": "TryExecute",
+      "service": "ErrorHandler",
+      "type": "async_method"
+    },
+    {
+      "name": "CreateCrashDump",
+      "service": "ErrorHandler",
+      "type": "async_method"
+    },
+    {
+      "name": "GetHttpClient",
+      "service": "ConnectionPool",
+      "type": "async_method"
+    },
+    {
+      "name": "GetWebSocket",
+      "service": "ConnectionPool",
+      "type": "async_method"
+    },
+    {
+      "name": "CloseWebSocket",
+      "service": "ConnectionPool",
+      "type": "async_method"
+    },
+    {
+      "name": "CloseAll",
+      "service": "ConnectionPool",
+      "type": "async_method"
+    },
+    {
+      "name": "GetProtocolActions",
+      "service": "RealDataProvider",
+      "type": "async_method"
+    },
+    {
+      "name": "GetEvonyKeys",
+      "service": "RealDataProvider",
+      "type": "async_method"
+    },
+    {
+      "name": "GetMcpServerStatus",
+      "service": "RealDataProvider",
+      "type": "async_method"
+    },
+    {
+      "name": "GetMcpTools",
+      "service": "RealDataProvider",
+      "type": "async_method"
+    },
+    {
+      "name": "GetGpuStats",
+      "service": "RealDataProvider",
+      "type": "async_method"
+    },
+    {
+      "name": "WaitForRateLimit",
+      "service": "FailsafeManager",
+      "type": "async_method"
+    },
+    {
+      "name": "SaveReport",
+      "service": "DebugService",
+      "type": "async_method"
+    },
+    {
+      "name": "WaitForMemoryReduction",
+      "service": "MemoryGuard",
+      "type": "async_method"
+    }
+  ],
+  "mcp_tools": [
+    {
+      "server": "evony-rag",
+      "tool": "evony_search",
+      "file": "ChatbotService"
+    },
+    {
+      "server": "evony-rte",
+      "tool": "amf_decode",
+      "file": "ChatbotService"
+    },
+    {
+      "server": "evony-rte",
+      "tool": "protocol_lookup",
+      "file": "ChatbotService"
+    },
+    {
+      "server": "evony-tools",
+      "tool": "calc_training",
+      "file": "ChatbotService"
+    },
+    {
+      "server": "evony-rte",
+      "tool": "protocol_search",
+      "file": "ChatbotService"
+    },
+    {
+      "server": "evony-rag",
+      "tool": "evony_query",
+      "file": "ChatbotService"
+    },
+    {
+      "server": "evony-rte",
+      "tool": "traffic_list",
+      "file": "ChatbotService"
+    },
+    {
+      "server": "evony-tools",
+      "tool": "calc_march",
+      "file": "ChatbotService"
+    },
+    {
+      "server": "evony-tools",
+      "tool": "generate_build_order",
+      "file": "ChatbotService"
+    },
+    {
+      "server": "evony-rte",
+      "tool": "traffic_capture",
+      "file": "TrafficPipeClient"
+    },
+    {
+      "server": "evony-rag",
+      "tool": "evony_search",
+      "file": "StrategicAdvisor"
+    },
+    {
+      "server": "evony-rag",
+      "tool": "evony_search",
+      "file": "StrategicAdvisor"
+    },
+    {
+      "server": "evony-rag",
+      "tool": "evony_search",
+      "file": "AutoPilotService"
+    }
+  ],
+  "settings": [
+    "DefaultServerCombo",
+    "ProxyHostText",
+    "ProxyPortText",
+    "AutoStartFiddlerCheck",
+    "RememberLayoutCheck",
+    "EnableLoggingCheck",
+    "AutoEvonySwfPathText",
+    "EvonyClientSwfPathText",
+    "FlashPluginPathText",
+    "CachePathText",
+    "LogPathText",
+    "track",
+    "thumb",
+    "PART_SelectionRange",
+    "PART_Track",
+    "border",
+    "icon",
+    "text",
+    "border",
+    "SearchBox",
+    "CategoryList",
+    "SettingsContent",
+    "GeneralPanel",
+    "ThemeCombo",
+    "LanguageCombo",
+    "StartMinimizedToggle",
+    "StartWithWindowsToggle",
+    "CheckUpdatesToggle",
+    "UpdateChannelCombo",
+    "LogLevelCombo",
+    "LogRetentionSlider",
+    "ConfirmExitToggle",
+    "RememberPositionToggle",
+    "BrowserPanel",
+    "DefaultServerCombo",
+    "CacheSizeSlider",
+    "EnableFlashToggle",
+    "EnableGpuToggle",
+    "ZoomSlider",
+    "EnableDevToolsToggle",
+    "ProxyPanel",
+    "ProxyEnabledToggle",
+    "ProxyHostText",
+    "ProxyPortText",
+    "ProxyTypeCombo",
+    "TestProxyToggle",
+    "McpPanel",
+    "McpEnabledToggle",
+    "McpAutoStartToggle",
+    "RagPortText",
+    "RagEnabledToggle",
+    "RtePortText",
+    "RteEnabledToggle",
+    "HealthCheckSlider",
+    "LlmPanel",
+    "LlmEnabledToggle",
+    "LlmBackendCombo",
+    "LmStudioUrlText",
+    "TemperatureSlider",
+    "MaxTokensSlider",
+    "StreamResponseToggle",
+    "FiddlerPanel",
+    "FiddlerEnabledToggle",
+    "AutoStartFiddlerToggle",
+    "DecodeAmfToggle",
+    "MaxTrafficSlider",
+    "AutomationPanel",
+    "AutoPilotToggle",
+    "SafetyLimitsToggle",
+    "MaxActionsSlider",
+    "ActionDelaySlider",
+    "RandomizeDelayToggle",
+    "TrafficPanel",
+    "TrafficAnalysisToggle",
+    "PatternDetectionToggle",
+    "AutoScrollToggle",
+    "ChatbotPanel",
+    "ChatbotEnabledToggle",
+    "ShowTimestampsToggle",
+    "MarkdownToggle",
+    "StatusBarPanel",
+    "StatusBarEnabledToggle",
+    "ShowRagProgressToggle",
+    "ShowRteProgressToggle",
+    "ShowLlmStatsToggle",
+    "ShowGpuTempToggle",
+    "ShowPacketsToggle",
+    "WebhooksPanel",
+    "WebhooksEnabledToggle",
+    "DiscordWebhookText",
+    "TelegramTokenText",
+    "TelegramChatIdText",
+    "AdvancedPanel",
+    "DebugModeToggle",
+    "PerformanceModeToggle",
+    "MaxMemorySlider"
+  ],
+  "keyboard_shortcuts": [
+    "D1",
+    "NumPad1",
+    "D2",
+    "NumPad2",
+    "D3",
+    "NumPad3",
+    "S",
+    "R",
+    "F5",
+    "F6"
+  ],
+  "menu_items": [],
+  "status_indicators": [
+    {
+      "name": "McpStatusIndicator",
+      "file": "MainWindow.xaml"
+    },
+    {
+      "name": "ProxyStatusIndicator",
+      "file": "MainWindow.xaml"
+    },
+    {
+      "name": "LeftStatusText",
+      "file": "MainWindow.xaml"
+    },
+    {
+      "name": "RightStatusText",
+      "file": "MainWindow.xaml"
+    },
+    {
+      "name": "McpStatusList",
+      "file": "MainWindow.xaml"
+    },
+    {
+      "name": "ConnectionIndicator",
+      "file": "MainWindow.xaml"
+    },
+    {
+      "name": "ConnectionStatus",
+      "file": "MainWindow.xaml"
+    },
+    {
+      "name": "StatusText",
+      "file": "MainWindow.xaml"
+    },
+    {
+      "name": "TrafficCountText",
+      "file": "MainWindow.xaml"
+    },
+    {
+      "name": "ProxyStatus",
+      "file": "MainWindow.xaml"
+    },
+    {
+      "name": "SessionStatus",
+      "file": "MainWindow.xaml"
+    },
+    {
+      "name": "StatusBarPanel",
+      "file": "SettingsControlCenter.xaml"
+    },
+    {
+      "name": "StatusBarEnabledToggle",
+      "file": "SettingsControlCenter.xaml"
+    },
+    {
+      "name": "StatusText",
+      "file": "ChatbotPanel.xaml"
+    },
+    {
+      "name": "StatusText",
+      "file": "TrafficViewer.xaml"
+    },
+    {
+      "name": "CountText",
+      "file": "TrafficViewer.xaml"
+    },
+    {
+      "name": "PART_Indicator",
+      "file": "StatusBar.xaml"
+    },
+    {
+      "name": "PART_Indicator",
+      "file": "StatusBarV4.xaml"
+    },
+    {
+      "name": "McpStatusLight",
+      "file": "StatusBarV4.xaml"
+    },
+    {
+      "name": "McpStatusText",
+      "file": "StatusBarV4.xaml"
+    },
+    {
+      "name": "FiddlerStatusLight",
+      "file": "StatusBarV4.xaml"
+    },
+    {
+      "name": "FiddlerStatusText",
+      "file": "StatusBarV4.xaml"
+    },
+    {
+      "name": "TroopCountText",
+      "file": "StatusBarV4.xaml"
+    },
+    {
+      "name": "MarchCountText",
+      "file": "StatusBarV4.xaml"
+    },
+    {
+      "name": "McpToolCount",
+      "file": "StatusBarV4.xaml"
+    },
+    {
+      "name": "McpResourceCount",
+      "file": "StatusBarV4.xaml"
+    }
+  ],
+  "wiring_issues": []
+}

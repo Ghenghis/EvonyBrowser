@@ -1,0 +1,86 @@
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#1a1a2e', 'primaryTextColor': '#eee', 'primaryBorderColor': '#00cec9', 'lineColor': '#00cec9'}}}%%
+flowchart LR
+    subgraph GameTraffic["🎮 Game Traffic"]
+        EvonyClient["Evony Flash Client"]
+        GameServer["cc2.evony.com"]
+    end
+
+    subgraph Capture["📡 Traffic Capture"]
+        Fiddler["Fiddler Proxy<br/>:8888"]
+        NamedPipe["Named Pipe<br/>EvonyTrafficPipe"]
+    end
+
+    subgraph Decode["🔓 Protocol Decode"]
+        AMF3Decoder["AMF3 Decoder"]
+        ProtocolDB["Protocol Database<br/>50+ Actions"]
+        PatternMatcher["Pattern Matcher"]
+    end
+
+    subgraph Analysis["🔬 Analysis Engine"]
+        PacketAnalysis["Packet Analysis"]
+        ProtocolLearning["Protocol Learning"]
+        Fuzzer["Protocol Fuzzer"]
+    end
+
+    subgraph GameState["🏰 Game State"]
+        StateEngine["GameStateEngine"]
+        Cities["Cities & Buildings"]
+        Heroes["Heroes & Troops"]
+        Resources["Resources & Items"]
+        Marches["Active Marches"]
+    end
+
+    subgraph AI["🤖 AI Processing"]
+        RAGServer["Evony RAG<br/>Knowledge Base"]
+        RTEServer["Evony RTE<br/>Real-Time Events"]
+        LLM["Local LLM<br/>7B Model"]
+        Advisor["Strategic Advisor"]
+    end
+
+    subgraph Output["📤 Output"]
+        StatusBar["Status Bar<br/>25+ Widgets"]
+        Chatbot["AI Chatbot"]
+        Webhooks["Webhooks<br/>Discord/Telegram"]
+        Recordings["Session Recordings"]
+    end
+
+    %% Flow
+    EvonyClient <-->|"HTTPS/AMF3"| Fiddler
+    Fiddler <-->|"HTTPS/AMF3"| GameServer
+    Fiddler -->|"Raw Packets"| NamedPipe
+    NamedPipe -->|"Binary Data"| AMF3Decoder
+    AMF3Decoder -->|"Decoded Objects"| ProtocolDB
+    ProtocolDB -->|"Identified Actions"| PatternMatcher
+    PatternMatcher -->|"Matched Patterns"| PacketAnalysis
+    PacketAnalysis -->|"Analysis Results"| ProtocolLearning
+    PacketAnalysis -->|"Test Patterns"| Fuzzer
+    PatternMatcher -->|"Game Events"| StateEngine
+    StateEngine --> Cities
+    StateEngine --> Heroes
+    StateEngine --> Resources
+    StateEngine --> Marches
+    StateEngine -->|"State Updates"| RAGServer
+    StateEngine -->|"Real-Time Events"| RTEServer
+    RAGServer -->|"Context"| LLM
+    RTEServer -->|"Events"| LLM
+    LLM -->|"Recommendations"| Advisor
+    StateEngine -->|"Metrics"| StatusBar
+    Advisor -->|"Advice"| Chatbot
+    StateEngine -->|"Alerts"| Webhooks
+    PacketAnalysis -->|"Packets"| Recordings
+
+    classDef gameNode fill:#2d3436,stroke:#fd79a8,stroke-width:2px
+    classDef captureNode fill:#1a1a2e,stroke:#74b9ff,stroke-width:2px
+    classDef decodeNode fill:#16213e,stroke:#a29bfe,stroke-width:2px
+    classDef analysisNode fill:#0f3460,stroke:#ffeaa7,stroke-width:2px
+    classDef stateNode fill:#2d3436,stroke:#55efc4,stroke-width:2px
+    classDef aiNode fill:#1a1a2e,stroke:#81ecec,stroke-width:2px
+    classDef outputNode fill:#16213e,stroke:#fab1a0,stroke-width:2px
+
+    class EvonyClient,GameServer gameNode
+    class Fiddler,NamedPipe captureNode
+    class AMF3Decoder,ProtocolDB,PatternMatcher decodeNode
+    class PacketAnalysis,ProtocolLearning,Fuzzer analysisNode
+    class StateEngine,Cities,Heroes,Resources,Marches stateNode
+    class RAGServer,RTEServer,LLM,Advisor aiNode
+    class StatusBar,Chatbot,Webhooks,Recordings outputNode

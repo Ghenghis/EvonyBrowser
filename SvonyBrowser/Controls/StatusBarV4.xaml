@@ -1,0 +1,463 @@
+<UserControl x:Class="SvonyBrowser.Controls.StatusBarV4"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="80" d:DesignWidth="1600"
+             Background="#12121A">
+    
+    <UserControl.Resources>
+        <!-- Color Palette -->
+        <SolidColorBrush x:Key="BackgroundDark" Color="#0F0F17"/>
+        <SolidColorBrush x:Key="BackgroundMedium" Color="#12121A"/>
+        <SolidColorBrush x:Key="BackgroundLight" Color="#1A1A24"/>
+        <SolidColorBrush x:Key="BorderColor" Color="#2D2D3D"/>
+        <SolidColorBrush x:Key="AccentPurple" Color="#7C3AED"/>
+        <SolidColorBrush x:Key="AccentBlue" Color="#3B82F6"/>
+        <SolidColorBrush x:Key="AccentGreen" Color="#10B981"/>
+        <SolidColorBrush x:Key="AccentYellow" Color="#F59E0B"/>
+        <SolidColorBrush x:Key="AccentRed" Color="#EF4444"/>
+        <SolidColorBrush x:Key="AccentCyan" Color="#06B6D4"/>
+        <SolidColorBrush x:Key="AccentOrange" Color="#F97316"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#F8FAFC"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#94A3B8"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#64748B"/>
+        
+        <!-- Progress Bar Style -->
+        <Style x:Key="ModernProgressBar" TargetType="ProgressBar">
+            <Setter Property="Height" Value="6"/>
+            <Setter Property="Background" Value="#1E1E2E"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ProgressBar">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="3">
+                            <Border x:Name="PART_Track" CornerRadius="3">
+                                <Border x:Name="PART_Indicator" 
+                                        HorizontalAlignment="Left"
+                                        Background="{TemplateBinding Foreground}"
+                                        CornerRadius="3"/>
+                            </Border>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Widget Container Style -->
+        <Style x:Key="WidgetContainer" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource BackgroundLight}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Margin" Value="2,0"/>
+        </Style>
+    </UserControl.Resources>
+    
+    <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="0,1,0,0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Main Status Bar Row -->
+            <Border Grid.Row="0" Background="{StaticResource BackgroundMedium}" Padding="8,4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>  <!-- MCP Section -->
+                        <ColumnDefinition Width="Auto"/>  <!-- LLM Section -->
+                        <ColumnDefinition Width="Auto"/>  <!-- Network Section -->
+                        <ColumnDefinition Width="*"/>     <!-- Game State Section -->
+                        <ColumnDefinition Width="Auto"/>  <!-- Automation Section -->
+                        <ColumnDefinition Width="Auto"/>  <!-- Settings -->
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- MCP Section -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,0,16,0">
+                        <TextBlock Text="MCP" FontSize="10" FontWeight="Bold" 
+                                   Foreground="{StaticResource TextMuted}" 
+                                   VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        
+                        <!-- RAG Progress -->
+                        <Border Style="{StaticResource WidgetContainer}" ToolTip="Evony RAG Knowledge Base Progress">
+                            <StackPanel Orientation="Horizontal" Width="120">
+                                <TextBlock Text="RAG" FontSize="10" Foreground="{StaticResource AccentPurple}" 
+                                           VerticalAlignment="Center" Margin="0,0,6,0" Width="28"/>
+                                <Grid VerticalAlignment="Center" Width="60">
+                                    <ProgressBar x:Name="RagProgressBar" Value="0" Maximum="100"
+                                                 Style="{StaticResource ModernProgressBar}"
+                                                 Foreground="{StaticResource AccentPurple}"/>
+                                </Grid>
+                                <TextBlock x:Name="RagProgressText" Text="0%" FontSize="9" 
+                                           Foreground="{StaticResource TextSecondary}"
+                                           VerticalAlignment="Center" Margin="4,0,0,0" Width="24"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- RTE Progress -->
+                        <Border Style="{StaticResource WidgetContainer}" ToolTip="Evony RTE Real-Time Engine Progress">
+                            <StackPanel Orientation="Horizontal" Width="120">
+                                <TextBlock Text="RTE" FontSize="10" Foreground="{StaticResource AccentBlue}" 
+                                           VerticalAlignment="Center" Margin="0,0,6,0" Width="28"/>
+                                <Grid VerticalAlignment="Center" Width="60">
+                                    <ProgressBar x:Name="RteProgressBar" Value="0" Maximum="100"
+                                                 Style="{StaticResource ModernProgressBar}"
+                                                 Foreground="{StaticResource AccentBlue}"/>
+                                </Grid>
+                                <TextBlock x:Name="RteProgressText" Text="0%" FontSize="9" 
+                                           Foreground="{StaticResource TextSecondary}"
+                                           VerticalAlignment="Center" Margin="4,0,0,0" Width="24"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- MCP Status Light -->
+                        <Border Style="{StaticResource WidgetContainer}" ToolTip="MCP Connection Status">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse x:Name="McpStatusLight" Width="8" Height="8" 
+                                         Fill="{StaticResource AccentYellow}" Margin="0,0,4,0"/>
+                                <TextBlock x:Name="McpStatusText" Text="Connecting" FontSize="9" 
+                                           Foreground="{StaticResource TextSecondary}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                    
+                    <!-- LLM Section -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,16,0">
+                        <TextBlock Text="LLM" FontSize="10" FontWeight="Bold" 
+                                   Foreground="{StaticResource TextMuted}" 
+                                   VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        
+                        <!-- Tokens/sec -->
+                        <Border Style="{StaticResource WidgetContainer}" ToolTip="LLM Inference Speed (RTX 3090 Ti)">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="⚡" FontSize="10" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                <TextBlock x:Name="TokensPerSecText" Text="0" FontSize="10" 
+                                           Foreground="{StaticResource AccentCyan}" FontWeight="Bold"/>
+                                <TextBlock Text=" tok/s" FontSize="9" 
+                                           Foreground="{StaticResource TextMuted}"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- VRAM Usage -->
+                        <Border Style="{StaticResource WidgetContainer}" ToolTip="GPU VRAM Usage (24GB Total)">
+                            <StackPanel Orientation="Horizontal" Width="100">
+                                <TextBlock Text="VRAM" FontSize="9" Foreground="{StaticResource TextMuted}" 
+                                           VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                <Grid VerticalAlignment="Center" Width="50">
+                                    <ProgressBar x:Name="VramProgressBar" Value="0" Maximum="100"
+                                                 Style="{StaticResource ModernProgressBar}"
+                                                 Foreground="{StaticResource AccentCyan}"/>
+                                </Grid>
+                                <TextBlock x:Name="VramText" Text="0GB" FontSize="9" 
+                                           Foreground="{StaticResource TextSecondary}"
+                                           VerticalAlignment="Center" Margin="4,0,0,0"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- GPU Temp -->
+                        <Border Style="{StaticResource WidgetContainer}" ToolTip="GPU Temperature">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🌡" FontSize="10" VerticalAlignment="Center" Margin="0,0,2,0"/>
+                                <TextBlock x:Name="GpuTempText" Text="--°C" FontSize="10" 
+                                           Foreground="{StaticResource AccentGreen}"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- Inference Progress -->
+                        <Border Style="{StaticResource WidgetContainer}" ToolTip="Current Inference Progress">
+                            <StackPanel Orientation="Horizontal" Width="90">
+                                <TextBlock Text="Inf" FontSize="9" Foreground="{StaticResource TextMuted}" 
+                                           VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                <Grid VerticalAlignment="Center" Width="50">
+                                    <ProgressBar x:Name="InferenceProgressBar" Value="0" Maximum="100"
+                                                 Style="{StaticResource ModernProgressBar}"
+                                                 Foreground="{StaticResource AccentGreen}"/>
+                                </Grid>
+                                <TextBlock x:Name="InferenceText" Text="Idle" FontSize="9" 
+                                           Foreground="{StaticResource TextSecondary}"
+                                           VerticalAlignment="Center" Margin="4,0,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                    
+                    <!-- Network Section -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="0,0,16,0">
+                        <TextBlock Text="NET" FontSize="10" FontWeight="Bold" 
+                                   Foreground="{StaticResource TextMuted}" 
+                                   VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        
+                        <!-- Packets/sec Sparkline -->
+                        <Border Style="{StaticResource WidgetContainer}" ToolTip="Packets per Second">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📡" FontSize="10" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                <TextBlock x:Name="PacketsPerSecText" Text="0" FontSize="10" 
+                                           Foreground="{StaticResource AccentBlue}" FontWeight="Bold"/>
+                                <TextBlock Text="/s" FontSize="9" 
+                                           Foreground="{StaticResource TextMuted}"/>
+                                <Canvas x:Name="PacketSparkline" Width="40" Height="16" Margin="4,0,0,0"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- Decode Rate -->
+                        <Border Style="{StaticResource WidgetContainer}" ToolTip="AMF3 Decode Success Rate">
+                            <StackPanel Orientation="Horizontal" Width="90">
+                                <TextBlock Text="Dec" FontSize="9" Foreground="{StaticResource TextMuted}" 
+                                           VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                <Grid VerticalAlignment="Center" Width="50">
+                                    <ProgressBar x:Name="DecodeRateBar" Value="100" Maximum="100"
+                                                 Style="{StaticResource ModernProgressBar}"
+                                                 Foreground="{StaticResource AccentGreen}"/>
+                                </Grid>
+                                <TextBlock x:Name="DecodeRateText" Text="100%" FontSize="9" 
+                                           Foreground="{StaticResource AccentGreen}"
+                                           VerticalAlignment="Center" Margin="4,0,0,0"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- Fiddler Status -->
+                        <Border Style="{StaticResource WidgetContainer}" ToolTip="Fiddler Proxy Status">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse x:Name="FiddlerStatusLight" Width="8" Height="8" 
+                                         Fill="{StaticResource AccentYellow}" Margin="0,0,4,0"/>
+                                <TextBlock x:Name="FiddlerStatusText" Text="Fiddler" FontSize="9" 
+                                           Foreground="{StaticResource TextSecondary}"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- Throughput -->
+                        <Border Style="{StaticResource WidgetContainer}" ToolTip="Network Throughput">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="↓" FontSize="10" Foreground="{StaticResource AccentGreen}" 
+                                           VerticalAlignment="Center"/>
+                                <TextBlock x:Name="DownloadText" Text="0" FontSize="9" 
+                                           Foreground="{StaticResource TextSecondary}" Margin="2,0,4,0"/>
+                                <TextBlock Text="↑" FontSize="10" Foreground="{StaticResource AccentBlue}" 
+                                           VerticalAlignment="Center"/>
+                                <TextBlock x:Name="UploadText" Text="0" FontSize="9" 
+                                           Foreground="{StaticResource TextSecondary}" Margin="2,0,0,0"/>
+                                <TextBlock Text="KB/s" FontSize="8" 
+                                           Foreground="{StaticResource TextMuted}" Margin="2,0,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                    
+                    <!-- Game State Section (Expandable) -->
+                    <ScrollViewer Grid.Column="3" HorizontalScrollBarVisibility="Auto" 
+                                  VerticalScrollBarVisibility="Disabled">
+                        <StackPanel x:Name="GameStateWidgets" Orientation="Horizontal">
+                            <TextBlock Text="GAME" FontSize="10" FontWeight="Bold" 
+                                       Foreground="{StaticResource TextMuted}" 
+                                       VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            
+                            <!-- Resources -->
+                            <Border Style="{StaticResource WidgetContainer}" ToolTip="Resource Rates">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🌾" FontSize="10" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="FoodRateText" Text="+0" FontSize="9" 
+                                               Foreground="{StaticResource AccentGreen}" Margin="2,0,6,0"/>
+                                    <TextBlock Text="🪵" FontSize="10" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="WoodRateText" Text="+0" FontSize="9" 
+                                               Foreground="{StaticResource AccentGreen}" Margin="2,0,6,0"/>
+                                    <TextBlock Text="�ite" FontSize="10" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="StoneRateText" Text="+0" FontSize="9" 
+                                               Foreground="{StaticResource AccentGreen}" Margin="2,0,6,0"/>
+                                    <TextBlock Text="⚙" FontSize="10" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="IronRateText" Text="+0" FontSize="9" 
+                                               Foreground="{StaticResource AccentGreen}" Margin="2,0,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Troops -->
+                            <Border Style="{StaticResource WidgetContainer}" ToolTip="Total Troops">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="⚔" FontSize="10" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                    <TextBlock x:Name="TroopCountText" Text="0" FontSize="10" 
+                                               Foreground="{StaticResource TextPrimary}" FontWeight="Bold"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Marches -->
+                            <Border Style="{StaticResource WidgetContainer}" ToolTip="Active Marches">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🚶" FontSize="10" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                    <TextBlock x:Name="MarchCountText" Text="0/8" FontSize="10" 
+                                               Foreground="{StaticResource TextPrimary}"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Power -->
+                            <Border Style="{StaticResource WidgetContainer}" ToolTip="Total Power">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="💪" FontSize="10" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                    <TextBlock x:Name="PowerText" Text="0" FontSize="10" 
+                                               Foreground="{StaticResource AccentYellow}" FontWeight="Bold"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Build Queue -->
+                            <Border Style="{StaticResource WidgetContainer}" ToolTip="Build Queue Progress">
+                                <StackPanel Orientation="Horizontal" Width="100">
+                                    <TextBlock Text="🏗" FontSize="10" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                    <Grid VerticalAlignment="Center" Width="60">
+                                        <ProgressBar x:Name="BuildProgressBar" Value="0" Maximum="100"
+                                                     Style="{StaticResource ModernProgressBar}"
+                                                     Foreground="{StaticResource AccentOrange}"/>
+                                    </Grid>
+                                    <TextBlock x:Name="BuildTimeText" Text="--:--" FontSize="9" 
+                                               Foreground="{StaticResource TextSecondary}"
+                                               VerticalAlignment="Center" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Research Queue -->
+                            <Border Style="{StaticResource WidgetContainer}" ToolTip="Research Progress">
+                                <StackPanel Orientation="Horizontal" Width="100">
+                                    <TextBlock Text="📚" FontSize="10" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                    <Grid VerticalAlignment="Center" Width="60">
+                                        <ProgressBar x:Name="ResearchProgressBar" Value="0" Maximum="100"
+                                                     Style="{StaticResource ModernProgressBar}"
+                                                     Foreground="{StaticResource AccentBlue}"/>
+                                    </Grid>
+                                    <TextBlock x:Name="ResearchTimeText" Text="--:--" FontSize="9" 
+                                               Foreground="{StaticResource TextSecondary}"
+                                               VerticalAlignment="Center" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Training Queue -->
+                            <Border Style="{StaticResource WidgetContainer}" ToolTip="Training Progress">
+                                <StackPanel Orientation="Horizontal" Width="100">
+                                    <TextBlock Text="🎖" FontSize="10" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                    <Grid VerticalAlignment="Center" Width="60">
+                                        <ProgressBar x:Name="TrainingProgressBar" Value="0" Maximum="100"
+                                                     Style="{StaticResource ModernProgressBar}"
+                                                     Foreground="{StaticResource AccentGreen}"/>
+                                    </Grid>
+                                    <TextBlock x:Name="TrainingTimeText" Text="--:--" FontSize="9" 
+                                               Foreground="{StaticResource TextSecondary}"
+                                               VerticalAlignment="Center" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                    
+                    <!-- Automation Section -->
+                    <StackPanel Grid.Column="4" Orientation="Horizontal" Margin="0,0,8,0">
+                        <TextBlock Text="AUTO" FontSize="10" FontWeight="Bold" 
+                                   Foreground="{StaticResource TextMuted}" 
+                                   VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        
+                        <!-- AutoPilot Status -->
+                        <Border Style="{StaticResource WidgetContainer}" ToolTip="AutoPilot Status">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse x:Name="AutoPilotLight" Width="8" Height="8" 
+                                         Fill="{StaticResource TextMuted}" Margin="0,0,4,0"/>
+                                <TextBlock x:Name="AutoPilotText" Text="Off" FontSize="9" 
+                                           Foreground="{StaticResource TextSecondary}"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- Queue Size -->
+                        <Border Style="{StaticResource WidgetContainer}" ToolTip="Automation Queue Size">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📋" FontSize="10" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                <TextBlock x:Name="QueueSizeText" Text="0" FontSize="10" 
+                                           Foreground="{StaticResource TextPrimary}"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- Fuzzing Progress -->
+                        <Border Style="{StaticResource WidgetContainer}" ToolTip="Protocol Fuzzing Progress">
+                            <StackPanel Orientation="Horizontal" Width="90">
+                                <TextBlock Text="Fuzz" FontSize="9" Foreground="{StaticResource TextMuted}" 
+                                           VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                <Grid VerticalAlignment="Center" Width="50">
+                                    <ProgressBar x:Name="FuzzProgressBar" Value="0" Maximum="100"
+                                                 Style="{StaticResource ModernProgressBar}"
+                                                 Foreground="{StaticResource AccentOrange}"/>
+                                </Grid>
+                                <TextBlock x:Name="FuzzProgressText" Text="0%" FontSize="9" 
+                                           Foreground="{StaticResource TextSecondary}"
+                                           VerticalAlignment="Center" Margin="4,0,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                    
+                    <!-- Settings Button -->
+                    <Button Grid.Column="5" Content="⚙" FontSize="12" 
+                            Background="Transparent" BorderThickness="0"
+                            Foreground="{StaticResource TextSecondary}"
+                            Cursor="Hand" Padding="8,4"
+                            ToolTip="Configure Status Bar"
+                            Click="ConfigureStatusBar_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+            </Border>
+            
+            <!-- Expandable Detail Row (Hidden by default) -->
+            <Border x:Name="DetailRow" Grid.Row="1" Background="{StaticResource BackgroundLight}" 
+                    Visibility="Collapsed" Padding="8,4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- LLM Details -->
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="LLM Model: evony-re-7b" FontSize="10" 
+                                   Foreground="{StaticResource TextSecondary}"/>
+                        <TextBlock Text="Backend: LM Studio" FontSize="10" 
+                                   Foreground="{StaticResource TextSecondary}"/>
+                        <TextBlock x:Name="LlmModelDetails" Text="RTX 3090 Ti | 24GB VRAM" FontSize="10" 
+                                   Foreground="{StaticResource AccentCyan}"/>
+                    </StackPanel>
+                    
+                    <!-- MCP Details -->
+                    <StackPanel Grid.Column="1">
+                        <TextBlock x:Name="McpServerDetails" Text="Servers: RAG, RTE, Tools, Advanced" 
+                                   FontSize="10" Foreground="{StaticResource TextSecondary}"/>
+                        <TextBlock x:Name="McpToolCount" Text="Tools: 45 available" FontSize="10" 
+                                   Foreground="{StaticResource TextSecondary}"/>
+                        <TextBlock x:Name="McpResourceCount" Text="Resources: 8 registered" FontSize="10" 
+                                   Foreground="{StaticResource TextSecondary}"/>
+                    </StackPanel>
+                    
+                    <!-- Network Details -->
+                    <StackPanel Grid.Column="2">
+                        <TextBlock x:Name="TotalPacketsText" Text="Total Packets: 0" FontSize="10" 
+                                   Foreground="{StaticResource TextSecondary}"/>
+                        <TextBlock x:Name="DecodedPacketsText" Text="Decoded: 0" FontSize="10" 
+                                   Foreground="{StaticResource TextSecondary}"/>
+                        <TextBlock x:Name="LearnedActionsText" Text="Learned Actions: 0" FontSize="10" 
+                                   Foreground="{StaticResource AccentPurple}"/>
+                    </StackPanel>
+                    
+                    <!-- Session Details -->
+                    <StackPanel Grid.Column="3">
+                        <TextBlock x:Name="SessionIdText" Text="Session: --" FontSize="10" 
+                                   Foreground="{StaticResource TextSecondary}"/>
+                        <TextBlock x:Name="UptimeText" Text="Uptime: 00:00:00" FontSize="10" 
+                                   Foreground="{StaticResource TextSecondary}"/>
+                        <TextBlock x:Name="LastActivityText" Text="Last Activity: --" FontSize="10" 
+                                   Foreground="{StaticResource TextSecondary}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

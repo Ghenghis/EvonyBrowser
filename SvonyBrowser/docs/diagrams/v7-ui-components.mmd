@@ -1,0 +1,33 @@
+%%{init: {'theme': 'dark'}}%%
+flowchart TB
+    MainWindow["MainWindow.xaml"]
+    
+    subgraph TopBar["Top Bar"]
+        AddressBar["Address Bar"]
+        NavButtons["Navigation"]
+        Settings["Settings Gear"]
+    end
+
+    subgraph Content["Main Content"]
+        Browser1["Browser Panel 1"]
+        Browser2["Browser Panel 2"]
+    end
+
+    subgraph SidePanel["Side Panel"]
+        Chatbot["ChatbotPanel"]
+        Traffic["TrafficViewer"]
+        Protocol["ProtocolExplorer"]
+        Packet["PacketBuilder"]
+    end
+
+    subgraph StatusBar["Status Bar"]
+        MCP["MCP Widgets"]
+        LLM["LLM Widgets"]
+        Game["Game Widgets"]
+        Network["Network Widgets"]
+    end
+
+    MainWindow --> TopBar
+    MainWindow --> Content
+    MainWindow --> SidePanel
+    MainWindow --> StatusBar

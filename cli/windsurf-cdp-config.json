@@ -1,0 +1,231 @@
+{
+  "$schema": "https://windsurf.ai/schemas/mcp-config.json",
+  "version": "1.0.0",
+  "name": "Svony Browser CDP Integration",
+  "description": "CefFlashBrowser automation for Flash-based Evony via Chrome DevTools Protocol",
+  
+  "mcpServers": {
+    "evony-cdp": {
+      "command": "node",
+      "args": ["${workspaceFolder}/mcp-servers/evony-cdp/index.js"],
+      "env": {
+        "CDP_HOST": "localhost",
+        "CDP_PORT": "9222",
+        "CEF_BROWSER_PATH": "C:\\Program Files\\CefFlashBrowser\\CefFlashBrowser.exe"
+      },
+      "autoStart": true,
+      "restartOnCrash": true
+    }
+  },
+  
+  "tasks": {
+    "launch-cef-browser": {
+      "label": "Launch CefFlashBrowser with CDP",
+      "type": "shell",
+      "command": "\"${env:CEF_BROWSER_PATH}\" --remote-debugging-port=9222 --remote-allow-origins=* https://cc2.evony.com",
+      "windows": {
+        "command": "& \"${env:CEF_BROWSER_PATH}\" --remote-debugging-port=9222 --remote-allow-origins=* https://cc2.evony.com"
+      },
+      "problemMatcher": [],
+      "group": "build"
+    },
+    "connect-cdp": {
+      "label": "Connect to CefFlashBrowser",
+      "type": "mcp",
+      "server": "evony-cdp",
+      "tool": "cdp_connect",
+      "args": {
+        "host": "localhost",
+        "port": 9222
+      }
+    },
+    "take-screenshot": {
+      "label": "Take Screenshot",
+      "type": "mcp",
+      "server": "evony-cdp",
+      "tool": "cdp_screenshot",
+      "args": {}
+    },
+    "go-to-city": {
+      "label": "Go to City View",
+      "type": "mcp",
+      "server": "evony-cdp",
+      "tool": "evony_go_to_city",
+      "args": {}
+    },
+    "go-to-world": {
+      "label": "Go to World Map",
+      "type": "mcp",
+      "server": "evony-cdp",
+      "tool": "evony_go_to_world",
+      "args": {}
+    }
+  },
+  
+  "keybindings": [
+    {
+      "key": "ctrl+shift+l",
+      "command": "mcp.callTool",
+      "args": {
+        "server": "evony-cdp",
+        "tool": "cdp_connect"
+      },
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "ctrl+shift+s",
+      "command": "mcp.callTool",
+      "args": {
+        "server": "evony-cdp",
+        "tool": "cdp_screenshot"
+      },
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "ctrl+shift+c",
+      "command": "mcp.callTool",
+      "args": {
+        "server": "evony-cdp",
+        "tool": "evony_go_to_city"
+      },
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "ctrl+shift+w",
+      "command": "mcp.callTool",
+      "args": {
+        "server": "evony-cdp",
+        "tool": "evony_go_to_world"
+      },
+      "when": "editorTextFocus"
+    }
+  ],
+  
+  "snippets": {
+    "cdp-connect": {
+      "prefix": "cdp-connect",
+      "body": [
+        "// Connect to CefFlashBrowser via CDP",
+        "await mcp.callTool('evony-cdp', 'cdp_connect', {",
+        "  host: 'localhost',",
+        "  port: 9222",
+        "});"
+      ],
+      "description": "Connect to CefFlashBrowser"
+    },
+    "cdp-click": {
+      "prefix": "cdp-click",
+      "body": [
+        "// Click at coordinates",
+        "await mcp.callTool('evony-cdp', 'cdp_click', {",
+        "  x: ${1:500},",
+        "  y: ${2:300}",
+        "});"
+      ],
+      "description": "Click at coordinates"
+    },
+    "cdp-click-element": {
+      "prefix": "cdp-click-element",
+      "body": [
+        "// Click named UI element",
+        "await mcp.callTool('evony-cdp', 'cdp_click_element', {",
+        "  element: '${1:cityView}'",
+        "});"
+      ],
+      "description": "Click a named Evony UI element"
+    },
+    "cdp-upgrade": {
+      "prefix": "cdp-upgrade",
+      "body": [
+        "// Upgrade a building",
+        "await mcp.callTool('evony-cdp', 'evony_upgrade_building', {",
+        "  building: '${1:barracks}'",
+        "});"
+      ],
+      "description": "Upgrade a building"
+    },
+    "cdp-train": {
+      "prefix": "cdp-train",
+      "body": [
+        "// Train troops",
+        "await mcp.callTool('evony-cdp', 'evony_train_troops', {",
+        "  troopType: '${1:cavalry}',",
+        "  quantity: ${2:1000}",
+        "});"
+      ],
+      "description": "Train troops"
+    },
+    "cdp-automation-script": {
+      "prefix": "cdp-automation",
+      "body": [
+        "// Evony Automation Script",
+        "import { chromium } from 'playwright';",
+        "",
+        "async function main() {",
+        "  // Connect to CefFlashBrowser",
+        "  const browser = await chromium.connectOverCDP('http://localhost:9222');",
+        "  const context = browser.contexts()[0];",
+        "  const page = context.pages()[0];",
+        "",
+        "  // Get viewport size",
+        "  const viewport = page.viewportSize();",
+        "  console.log(`Viewport: ${viewport.width}x${viewport.height}`);",
+        "",
+        "  // Click city view button",
+        "  await page.mouse.click(100, 50);",
+        "  await page.waitForTimeout(1000);",
+        "",
+        "  // ${1:Add your automation here}",
+        "",
+        "  console.log('Automation complete');",
+        "}",
+        "",
+        "main().catch(console.error);"
+      ],
+      "description": "Full automation script template"
+    }
+  },
+  
+  "panels": {
+    "cdpStatus": {
+      "title": "CDP Status",
+      "icon": "plug",
+      "resource": "evony://cdp/status",
+      "refreshInterval": 5000
+    },
+    "uiElements": {
+      "title": "UI Elements",
+      "icon": "layout",
+      "resource": "evony://cdp/elements",
+      "refreshInterval": 30000
+    },
+    "actionLog": {
+      "title": "Action Log",
+      "icon": "list",
+      "resource": "evony://cdp/actions",
+      "refreshInterval": 2000
+    }
+  },
+  
+  "statusBarItems": [
+    {
+      "id": "cdp.connection",
+      "text": "$(plug) CDP",
+      "tooltip": "CDP Connection Status",
+      "command": "mcp.callTool",
+      "args": {
+        "server": "evony-cdp",
+        "tool": "cdp_status"
+      }
+    }
+  ],
+  
+  "settings": {
+    "svony.cdp.host": "localhost",
+    "svony.cdp.port": 9222,
+    "svony.cdp.autoConnect": false,
+    "svony.cdp.screenshotFormat": "png",
+    "svony.cdp.clickDelay": 100,
+    "svony.cdp.typeDelay": 50
+  }
+}

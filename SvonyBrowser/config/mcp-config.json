@@ -1,0 +1,52 @@
+{
+  "mcpServers": {
+    "evony-rag": {
+      "command": "node",
+      "args": ["../mcp-servers/evony-rag/index.js"],
+      "env": {
+        "CHROMA_DB_PATH": "./data/chroma-db",
+        "KNOWLEDGE_PATH": "./knowledge-base"
+      },
+      "description": "Evony knowledge base with semantic search and Q&A",
+      "autoConnect": true,
+      "healthCheck": {
+        "enabled": true,
+        "intervalMs": 30000
+      }
+    },
+    "evony-rte": {
+      "command": "node",
+      "args": ["../mcp-servers/evony-rte/index.js"],
+      "env": {
+        "CAPTURES_PATH": "./data/captures",
+        "PIPE_NAME": "\\\\.\\pipe\\EvonyTraffic"
+      },
+      "description": "Real-time traffic analysis and AMF3 decoding",
+      "autoConnect": true,
+      "healthCheck": {
+        "enabled": true,
+        "intervalMs": 30000
+      }
+    },
+    "evony-tools": {
+      "command": "node",
+      "args": ["../mcp-servers/evony-tools/index.js"],
+      "env": {},
+      "description": "Automation tools, calculators, and utilities",
+      "autoConnect": true,
+      "healthCheck": {
+        "enabled": true,
+        "intervalMs": 30000
+      }
+    }
+  },
+  "connection": {
+    "maxRetries": 3,
+    "retryDelayMs": 5000,
+    "timeoutMs": 30000
+  },
+  "logging": {
+    "level": "info",
+    "file": "./logs/mcp.log"
+  }
+}
