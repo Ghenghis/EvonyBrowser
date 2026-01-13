@@ -98,13 +98,13 @@ namespace SvonyBrowser
                         CachePath = GlobalData.CachePath,
                         PersistSessionCookies = true,
                         PersistUserPreferences = true,
-                        WindowlessRenderingEnabled = false,
                         LogSeverity = LogSeverity.Warning,
-                        LogFile = GlobalData.CefLogPath,
-                        BrowserSubprocessPath = GlobalData.SubprocessPath,
-                        ResourcesDirPath = GlobalData.CefDllPath,
-                        LocalesDirPath = GlobalData.LocalesPath
+                        LogFile = GlobalData.CefLogPath
                     };
+                    // Set paths via command line args for CefSharp 84
+                    settings.CefCommandLineArgs.Add("browser-subprocess-path", GlobalData.SubprocessPath);
+                    settings.CefCommandLineArgs.Add("resources-dir-path", GlobalData.CefDllPath);
+                    settings.CefCommandLineArgs.Add("locales-dir-path", GlobalData.LocalesPath);
 
                     // Configure Flash plugin (PPAPI)
                     if (File.Exists(GlobalData.FlashPath))
@@ -134,11 +134,11 @@ namespace SvonyBrowser
                     settings.CefCommandLineArgs.Add("disable-extensions", "0");
 
                     GlobalData.LogMessage("Initializing CefSharp 84...");
-                    var success = Cef.Initialize(settings, performDependencyCheck: true, browserProcessHandler: null);
+                    Cef.Initialize(settings);
 
-                    if (!success)
+                    if (!Cef.IsInitialized)
                     {
-                        throw new InvalidOperationException("Cef.Initialize returned false");
+                        throw new InvalidOperationException("Cef.Initialize failed");
                     }
 
                     GlobalData.LogMessage("CefSharp 84 initialized successfully with Flash support!");

@@ -9,7 +9,7 @@ namespace SvonyBrowser.Helpers
 {
 
     /// <summary>
-    /// Helper class for browser operations using direct CefSharp references.
+    /// Helper class for browser operations using CefSharp 84.4.10 API.
     /// </summary>
     public static class BrowserHelper
     {
@@ -18,7 +18,9 @@ namespace SvonyBrowser.Helpers
         /// </summary>
         public static ChromiumWebBrowser CreateBrowser(string initialUrl = "about:blank")
         {
-            return new ChromiumWebBrowser(initialUrl);
+            var browser = new ChromiumWebBrowser();
+            browser.Address = initialUrl;
+            return browser;
         }
 
         /// <summary>
@@ -35,9 +37,9 @@ namespace SvonyBrowser.Helpers
         /// </summary>
         public static void LoadHtml(object browser, string html)
         {
-            if (browser is ChromiumWebBrowser cwb)
+            if (browser is IWebBrowser wb)
             {
-                cwb.LoadHtml(html);
+                wb.LoadHtml(html, "http://localhost/");
             }
         }
 
@@ -46,9 +48,9 @@ namespace SvonyBrowser.Helpers
         /// </summary>
         public static void Reload(object browser, bool ignoreCache = false)
         {
-            if (browser is ChromiumWebBrowser cwb)
+            if (browser is IWebBrowser wb)
             {
-                cwb.GetBrowser()?.Reload(ignoreCache);
+                wb.Reload(ignoreCache);
             }
         }
 
@@ -59,7 +61,7 @@ namespace SvonyBrowser.Helpers
         {
             try
             {
-                var cookieManager = Cef.GetGlobalCookieManager();
+                var cookieManager = CookieManager.GetGlobalManager();
                 if (cookieManager != null)
                 {
                     await cookieManager.DeleteCookiesAsync("", "");
@@ -104,9 +106,9 @@ namespace SvonyBrowser.Helpers
         /// </summary>
         public static void Navigate(object browser, string url)
         {
-            if (browser is ChromiumWebBrowser cwb)
+            if (browser is IWebBrowser wb)
             {
-                cwb.LoadUrl(url);
+                wb.Load(url);
             }
         }
 
@@ -148,9 +150,9 @@ namespace SvonyBrowser.Helpers
         /// </summary>
         public static void GoBack(object browser)
         {
-            if (browser is ChromiumWebBrowser cwb && cwb.CanGoBack)
+            if (browser is IWebBrowser wb && wb.CanGoBack)
             {
-                cwb.GetBrowser()?.GoBack();
+                wb.Back();
             }
         }
 
@@ -159,9 +161,9 @@ namespace SvonyBrowser.Helpers
         /// </summary>
         public static void GoForward(object browser)
         {
-            if (browser is ChromiumWebBrowser cwb && cwb.CanGoForward)
+            if (browser is IWebBrowser wb && wb.CanGoForward)
             {
-                cwb.GetBrowser()?.GoForward();
+                wb.Forward();
             }
         }
 
@@ -170,9 +172,9 @@ namespace SvonyBrowser.Helpers
         /// </summary>
         public static void ExecuteScript(object browser, string script)
         {
-            if (browser is ChromiumWebBrowser cwb && cwb.IsBrowserInitialized)
+            if (browser is IWebBrowser wb && wb.IsBrowserInitialized)
             {
-                cwb.GetMainFrame()?.ExecuteJavaScriptAsync(script);
+                wb.GetMainFrame()?.ExecuteJavaScriptAsync(script);
             }
         }
 
@@ -181,9 +183,9 @@ namespace SvonyBrowser.Helpers
         /// </summary>
         public static void DisposeBrowser(object browser)
         {
-            if (browser is ChromiumWebBrowser cwb)
+            if (browser is IDisposable d)
             {
-                cwb.Dispose();
+                d.Dispose();
             }
         }
 
@@ -205,7 +207,11 @@ namespace SvonyBrowser.Helpers
         {
             if (browser is ChromiumWebBrowser cwb)
             {
-                cwb.TitleChanged += (s, e) => handler(e.NewValue?.ToString() ?? "");
+                cwb.TitleChanged += (s, e) =>
+                {
+                    var args = e as DependencyPropertyChangedEventArgs?;
+                    handler(args?.NewValue?.ToString() ?? "");
+                };
             }
         }
     }

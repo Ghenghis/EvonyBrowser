@@ -3,11 +3,13 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SvonyBrowser.Helpers;
 
 namespace SvonyBrowser.Services
 {
@@ -29,7 +31,7 @@ namespace SvonyBrowser.Services
 
         #region Fields
 
-        private readonly ConcurrentDictionary<string, McpServerConnection> _connections = new Dictionary<string, McpServerConnection>();
+        private readonly ConcurrentDictionary<string, McpServerConnection> _connections = new ConcurrentDictionary<string, McpServerConnection>();
         private readonly object _configLock = new object();
         private McpConfig? _config;
         private bool _disposed = false;
@@ -123,8 +125,10 @@ namespace SvonyBrowser.Services
             
                 // Start auto-connect servers
                 var tasks = new List<Task>();
-                foreach (var (name, serverConfig) in _config.McpServers)
+                foreach (var kvp in _config.McpServers)
                 {
+                    var name = kvp.Key;
+                    var serverConfig = kvp.Value;
                     if (serverConfig.AutoConnect)
                     {
                         tasks.Add(ConnectServerAsync(name, cancellationToken));
