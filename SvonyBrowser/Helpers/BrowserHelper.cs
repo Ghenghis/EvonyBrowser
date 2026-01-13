@@ -61,6 +61,7 @@ namespace SvonyBrowser.Helpers
         {
             try
             {
+                // CefSharp 84 uses Cef.GetGlobalCookieManager() 
                 var cookieManager = CefSharp.Cef.GetGlobalCookieManager();
                 if (cookieManager != null)
                 {

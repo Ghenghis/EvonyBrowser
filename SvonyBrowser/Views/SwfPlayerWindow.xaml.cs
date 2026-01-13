@@ -95,23 +95,7 @@ namespace SvonyBrowser.Views
                     }
                 });
 
-                // Enable Flash content automatically
-                try
-                {
-                    Cef.UIThreadTaskFactory.StartNew(() =>
-                    {
-                        var browser = Browser.GetBrowser();
-                        if (browser != null)
-                        {
-                            var requestContext = browser.GetHost().RequestContext;
-                            requestContext.SetPreference("profile.default_content_setting_values.plugins", 1, out _);
-                        }
-                    });
-                }
-                catch (Exception ex)
-                {
-                    GlobalData.LogMessage("Warning: Could not enable Flash automatically: " + ex.Message);
-                }
+                // Enable Flash content automatically - Flash settings handled by CefSettings in Program.cs
             }
         }
 
@@ -136,8 +120,8 @@ namespace SvonyBrowser.Views
                 // Convert to file:// URI for the browser
                 var fileUri = new Uri(filePath).AbsoluteUri;
                 
-                // Execute JavaScript to load the SWF
-                Browser.ExecuteScriptAsync("loadSwf", fileUri);
+                // Execute JavaScript to load the SWF using Frame
+                Browser.GetMainFrame()?.ExecuteJavaScriptAsync($"loadSwf('{fileUri}')");
                 
                 Dispatcher.Invoke(() =>
                 {
