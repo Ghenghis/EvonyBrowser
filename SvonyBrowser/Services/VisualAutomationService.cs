@@ -4,7 +4,9 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using Newtonsoft.Json;
+using System.Threading;
 using System.Threading.Tasks;
+using SvonyBrowser.Helpers;
 
 namespace SvonyBrowser.Services
 {

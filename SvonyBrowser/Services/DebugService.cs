@@ -22,9 +22,9 @@ namespace SvonyBrowser.Services
         private static readonly Lazy<DebugService> _instance = new Lazy<DebugService>(() => new DebugService());
         public static DebugService Instance => _instance.Value;
 
-        private readonly ConcurrentDictionary<string, Stopwatch> _timers = new Dictionary<string, Stopwatch>();
+        private readonly ConcurrentDictionary<string, Stopwatch> _timers = new ConcurrentDictionary<string, Stopwatch>();
         private readonly ConcurrentQueue<DiagnosticEvent> _eventLog = new ConcurrentQueue<DiagnosticEvent>();
-        private readonly ConcurrentDictionary<string, long> _metrics = new Dictionary<string, long>();
+        private readonly ConcurrentDictionary<string, long> _metrics = new ConcurrentDictionary<string, long>();
         private readonly int _maxEventLogSize = 10000;
         private bool _isEnabled = true;
         private bool _disposed;
