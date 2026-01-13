@@ -27,7 +27,7 @@ namespace SvonyBrowser.Services
 
         #region Fields
 
-        private readonly ConcurrentDictionary<string, AccountSession> _accounts = new Dictionary<string, AccountSession>();
+        private readonly ConcurrentDictionary<string, AccountSession> _accounts = new ConcurrentDictionary<string, AccountSession>();
         private readonly List<CoordinatedAction> _pendingActions = new List<CoordinatedAction>();
         private readonly object _lock = new object();
         private string _activeAccountId;
