@@ -205,7 +205,7 @@ namespace SvonyBrowser.Services
                 var displayMessage = entry.Message;
                 if (originalException != null)
                 {
-                    displayMessage = UserFriendlyMessages.GetFriendlyMessage(originalException);
+                    displayMessage = GetFriendlyMessage(originalException);
                 }
                 var icon = entry.Severity switch
                 {

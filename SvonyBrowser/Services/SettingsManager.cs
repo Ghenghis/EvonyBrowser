@@ -54,7 +54,7 @@ namespace SvonyBrowser.Services
                 Formatting = Formatting.Indented,
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 NullValueHandling = NullValueHandling.Ignore,
-                Converters = { new JsonStringEnumConverter() }
+                Converters = { new Newtonsoft.Json.Converters.StringEnumConverter() }
             };
             
             _settings = new AppSettings();
