@@ -576,7 +576,7 @@ namespace SvonyBrowser.Services
     public class DataPoint
     {
         public DateTime Timestamp { get; set; }
-        public Dictionary<string, double> Values { get; set; } = new double>();
+        public Dictionary<string, double> Values { get; set; } = new Dictionary<string, double>();
     }
 
     public class ResourceDataPoint
@@ -601,7 +601,7 @@ namespace SvonyBrowser.Services
     public class TroopDataPoint
     {
         public DateTime Timestamp { get; set; }
-        public Dictionary<string, int> Troops { get; set; } = new int>();
+        public Dictionary<string, int> Troops { get; set; } = new Dictionary<string, int>();
     }
 
     public class ActivityRecord
@@ -670,7 +670,7 @@ namespace SvonyBrowser.Services
         public DateTime Timestamp { get; set; }
         public long CurrentPower { get; set; }
         public ResourceState CurrentResources { get; set; } = new ResourceState();
-        public Dictionary<string, int> CurrentTroops { get; set; } = new int>();
+        public Dictionary<string, int> CurrentTroops { get; set; } = new Dictionary<string, int>();
         public ProductionEfficiency ProductionEfficiency { get; set; } = new ProductionEfficiency();
         public PowerGrowth PowerGrowth { get; set; } = new PowerGrowth();
         public AttackStatistics AttackStatistics { get; set; } = new AttackStatistics();

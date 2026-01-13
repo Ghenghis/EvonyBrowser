@@ -29,7 +29,7 @@ namespace SvonyBrowser.Services
         private int _discoveredActions;
         private double _progress;
         private readonly ConcurrentBag<FuzzResult> _results = new ConcurrentBag<FuzzResult>();
-        private readonly ConcurrentDictionary<string, DiscoveredAction> _discoveries = new DiscoveredAction>();
+        private readonly ConcurrentDictionary<string, DiscoveredAction> _discoveries = new Dictionary<string, DiscoveredAction>();
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<FuzzResultEventArgs> ResultReceived;
@@ -777,7 +777,7 @@ namespace SvonyBrowser.Services
     public class FuzzAction
     {
         public string Name { get; set; } = "";
-        public Dictionary<string, object> Parameters { get; set; } = new object>();
+        public Dictionary<string, object> Parameters { get; set; } = new Dictionary<string, object>();
     }
 
     public class FuzzResult

@@ -29,7 +29,7 @@ namespace SvonyBrowser.Services
 
         #region Fields
 
-        private readonly ConcurrentDictionary<string, McpServerConnection> _connections = new McpServerConnection>();
+        private readonly ConcurrentDictionary<string, McpServerConnection> _connections = new Dictionary<string, McpServerConnection>();
         private readonly object _configLock = new object();
         private McpConfig? _config;
         private bool _disposed = false;

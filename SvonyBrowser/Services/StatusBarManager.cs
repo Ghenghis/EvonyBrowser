@@ -20,8 +20,8 @@ namespace SvonyBrowser.Services
             new Lazy<StatusBarManager>(() => new StatusBarManager(), LazyThreadSafetyMode.ExecutionAndPublication);
         public static StatusBarManager Instance => _lazyInstance.Value;
 
-        private readonly Dictionary<string, StatusBarWidget> _widgets = new StatusBarWidget>();
-        private readonly Dictionary<string, IWidgetDataProvider> _dataProviders = new IWidgetDataProvider>();
+        private readonly Dictionary<string, StatusBarWidget> _widgets = new Dictionary<string, StatusBarWidget>();
+        private readonly Dictionary<string, IWidgetDataProvider> _dataProviders = new Dictionary<string, IWidgetDataProvider>();
         private readonly List<StatusBarRow> _rows = new List<StatusBarRow>();
         private readonly DispatcherTimer _updateTimer;
         private readonly object _lock = new object();

@@ -32,10 +32,10 @@ namespace SvonyBrowser.Services
 
         #region Fields
 
-        private readonly ConcurrentDictionary<string, CircuitBreaker> _circuitBreakers = new CircuitBreaker>();
-        private readonly ConcurrentDictionary<string, RetryPolicy> _retryPolicies = new RetryPolicy>();
-        private readonly ConcurrentDictionary<string, RateLimiter> _rateLimiters = new RateLimiter>();
-        private readonly ConcurrentDictionary<string, HealthCheck> _healthChecks = new HealthCheck>();
+        private readonly ConcurrentDictionary<string, CircuitBreaker> _circuitBreakers = new ConcurrentDictionary<string, CircuitBreaker>();
+        private readonly ConcurrentDictionary<string, RetryPolicy> _retryPolicies = new ConcurrentDictionary<string, RetryPolicy>();
+        private readonly ConcurrentDictionary<string, RateLimiter> _rateLimiters = new ConcurrentDictionary<string, RateLimiter>();
+        private readonly ConcurrentDictionary<string, HealthCheck> _healthChecks = new ConcurrentDictionary<string, HealthCheck>();
         private readonly List<FailsafeEvent> _eventLog = new List<FailsafeEvent>();
         private readonly object _logLock = new object();
         private readonly Timer _healthCheckTimer;
@@ -419,7 +419,7 @@ namespace SvonyBrowser.Services
 
         #region Cache Management (Failsafes 161-180)
 
-        private readonly ConcurrentDictionary<string, CacheEntry> _cache = new CacheEntry>();
+        private readonly ConcurrentDictionary<string, CacheEntry> _cache = new Dictionary<string, CacheEntry>();
 
         /// <summary>
         /// Gets or sets a cached value.
@@ -452,7 +452,7 @@ namespace SvonyBrowser.Services
 
         #region Graceful Degradation (Failsafes 181-200)
 
-        private readonly ConcurrentDictionary<string, bool> _featureFlags = new bool>();
+        private readonly ConcurrentDictionary<string, bool> _featureFlags = new Dictionary<string, bool>();
 
         /// <summary>
         /// Checks if a feature is enabled.
@@ -839,7 +839,7 @@ namespace SvonyBrowser.Services
     public class HealthCheckResult
     {
         public bool IsHealthy { get; set; }
-        public Dictionary<string, HealthCheckStatus> Checks { get; set; } = new HealthCheckStatus>();
+        public Dictionary<string, HealthCheckStatus> Checks { get; set; } = new Dictionary<string, HealthCheckStatus>();
     }
 
     /// <summary>

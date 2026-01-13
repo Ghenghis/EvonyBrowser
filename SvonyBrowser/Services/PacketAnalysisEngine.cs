@@ -22,8 +22,8 @@ namespace SvonyBrowser.Services
         public static PacketAnalysisEngine Instance => _lazyInstance.Value;
 
         private readonly ConcurrentQueue<CapturedPacket> _packetQueue = new ConcurrentQueue<CapturedPacket>();
-        private readonly ConcurrentDictionary<string, PacketPattern> _patterns = new PacketPattern>();
-        private readonly ConcurrentDictionary<string, ProtocolAction> _learnedActions = new ProtocolAction>();
+        private readonly ConcurrentDictionary<string, PacketPattern> _patterns = new Dictionary<string, PacketPattern>();
+        private readonly ConcurrentDictionary<string, ProtocolAction> _learnedActions = new Dictionary<string, ProtocolAction>();
         private readonly List<PacketBreakpoint> _breakpoints = new List<PacketBreakpoint>();
         private readonly List<CapturedPacket> _packetHistory = new List<CapturedPacket>();
         private readonly object _historyLock = new object();

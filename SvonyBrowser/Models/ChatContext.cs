@@ -57,7 +57,7 @@ namespace SvonyBrowser
         /// <summary>
         /// Custom context data.
         /// </summary>
-        public Dictionary<string, object> CustomData { get; set; } = new object>();
+        public Dictionary<string, object> CustomData { get; set; } = new Dictionary<string, object>();
     }
 
     /// <summary>

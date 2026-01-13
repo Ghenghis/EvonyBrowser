@@ -24,7 +24,7 @@ namespace SvonyBrowser.Controls
         #region Fields
 
         private readonly ObservableCollection<ParameterItem> _parameters = new ObservableCollection<ParameterItem>();
-        private readonly Dictionary<string, ActionDefinition> _actionDefinitions = new ActionDefinition>();
+        private readonly Dictionary<string, ActionDefinition> _actionDefinitions = new Dictionary<string, ActionDefinition>();
         private string _currentAction;
         private byte[]? _previewBytes;
 
@@ -559,7 +559,7 @@ namespace SvonyBrowser.Controls
     public class PacketTemplate
     {
         public string Action { get; set; } = "";
-        public Dictionary<string, string> Parameters { get; set; } = new string>();
+        public Dictionary<string, string> Parameters { get; set; } = new Dictionary<string, string>();
         public bool CaptureResponse { get; set; }
         public bool MockResponse { get; set; }
     }

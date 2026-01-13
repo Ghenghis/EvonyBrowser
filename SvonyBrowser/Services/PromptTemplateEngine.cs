@@ -29,7 +29,7 @@ namespace SvonyBrowser.Services
 
         #region Fields
 
-        private readonly Dictionary<string, PromptTemplate> _templates = new PromptTemplate>();
+        private readonly Dictionary<string, PromptTemplate> _templates = new Dictionary<string, PromptTemplate>();
         private readonly Dictionary<string, Func<GameStateEngine, string>> _dynamicVariables = new string>>();
         private readonly string _templatesPath;
 

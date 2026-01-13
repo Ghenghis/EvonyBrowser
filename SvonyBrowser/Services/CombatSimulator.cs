@@ -726,8 +726,8 @@ namespace SvonyBrowser.Services
     {
         public string AttackerName { get; set; } = "Attacker";
         public string DefenderName { get; set; } = "Defender";
-        public Dictionary<string, int> AttackerTroops { get; set; } = new int>();
-        public Dictionary<string, int> DefenderTroops { get; set; } = new int>();
+        public Dictionary<string, int> AttackerTroops { get; set; } = new Dictionary<string, int>();
+        public Dictionary<string, int> DefenderTroops { get; set; } = new Dictionary<string, int>();
         public HeroStats? AttackerHero { get; set; }
         public HeroStats? DefenderHero { get; set; }
         public List<string> AttackerTech { get; set; }
@@ -746,10 +746,10 @@ namespace SvonyBrowser.Services
         public double WinProbability { get; set; }
         public int TotalRounds { get; set; }
         public List<CombatRound> Rounds { get; set; } = new List<CombatRound>();
-        public Dictionary<string, int> AttackerLosses { get; set; } = new int>();
-        public Dictionary<string, int> DefenderLosses { get; set; } = new int>();
-        public Dictionary<string, int> AttackerSurvivors { get; set; } = new int>();
-        public Dictionary<string, int> DefenderSurvivors { get; set; } = new int>();
+        public Dictionary<string, int> AttackerLosses { get; set; } = new Dictionary<string, int>();
+        public Dictionary<string, int> DefenderLosses { get; set; } = new Dictionary<string, int>();
+        public Dictionary<string, int> AttackerSurvivors { get; set; } = new Dictionary<string, int>();
+        public Dictionary<string, int> DefenderSurvivors { get; set; } = new Dictionary<string, int>();
         public ResourceState LootCaptured { get; set; } = new ResourceState();
         public string Analysis { get; set; } = "";
         public List<string> Recommendations { get; set; } = new List<string>();
@@ -759,10 +759,10 @@ namespace SvonyBrowser.Services
     public class CombatRound
     {
         public int RoundNumber { get; set; }
-        public Dictionary<string, int> AttackerCasualties { get; set; } = new int>();
-        public Dictionary<string, int> DefenderCasualties { get; set; } = new int>();
-        public Dictionary<string, int> AttackerRemaining { get; set; } = new int>();
-        public Dictionary<string, int> DefenderRemaining { get; set; } = new int>();
+        public Dictionary<string, int> AttackerCasualties { get; set; } = new Dictionary<string, int>();
+        public Dictionary<string, int> DefenderCasualties { get; set; } = new Dictionary<string, int>();
+        public Dictionary<string, int> AttackerRemaining { get; set; } = new Dictionary<string, int>();
+        public Dictionary<string, int> DefenderRemaining { get; set; } = new Dictionary<string, int>();
     }
 
     public class BattleProbabilityAnalysis
@@ -771,7 +771,7 @@ namespace SvonyBrowser.Services
         public BattleSetup Setup { get; set; } = new BattleSetup();
         public double WinRate { get; set; }
         public double LossRate { get; set; }
-        public Dictionary<string, int> AverageLosses { get; set; } = new int>();
+        public Dictionary<string, int> AverageLosses { get; set; } = new Dictionary<string, int>();
         public (double Lower, double Upper) WinRateConfidence { get; set; }
     }
 
@@ -779,8 +779,8 @@ namespace SvonyBrowser.Services
     {
         public double TargetWinRate { get; set; }
         public double AchievedWinRate { get; set; }
-        public Dictionary<string, int> Troops { get; set; } = new int>();
-        public Dictionary<string, int> ExpectedLosses { get; set; } = new int>();
+        public Dictionary<string, int> Troops { get; set; } = new Dictionary<string, int>();
+        public Dictionary<string, int> ExpectedLosses { get; set; } = new Dictionary<string, int>();
         public long TotalPower { get; set; }
     }
 

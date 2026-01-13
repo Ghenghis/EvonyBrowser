@@ -34,10 +34,10 @@ namespace SvonyBrowser.Services
 
         #region Fields
 
-        private readonly ConcurrentDictionary<string, MapTile> _mapData = new MapTile>();
-        private readonly ConcurrentDictionary<string, PlayerBase> _playerBases = new PlayerBase>();
-        private readonly ConcurrentDictionary<string, ResourceTile> _resourceTiles = new ResourceTile>();
-        private readonly ConcurrentDictionary<string, MonsterTile> _monsters = new MonsterTile>();
+        private readonly ConcurrentDictionary<string, MapTile> _mapData = new Dictionary<string, MapTile>();
+        private readonly ConcurrentDictionary<string, PlayerBase> _playerBases = new Dictionary<string, PlayerBase>();
+        private readonly ConcurrentDictionary<string, ResourceTile> _resourceTiles = new Dictionary<string, ResourceTile>();
+        private readonly ConcurrentDictionary<string, MonsterTile> _monsters = new Dictionary<string, MonsterTile>();
         private readonly List<ScanResult> _scanHistory = new List<ScanResult>();
         private readonly string _dataPath;
         private CancellationTokenSource _scanCts;
@@ -933,9 +933,9 @@ namespace SvonyBrowser.Services
         public int MonstersFound { get; set; }
         public DateTime? LastFullScan { get; set; }
         public double ScanCoverage { get; set; }
-        public Dictionary<string, int> PlayersByAlliance { get; set; } = new int>();
-        public Dictionary<string, int> ResourcesByType { get; set; } = new int>();
-        public Dictionary<int, int> MonstersByLevel { get; set; } = new int>();
+        public Dictionary<string, int> PlayersByAlliance { get; set; } = new Dictionary<string, int>();
+        public Dictionary<string, int> ResourcesByType { get; set; } = new Dictionary<string, int>();
+        public Dictionary<int, int> MonstersByLevel { get; set; } = new Dictionary<int, int>();
     }
 
     public class OverlaySettings
@@ -969,9 +969,9 @@ namespace SvonyBrowser.Services
 
     public class MapCache
     {
-        public Dictionary<string, PlayerBase> PlayerBases { get; set; } = new PlayerBase>();
-        public Dictionary<string, ResourceTile> ResourceTiles { get; set; } = new ResourceTile>();
-        public Dictionary<string, MonsterTile> Monsters { get; set; } = new MonsterTile>();
+        public Dictionary<string, PlayerBase> PlayerBases { get; set; } = new Dictionary<string, PlayerBase>();
+        public Dictionary<string, ResourceTile> ResourceTiles { get; set; } = new Dictionary<string, ResourceTile>();
+        public Dictionary<string, MonsterTile> Monsters { get; set; } = new Dictionary<string, MonsterTile>();
         public DateTime LastSaved { get; set; }
     }
 

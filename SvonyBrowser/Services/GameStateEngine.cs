@@ -28,10 +28,10 @@ namespace SvonyBrowser.Services
 
         #region Fields
 
-        private readonly ConcurrentDictionary<int, CityState> _cities = new CityState>();
-        private readonly ConcurrentDictionary<int, HeroState> _heroes = new HeroState>();
-        private readonly ConcurrentDictionary<int, ArmyState> _armies = new ArmyState>();
-        private readonly ConcurrentDictionary<int, MarchState> _marches = new MarchState>();
+        private readonly ConcurrentDictionary<int, CityState> _cities = new Dictionary<int, CityState>();
+        private readonly ConcurrentDictionary<int, HeroState> _heroes = new Dictionary<int, HeroState>();
+        private readonly ConcurrentDictionary<int, ArmyState> _armies = new Dictionary<int, ArmyState>();
+        private readonly ConcurrentDictionary<int, MarchState> _marches = new Dictionary<int, MarchState>();
         private readonly List<GameEvent> _eventHistory = new List<GameEvent>();
         private readonly object _historyLock = new object();
         private readonly Timer _updateTimer;
@@ -842,8 +842,8 @@ namespace SvonyBrowser.Services
         public ResourceState Resources { get; set; } = new ResourceState();
         public ResourceState ProductionRates { get; set; } = new ResourceState();
         public ResourceState ProjectedResources { get; set; } = new ResourceState();
-        public Dictionary<int, BuildingState> Buildings { get; set; } = new BuildingState>();
-        public Dictionary<string, int> Troops { get; set; } = new int>();
+        public Dictionary<int, BuildingState> Buildings { get; set; } = new Dictionary<int, BuildingState>();
+        public Dictionary<string, int> Troops { get; set; } = new Dictionary<string, int>();
         public List<QueueItem> BuildQueue { get; set; } = new List<QueueItem>();
         public List<QueueItem> TrainQueue { get; set; } = new List<QueueItem>();
         public List<QueueItem> TrainingQueue { get; set; } = new List<QueueItem>();
@@ -924,7 +924,7 @@ namespace SvonyBrowser.Services
         public int Stamina { get; set; } = 100;
         public int MaxStamina { get; set; } = 100;
         public long Power { get; set; }
-        public Dictionary<int, int> Equipment { get; set; } = new int>();
+        public Dictionary<int, int> Equipment { get; set; } = new Dictionary<int, int>();
         public List<int> Skills { get; set; } = new List<int>();
         public DateTime LastUpdated { get; set; }
 
@@ -940,7 +940,7 @@ namespace SvonyBrowser.Services
         public int CityId { get; set; }
         public int HeroId { get; set; }
         public string HeroName { get; set; } = "";
-        public Dictionary<string, int> Troops { get; set; } = new int>();
+        public Dictionary<string, int> Troops { get; set; } = new Dictionary<string, int>();
         public string Status { get; set; } = "";
         public DateTime LastUpdated { get; set; }
 

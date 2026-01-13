@@ -655,7 +655,7 @@ namespace SvonyBrowser.Services
         public TimeSpan MarchTime { get; set; }
         public int SourceCityId { get; set; }
         public double WinProbability { get; set; }
-        public Dictionary<string, int> ExpectedLosses { get; set; } = new int>();
+        public Dictionary<string, int> ExpectedLosses { get; set; } = new Dictionary<string, int>();
         public ResourceState ExpectedLoot { get; set; } = new ResourceState();
         public List<string> Recommendations { get; set; } = new List<string>();
         public string RiskLevel { get; set; } = "MEDIUM";
@@ -666,15 +666,15 @@ namespace SvonyBrowser.Services
 
     public class TroopComposition
     {
-        public Dictionary<string, int> Troops { get; set; } = new int>();
+        public Dictionary<string, int> Troops { get; set; } = new Dictionary<string, int>();
         public long TotalPower { get; set; }
     }
 
     public class CombatSimulation
     {
         public double WinProbability { get; set; }
-        public Dictionary<string, int> AttackerLosses { get; set; } = new int>();
-        public Dictionary<string, int> DefenderLosses { get; set; } = new int>();
+        public Dictionary<string, int> AttackerLosses { get; set; } = new Dictionary<string, int>();
+        public Dictionary<string, int> DefenderLosses { get; set; } = new Dictionary<string, int>();
         public ResourceState LootEstimate { get; set; } = new ResourceState();
     }
 

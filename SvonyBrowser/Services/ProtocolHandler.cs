@@ -27,8 +27,8 @@ namespace SvonyBrowser.Services
 
         #region Fields
 
-        private readonly Dictionary<string, ProtocolAction> _protocolActions = new ProtocolAction>();
-        private readonly Dictionary<int, string> _commandIdMap = new string>();
+        private readonly Dictionary<string, ProtocolAction> _protocolActions = new Dictionary<string, ProtocolAction>();
+        private readonly Dictionary<int, string> _commandIdMap = new Dictionary<int, string>();
         private bool _disposed = false;
         private bool _initialized = false;
 
@@ -563,7 +563,7 @@ namespace SvonyBrowser.Services
         public int CommandId { get; set; }
         public string Category { get; set; }
         public string Description { get; set; }
-        public Dictionary<string, string> Parameters { get; set; } = new string>();
+        public Dictionary<string, string> Parameters { get; set; } = new Dictionary<string, string>();
         public Dictionary<string, string> Response { get; set; }
     
         // Properties for PacketAnalysisEngine learned actions
@@ -863,7 +863,7 @@ namespace SvonyBrowser.Services
     public class AMF3Encoder
     {
         private readonly MemoryStream _stream = new MemoryStream();
-        private readonly Dictionary<string, int> _stringRefs = new int>();
+        private readonly Dictionary<string, int> _stringRefs = new Dictionary<string, int>();
         private readonly Dictionary<object, int> _objectRefs = new int>();
 
         public byte[] Encode(JToken value)

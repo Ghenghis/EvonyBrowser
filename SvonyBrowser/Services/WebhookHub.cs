@@ -30,7 +30,7 @@ namespace SvonyBrowser.Services
 
         private readonly HttpClient _httpClient;
         private readonly List<WebhookConfig> _webhooks = new List<WebhookConfig>();
-        private readonly Dictionary<string, DateTime> _lastNotifications = new DateTime>();
+        private readonly Dictionary<string, DateTime> _lastNotifications = new Dictionary<string, DateTime>();
         private readonly object _lock = new object();
         private bool _disposed = false;
 

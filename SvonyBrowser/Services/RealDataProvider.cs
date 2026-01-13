@@ -412,8 +412,8 @@ namespace SvonyBrowser.Services
         public string AmfSalt { get; set; } = "";
         public string SessionKey { get; set; } = "";
         public string EncryptionKey { get; set; } = "";
-        public Dictionary<string, string> ServerKeys { get; set; } = new string>();
-        public Dictionary<string, int> Constants { get; set; } = new int>();
+        public Dictionary<string, string> ServerKeys { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, int> Constants { get; set; } = new Dictionary<string, int>();
     }
     
     public class McpServerStatus
@@ -441,7 +441,7 @@ namespace SvonyBrowser.Services
     {
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
-        public Dictionary<string, object> InputSchema { get; set; } = new object>();
+        public Dictionary<string, object> InputSchema { get; set; } = new Dictionary<string, object>();
     }
     
     public class LlmModelInfo

@@ -813,7 +813,7 @@ namespace SvonyBrowser.Services
     {
         public string Id { get; set; } = "";
         public string TaskType { get; set; } = "";
-        public Dictionary<string, object> Parameters { get; set; } = new object>();
+        public Dictionary<string, object> Parameters { get; set; } = new Dictionary<string, object>();
         public int Priority { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? CompletedAt { get; set; }

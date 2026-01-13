@@ -650,7 +650,7 @@ namespace SvonyBrowser.Services
         public DateTime EndTime { get; set; }
         public int PacketCount { get; set; }
         public List<RecordedPacket> Packets { get; set; } = new List<RecordedPacket>();
-        public Dictionary<string, string> Metadata { get; set; } = new string>();
+        public Dictionary<string, string> Metadata { get; set; } = new Dictionary<string, string>();
     }
 
     public class RecordedPacket
@@ -689,8 +689,8 @@ namespace SvonyBrowser.Services
         public int TotalPackets { get; set; }
         public int RequestCount { get; set; }
         public int ResponseCount { get; set; }
-        public Dictionary<string, int> ActionCounts { get; set; } = new int>();
-        public Dictionary<string, int> CategoryCounts { get; set; } = new int>();
+        public Dictionary<string, int> ActionCounts { get; set; } = new Dictionary<string, int>();
+        public Dictionary<string, int> CategoryCounts { get; set; } = new Dictionary<string, int>();
         public long TotalDataSize { get; set; }
         public TimeSpan AveragePacketInterval { get; set; }
         public TimeSpan MinPacketInterval { get; set; }
