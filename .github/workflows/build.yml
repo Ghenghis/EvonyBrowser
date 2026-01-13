@@ -53,16 +53,18 @@ jobs:
         Write-Host "`n=== All packages installed ==="
         Get-ChildItem packages -Directory | ForEach-Object { Write-Host $_.Name }
         
-        Write-Host "`n=== Searching for CefSharp DLLs ==="
-        Get-ChildItem packages -Recurse -Filter "CefSharp*.dll" | ForEach-Object { Write-Host $_.FullName }
+        Write-Host "`n=== ALL DLL files in packages ==="
+        Get-ChildItem packages -Recurse -Filter "*.dll" | ForEach-Object { Write-Host $_.FullName }
         
-        Write-Host "`n=== CefSharp.Common folder structure ==="
-        if (Test-Path "packages/CefSharp.Common.84.4.10") {
-          Get-ChildItem "packages/CefSharp.Common.84.4.10" -Recurse | Select-Object -First 30 FullName
+        Write-Host "`n=== CefSharp x64 folder contents ==="
+        $x64Path = "packages/CefSharp.Common.84.4.10/CefSharp/x64"
+        if (Test-Path $x64Path) {
+          Get-ChildItem $x64Path | ForEach-Object { Write-Host "$($_.Name) - $($_.Length) bytes" }
         } else {
-          Write-Host "CefSharp.Common.84.4.10 folder not found!"
+          Write-Host "x64 folder not found at $x64Path"
         }
       shell: pwsh
+      continue-on-error: true
 
     - name: Build Release
       run: |
