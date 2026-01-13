@@ -16,8 +16,8 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <Prefer32Bit>false</Prefer32Bit>
-    <ApplicationIcon>Resources\svony.ico</ApplicationIcon>
     <LangVersion>9.0</LangVersion>
+    <StartupObject>SvonyBrowser.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <DebugSymbols>true</DebugSymbols>
@@ -227,9 +227,6 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\svony.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\CefSharp.Common.84.4.10\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.84.4.10\build\CefSharp.Common.targets')" />
