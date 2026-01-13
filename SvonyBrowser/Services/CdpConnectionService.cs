@@ -417,7 +417,7 @@ namespace SvonyBrowser.Services
         public async Task<string> NavigateAsync(string url)
         {
             var result = await SendCommandAsync("Page.navigate", new { url });
-            return result.GetProperty("frameId").GetString();
+            return result["frameId"]?.ToString() ?? "";
         }
         
         /// <summary>
@@ -434,12 +434,12 @@ namespace SvonyBrowser.Services
         public async Task GoBackAsync()
         {
             var history = await SendCommandAsync("Page.getNavigationHistory");
-            var currentIndex = history.GetProperty("currentIndex").GetInt32();
+            var currentIndex = (int)(history["currentIndex"] ?? 0);
             
             if (currentIndex > 0)
             {
-                var entries = history.GetProperty("entries");
-                var entryId = entries[currentIndex - 1].GetProperty("id").GetInt32();
+                var entries = history["entries"];
+                var entryId = (int)(entries[currentIndex - 1]["id"] ?? 0);
                 await SendCommandAsync("Page.navigateToHistoryEntry", new { entryId });
             }
         }
@@ -450,12 +450,12 @@ namespace SvonyBrowser.Services
         public async Task GoForwardAsync()
         {
             var history = await SendCommandAsync("Page.getNavigationHistory");
-            var currentIndex = history.GetProperty("currentIndex").GetInt32();
-            var entries = history.GetProperty("entries");
+            var currentIndex = (int)(history["currentIndex"] ?? 0);
+            var entries = history["entries"];
             
-            if (currentIndex < entries.GetArrayLength() - 1)
+            if (currentIndex < (entries as JArray)?.Count - 1)
             {
-                var entryId = entries[currentIndex + 1].GetProperty("id").GetInt32();
+                var entryId = (int)(entries[currentIndex + 1]["id"] ?? 0);
                 await SendCommandAsync("Page.navigateToHistoryEntry", new { entryId });
             }
         }
