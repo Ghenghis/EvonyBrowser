@@ -34,7 +34,18 @@ jobs:
         lfs: true
 
     - name: Checkout LFS objects
-      run: git lfs pull
+      run: |
+        git lfs pull
+        Write-Host "=== Verifying LFS files ==="
+        $libcef = "release/Assets/CefSharp/libcef.dll"
+        if (Test-Path $libcef) {
+          $size = [math]::Round((Get-Item $libcef).Length / 1MB, 2)
+          Write-Host "SUCCESS: libcef.dll exists ($size MB)"
+        } else {
+          Write-Host "ERROR: libcef.dll not found!"
+          Get-ChildItem "release/Assets" -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.Name }
+        }
+      shell: pwsh
 
     - name: Get Version
       id: version
@@ -104,11 +115,24 @@ jobs:
           exit 1
         }
         
-        # Copy Assets folder
+        # Copy Assets folder (contains CefSharp runtime, Flash plugin, etc.)
         if (Test-Path "release/Assets") {
           New-Item -ItemType Directory -Path "$packagePath/Assets" -Force
           Copy-Item -Path "release/Assets/*" -Destination "$packagePath/Assets" -Recurse -Force
-          Write-Host "Copied Assets folder"
+          
+          # Verify critical files were copied
+          $libcef = "$packagePath/Assets/CefSharp/libcef.dll"
+          if (Test-Path $libcef) {
+            $size = [math]::Round((Get-Item $libcef).Length / 1MB, 2)
+            Write-Host "SUCCESS: Assets copied - libcef.dll is $size MB"
+          } else {
+            Write-Host "WARNING: libcef.dll not found after copy!"
+            Write-Host "Source contents:"
+            Get-ChildItem "release/Assets/CefSharp" -ErrorAction SilentlyContinue | Select-Object Name, Length
+          }
+        } else {
+          Write-Host "ERROR: release/Assets folder not found!"
+          exit 1
         }
         
         # Copy documentation
