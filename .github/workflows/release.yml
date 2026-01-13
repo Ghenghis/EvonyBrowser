@@ -55,24 +55,24 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v2
 
-    - name: Cache NuGet packages
-      uses: actions/cache@v4
-      with:
-        path: packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.config') }}
-        restore-keys: |
-          ${{ runner.os }}-nuget-
-
     - name: Restore NuGet packages
       run: |
-        cd SvonyBrowser
-        nuget restore packages.config -PackagesDirectory ..\packages
-        cd ..
+        Write-Host "Restoring NuGet packages..."
+        nuget restore SvonyBrowser/packages.config -PackagesDirectory packages -NonInteractive
+        
+        Write-Host "Verifying CefSharp packages..."
+        if (Test-Path "packages/CefSharp.Common.84.4.10") {
+          Write-Host "CefSharp.Common found"
+          Get-ChildItem "packages/CefSharp.Common.84.4.10" -Recurse -Filter "*.dll" | Select-Object -First 5
+        } else {
+          Write-Host "ERROR: CefSharp.Common not found!"
+          exit 1
+        }
       shell: pwsh
 
     - name: Build ${{ matrix.configuration }} ${{ matrix.platform }}
       run: |
-        msbuild ${{ env.PROJECT_PATH }} /t:Rebuild /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /p:OutputPath=bin\${{ matrix.platform }}\${{ matrix.configuration }} /p:RestorePackages=false
+        msbuild ${{ env.PROJECT_PATH }} /t:Rebuild /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /p:OutputPath=bin\${{ matrix.platform }}\${{ matrix.configuration }}
 
     - name: Prepare ${{ matrix.configuration }} ${{ matrix.platform }} Package
       run: |
