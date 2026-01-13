@@ -2,6 +2,9 @@
 // Stub classes for CefSharp to allow compilation on non-Windows platforms
 // These are only used during build verification and are not functional
 
+using System;
+using System.Collections.Generic;
+
 namespace CefSharp.Wpf
 {
     public class ChromiumWebBrowser : System.Windows.Controls.Control
