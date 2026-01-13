@@ -628,9 +628,7 @@ namespace SvonyBrowser.Services
             }
 
             // Direct HTTP send
-            var client = new System.Net.Http.HttpClient(); // TODO: Add using block for proper disposal
-    using SvonyBrowser.Helpers;
-            var content = new System.Net.Http.ByteArrayContent(packet);
+            var client = new System.Net.Http.HttpClient(); // TODO: Add using block for proper disposal            var content = new System.Net.Http.ByteArrayContent(packet);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-amf");
 
             var response = await client.PostAsync(targetUrl, content, ct);

@@ -10,9 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using Newtonsoft.Json;
-using SvonyBrowser.Helpers;
-using SvonyBrowser.Services;
+using Newtonsoft.Json;using SvonyBrowser.Services;
 
 namespace SvonyBrowser
 {

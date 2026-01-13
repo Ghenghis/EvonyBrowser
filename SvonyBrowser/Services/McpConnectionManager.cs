@@ -661,9 +661,7 @@ namespace SvonyBrowser.Services
                 await _stdin.WriteLineAsync(json);
                 await _stdin.FlushAsync();
             
-                var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken); // TODO: Add using block for proper disposal
-    using SvonyBrowser.Helpers;
-                cts.CancelAfter(TimeSpan.FromSeconds(30));
+                var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken); // TODO: Add using block for proper disposal                cts.CancelAfter(TimeSpan.FromSeconds(30));
             
                 var response = await tcs.Task.WaitAsync(cts.Token);
                 return response;

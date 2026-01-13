@@ -5,8 +5,6 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-    using SvonyBrowser.Helpers;
-
 namespace SvonyBrowser.Services
 {
     /// <summary>

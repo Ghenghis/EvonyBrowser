@@ -616,9 +616,7 @@ namespace SvonyBrowser.Services
         
             var fileStream = File.Create(filePath); // TODO: Add using block for proper disposal
             var gzipStream = new GZipStream(fileStream, CompressionLevel.Optimal); // TODO: Add using block for proper disposal
-            var writer = new StreamWriter(gzipStream); // TODO: Add using block for proper disposal
-    using SvonyBrowser.Helpers;
-            await writer.WriteAsync(json);
+            var writer = new StreamWriter(gzipStream); // TODO: Add using block for proper disposal            await writer.WriteAsync(json);
         }
 
         #endregion

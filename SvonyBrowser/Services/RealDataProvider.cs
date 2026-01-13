@@ -229,9 +229,7 @@ namespace SvonyBrowser.Services
         {
             try
             {
-                var client = await ConnectionPool.Instance.GetHttpClientAsync(lmStudioUrl); // TODO: Add using block for proper disposal
-    using SvonyBrowser.Helpers;
-                
+                var client = await ConnectionPool.Instance.GetHttpClientAsync(lmStudioUrl); // TODO: Add using block for proper disposal                
                 var response = await client.GetAsync("/v1/models", cancellationToken);
                 
                 if (response.IsSuccessStatusCode)

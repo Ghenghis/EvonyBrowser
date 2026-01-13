@@ -4,9 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows;
 using CefSharp;
-using CefSharp.Wpf;
-using SvonyBrowser.Helpers;
-using SvonyBrowser.Models;
+using CefSharp.Wpf;using SvonyBrowser.Models;
 
 namespace SvonyBrowser
 {

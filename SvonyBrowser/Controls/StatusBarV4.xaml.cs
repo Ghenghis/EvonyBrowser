@@ -11,8 +11,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-    using SvonyBrowser.Helpers;
-
 namespace SvonyBrowser.Controls
 {
     /// <summary>

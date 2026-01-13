@@ -431,9 +431,7 @@ Provide actionable advice with specific steps and timing."
                 var line = await reader.ReadLineAsync();
                 if (string.IsNullOrEmpty(line)) continue;
 
-                var doc = JObject.Parse(line); // TODO: Add using block for proper disposal
-    using SvonyBrowser.Helpers;
-using Newtonsoft.Json.Linq;
+                var doc = JObject.Parse(line); // TODO: Add using block for proper disposalusing Newtonsoft.Json.Linq;
                 
                 if (doc.RootElement.TryGetProperty("response", out var responseElement))
                 {
