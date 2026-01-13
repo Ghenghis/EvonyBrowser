@@ -722,7 +722,8 @@ namespace SvonyBrowser.Services
 
         public void ClearResults()
         {
-            _results.Clear();
+            // ConcurrentBag doesn't have Clear() in .NET Framework 4.6.2
+            while (_results.TryTake(out _)) { }
             _totalAttempts = 0;
             _successfulAttempts = 0;
             _errorAttempts = 0;
