@@ -35,10 +35,10 @@ namespace SvonyBrowser.Services
 
         #region Fields
 
-        private readonly ConcurrentDictionary<string, MapTile> _mapData = new Dictionary<string, MapTile>();
-        private readonly ConcurrentDictionary<string, PlayerBase> _playerBases = new Dictionary<string, PlayerBase>();
-        private readonly ConcurrentDictionary<string, ResourceTile> _resourceTiles = new Dictionary<string, ResourceTile>();
-        private readonly ConcurrentDictionary<string, MonsterTile> _monsters = new Dictionary<string, MonsterTile>();
+        private readonly ConcurrentDictionary<string, MapTile> _mapData = new ConcurrentDictionary<string, MapTile>();
+        private readonly ConcurrentDictionary<string, PlayerBase> _playerBases = new ConcurrentDictionary<string, PlayerBase>();
+        private readonly ConcurrentDictionary<string, ResourceTile> _resourceTiles = new ConcurrentDictionary<string, ResourceTile>();
+        private readonly ConcurrentDictionary<string, MonsterTile> _monsters = new ConcurrentDictionary<string, MonsterTile>();
         private readonly List<ScanResult> _scanHistory = new List<ScanResult>();
         private readonly string _dataPath;
         private CancellationTokenSource _scanCts;

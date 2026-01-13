@@ -28,10 +28,10 @@ namespace SvonyBrowser.Services
 
         #region Fields
 
-        private readonly ConcurrentDictionary<int, CityState> _cities = new Dictionary<int, CityState>();
-        private readonly ConcurrentDictionary<int, HeroState> _heroes = new Dictionary<int, HeroState>();
-        private readonly ConcurrentDictionary<int, ArmyState> _armies = new Dictionary<int, ArmyState>();
-        private readonly ConcurrentDictionary<int, MarchState> _marches = new Dictionary<int, MarchState>();
+        private readonly ConcurrentDictionary<int, CityState> _cities = new ConcurrentDictionary<int, CityState>();
+        private readonly ConcurrentDictionary<int, HeroState> _heroes = new ConcurrentDictionary<int, HeroState>();
+        private readonly ConcurrentDictionary<int, ArmyState> _armies = new ConcurrentDictionary<int, ArmyState>();
+        private readonly ConcurrentDictionary<int, MarchState> _marches = new ConcurrentDictionary<int, MarchState>();
         private readonly List<GameEvent> _eventHistory = new List<GameEvent>();
         private readonly object _historyLock = new object();
         private readonly Timer _updateTimer;

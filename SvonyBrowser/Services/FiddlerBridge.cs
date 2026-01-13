@@ -34,7 +34,7 @@ namespace SvonyBrowser.Services
         private bool _isDisposed;
         private string _currentFilter = "*.evony.com";
         private readonly ConcurrentQueue<FiddlerCommand> _commandQueue = new ConcurrentQueue<FiddlerCommand>();
-        private readonly ConcurrentDictionary<string, FiddlerSession> _activeSessions = new Dictionary<string, FiddlerSession>();
+        private readonly ConcurrentDictionary<string, FiddlerSession> _activeSessions = new ConcurrentDictionary<string, FiddlerSession>();
         private readonly List<FiddlerBreakpoint> _breakpoints = new List<FiddlerBreakpoint>();
         private readonly object _breakpointLock = new object();
 
