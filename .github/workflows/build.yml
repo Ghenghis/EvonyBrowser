@@ -40,23 +40,19 @@ jobs:
 
     - name: Restore NuGet packages
       run: |
-        Write-Host "Restoring NuGet packages..."
+        Write-Host "=== Restoring NuGet packages ==="
         nuget restore SvonyBrowser/packages.config -PackagesDirectory packages -NonInteractive
         
-        Write-Host "Verifying CefSharp packages..."
-        if (Test-Path "packages/CefSharp.Common.84.4.10") {
-          Write-Host "CefSharp.Common found"
-          Get-ChildItem "packages/CefSharp.Common.84.4.10" -Recurse -Filter "*.dll" | Select-Object -First 5
-        } else {
-          Write-Host "ERROR: CefSharp.Common not found!"
-          exit 1
-        }
+        Write-Host "`n=== Checking expected DLL paths ==="
+        $cefDll = "packages/CefSharp.Common.84.4.10/CefSharp/x64/CefSharp.dll"
+        $wpfDll = "packages/CefSharp.Wpf.84.4.10/CefSharp/x64/CefSharp.Wpf.dll"
+        
+        if (Test-Path $cefDll) { Write-Host "FOUND: $cefDll" } else { Write-Host "MISSING: $cefDll"; exit 1 }
+        if (Test-Path $wpfDll) { Write-Host "FOUND: $wpfDll" } else { Write-Host "MISSING: $wpfDll"; exit 1 }
+        
+        Write-Host "`n=== Package folder structure ==="
+        Get-ChildItem packages -Directory | ForEach-Object { Write-Host $_.Name }
       shell: pwsh
-
-    - name: Build Debug
-      run: |
-        msbuild ${{ env.SOLUTION_PATH }} /t:Build /p:Configuration=Debug /p:Platform=x64
-      continue-on-error: true
 
     - name: Build Release
       run: |
