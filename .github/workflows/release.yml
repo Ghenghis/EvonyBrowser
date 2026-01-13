@@ -115,23 +115,39 @@ jobs:
           exit 1
         }
         
-        # Copy Assets folder (contains CefSharp runtime, Flash plugin, etc.)
-        if (Test-Path "release/Assets") {
-          New-Item -ItemType Directory -Path "$packagePath/Assets" -Force
-          Copy-Item -Path "release/Assets/*" -Destination "$packagePath/Assets" -Recurse -Force
-          
-          # Verify critical files were copied
-          $libcef = "$packagePath/Assets/CefSharp/libcef.dll"
-          if (Test-Path $libcef) {
-            $size = [math]::Round((Get-Item $libcef).Length / 1MB, 2)
-            Write-Host "SUCCESS: Assets copied - libcef.dll is $size MB"
-          } else {
-            Write-Host "WARNING: libcef.dll not found after copy!"
-            Write-Host "Source contents:"
-            Get-ChildItem "release/Assets/CefSharp" -ErrorAction SilentlyContinue | Select-Object Name, Length
-          }
+        # Create Assets folder structure
+        New-Item -ItemType Directory -Path "$packagePath/Assets/CefSharp" -Force
+        New-Item -ItemType Directory -Path "$packagePath/Assets/Plugins" -Force
+        New-Item -ItemType Directory -Path "$packagePath/Assets/SwfPlayer" -Force
+        
+        # Copy CefSharp runtime from NuGet packages (LFS files may not download in CI)
+        $cefRedist = if ($platform -eq "x64") { "packages/cef.redist.x64.84.4.1/CEF" } else { "packages/cef.redist.x86.84.4.1/CEF" }
+        if (Test-Path $cefRedist) {
+          Copy-Item -Path "$cefRedist/*" -Destination "$packagePath/Assets/CefSharp" -Recurse -Force
+          Write-Host "Copied CEF runtime from $cefRedist"
+        }
+        
+        # Copy CefSharp managed DLLs
+        $cefSharpPath = if ($platform -eq "x64") { "packages/CefSharp.Common.84.4.10/CefSharp/x64" } else { "packages/CefSharp.Common.84.4.10/CefSharp/x86" }
+        if (Test-Path $cefSharpPath) {
+          Copy-Item -Path "$cefSharpPath/*" -Destination "$packagePath/Assets/CefSharp" -Force
+          Write-Host "Copied CefSharp DLLs from $cefSharpPath"
+        }
+        
+        # Copy SwfPlayer from repo (small file, not LFS)
+        if (Test-Path "release/Assets/SwfPlayer") {
+          Copy-Item -Path "release/Assets/SwfPlayer/*" -Destination "$packagePath/Assets/SwfPlayer" -Recurse -Force
+        }
+        
+        # Verify libcef.dll exists
+        $libcef = "$packagePath/Assets/CefSharp/libcef.dll"
+        if (Test-Path $libcef) {
+          $size = [math]::Round((Get-Item $libcef).Length / 1MB, 2)
+          Write-Host "SUCCESS: libcef.dll is $size MB"
         } else {
-          Write-Host "ERROR: release/Assets folder not found!"
+          Write-Host "ERROR: libcef.dll not found!"
+          Write-Host "Available in cef.redist:"
+          Get-ChildItem "packages/cef.redist.*" -Directory -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.FullName }
           exit 1
         }
         
