@@ -77,9 +77,8 @@ namespace SvonyBrowser.Services
                 // Create new client
                 var handler = new HttpClientHandler
                 {
-                    PooledConnectionIdleTimeout = TimeSpan.FromMinutes(5),
-                    MaxConnectionsPerServer = 10,
-                    EnableMultipleHttp2Connections = true
+                    // .NET Framework 4.6.2 compatible settings
+                    AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
                 };
                 
                 var client = new HttpClient(handler)
