@@ -61,7 +61,7 @@ namespace SvonyBrowser.Helpers
         {
             try
             {
-                var cookieManager = CookieManager.GetGlobalManager();
+                var cookieManager = Cef.GetGlobalCookieManager();
                 if (cookieManager != null)
                 {
                     await cookieManager.DeleteCookiesAsync("", "");
@@ -209,8 +209,10 @@ namespace SvonyBrowser.Helpers
             {
                 cwb.TitleChanged += (s, e) =>
                 {
-                    var args = e as DependencyPropertyChangedEventArgs?;
-                    handler(args?.NewValue?.ToString() ?? "");
+                    if (e is TitleChangedEventArgs tea)
+                    {
+                        handler(tea.Title ?? "");
+                    }
                 };
             }
         }
