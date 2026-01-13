@@ -125,23 +125,23 @@ namespace SvonyBrowser
             BrowserHelper.OnFrameLoadEnd(LeftBrowser, (url, isMain) =>
             {
                 if (!isMain) return;
-                Dispatcher.BeginInvoke(() =>
+                Dispatcher.BeginInvoke((Action)(() =>
                 {
                     if (_disposed) return;
                     LeftStatusText.Text = "Loaded";
                     App.Logger.Information("Left panel (AutoEvony) loaded successfully");
-                });
+                }));
             });
         
             BrowserHelper.OnFrameLoadEnd(RightBrowser, (url, isMain) =>
             {
                 if (!isMain) return;
-                Dispatcher.BeginInvoke(() =>
+                Dispatcher.BeginInvoke(new Action(() =>
                 {
                     if (_disposed) return;
                     RightStatusText.Text = "Loaded";
                     App.Logger.Information("Right panel (EvonyClient) loaded successfully");
-                });
+                }));
             });
         
             BrowserHelper.OnLoadError(LeftBrowser, (failedUrl, errorText, errorCode) =>
