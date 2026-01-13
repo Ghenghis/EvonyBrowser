@@ -3,8 +3,11 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using SvonyBrowser.Helpers;
+
 namespace SvonyBrowser.Services
 {
     /// <summary>
