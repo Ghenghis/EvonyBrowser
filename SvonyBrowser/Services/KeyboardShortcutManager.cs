@@ -335,6 +335,19 @@ namespace SvonyBrowser.Services
         }
         
         #endregion
+
+        #region IDisposable
+
+        private bool _disposed;
+
+        public void Dispose()
+        {
+            if (_disposed) return;
+            _disposed = true;
+            App.Logger?.Debug("KeyboardShortcutManager disposed");
+        }
+
+        #endregion
     }
     
     #region Supporting Classes
@@ -369,18 +382,5 @@ namespace SvonyBrowser.Services
         }
     }
     
-    #endregion
-
-    #region IDisposable
-
-    private bool _disposed;
-
-    public void Dispose()
-    {
-        if (_disposed) return;
-        _disposed = true;
-        App.Logger?.Debug("KeyboardShortcutManager disposed");
-    }
-
     #endregion
 }

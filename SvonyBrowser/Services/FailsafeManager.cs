@@ -290,19 +290,8 @@ namespace SvonyBrowser.Services
 
         #region Connection Management (Failsafes 81-100)
 
-        /// <summary>
-        /// Executes with connection timeout protection.
-        /// </summary>
-        public async Task<T> ExecuteWithTimeoutAsync<T>(string name, Func<Task<T>> action, TimeSpan timeout)
-        {
-            var cts = new CancellationTokenSource(timeout); // TODO: Add using block for proper disposal
-    using SvonyBrowser.Helpers;
-        
-            try
-            {
-                var task = action();
-                var completedTask = await Task.WhenAny(task, Task.Delay(timeout, cts.Token));
             
+        if (breaker.ShouldTrip())
                 if (completedTask == task)
                 {
                     return await task;

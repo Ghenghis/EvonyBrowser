@@ -18,7 +18,7 @@ namespace SvonyBrowser.Controls
 
         private readonly ProtocolHandler _protocolHandler;
         private ProtocolAction? _selectedAction;
-        private Dictionary<string, List<ProtocolAction>> _categorizedActions = new List<ProtocolAction>>();
+        private Dictionary<string, List<ProtocolAction>> _categorizedActions = new Dictionary<string, List<ProtocolAction>>();
 
         #endregion
 

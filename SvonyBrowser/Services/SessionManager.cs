@@ -427,18 +427,4 @@ namespace SvonyBrowser.Services
         /// </summary>
         public string FlashPluginPath { get; set; } = "";
     }
-
-
-    #region IDisposable
-
-    private bool _disposed;
-
-    public void Dispose()
-    {
-        if (_disposed) return;
-        _disposed = true;
-        App.Logger?.Debug("SessionManager disposed");
-    }
-
-    #endregion
 }

@@ -538,7 +538,7 @@ namespace SvonyBrowser.Services
         private StreamWriter _stdin;
         private StreamReader _stdout;
         private CancellationTokenSource _readCts;
-        private readonly ConcurrentDictionary<string, TaskCompletionSource<JObject>> _pendingRequests = new TaskCompletionSource<JObject>>();
+        private readonly ConcurrentDictionary<string, TaskCompletionSource<JObject>> _pendingRequests = new ConcurrentDictionary<string, TaskCompletionSource<JObject>>();
         private bool _disposed = false;
         private int _requestId = 0;
 

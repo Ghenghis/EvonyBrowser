@@ -562,7 +562,6 @@ namespace SvonyBrowser.Services
             var input = new MemoryStream(compressed); // TODO: Add using block for proper disposal
             var gzip = new GZipStream(input, CompressionMode.Decompress); // TODO: Add using block for proper disposal
             var output = new MemoryStream(); // TODO: Add using block for proper disposal
-    using SvonyBrowser.Helpers;
             gzip.CopyTo(output);
             return Encoding.UTF8.GetString(output.ToArray());
         }

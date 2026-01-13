@@ -864,7 +864,7 @@ namespace SvonyBrowser.Services
     {
         private readonly MemoryStream _stream = new MemoryStream();
         private readonly Dictionary<string, int> _stringRefs = new Dictionary<string, int>();
-        private readonly Dictionary<object, int> _objectRefs = new int>();
+        private readonly Dictionary<object, int> _objectRefs = new Dictionary<object, int>();
 
         public byte[] Encode(JToken value)
         {

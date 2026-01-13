@@ -30,7 +30,7 @@ namespace SvonyBrowser.Services
         #region Fields
 
         private readonly Dictionary<string, PromptTemplate> _templates = new Dictionary<string, PromptTemplate>();
-        private readonly Dictionary<string, Func<GameStateEngine, string>> _dynamicVariables = new string>>();
+        private readonly Dictionary<string, Func<GameStateEngine, string>> _dynamicVariables = new Dictionary<string, Func<GameStateEngine, string>>();
         private readonly string _templatesPath;
 
         #endregion
@@ -640,20 +640,6 @@ namespace SvonyBrowser.Services
         public List<string> RequiredVariables { get; set; } = new List<string>();
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime ModifiedAt { get; set; } = DateTime.UtcNow;
-    }
-
-    #endregion
-
-
-    #region IDisposable
-
-    private bool _disposed;
-
-    public void Dispose()
-    {
-        if (_disposed) return;
-        _disposed = true;
-        App.Logger?.Debug("PromptTemplateEngine disposed");
     }
 
     #endregion

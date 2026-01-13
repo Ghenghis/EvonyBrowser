@@ -679,7 +679,7 @@ namespace SvonyBrowser.Services
         public List<string> OnlyInSession1 { get; set; } = new List<string>();
         public List<string> OnlyInSession2 { get; set; } = new List<string>();
         public List<string> CommonActions { get; set; } = new List<string>();
-        public Dictionary<string, (int Count1, int Count2)> CountDifferences { get; set; } = new >();
+        public Dictionary<string, (int Count1, int Count2)> CountDifferences { get; set; } = new Dictionary<string, (int Count1, int Count2)>();
     }
 
     public class SessionStatistics

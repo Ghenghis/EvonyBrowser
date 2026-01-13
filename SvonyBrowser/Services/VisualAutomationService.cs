@@ -602,17 +602,4 @@ namespace SvonyBrowser.Services
             Description = description;
         }
     }
-
-    #region IDisposable
-
-    private bool _disposed;
-
-    public void Dispose()
-    {
-        if (_disposed) return;
-        _disposed = true;
-        App.Logger?.Debug("VisualAutomationService disposed");
-    }
-
-    #endregion
 }
