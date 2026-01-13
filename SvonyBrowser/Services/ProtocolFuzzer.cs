@@ -80,7 +80,8 @@ namespace SvonyBrowser.Services
             _errorAttempts = 0;
             _discoveredActions = 0;
             _progress = 0;
-            _results.Clear();
+            // ConcurrentBag doesn't have Clear() in .NET Framework 4.6.2
+            while (_results.TryTake(out _)) { }
 
             OnPropertyChanged(nameof(IsFuzzing));
             OnPropertyChanged(nameof(Progress));
