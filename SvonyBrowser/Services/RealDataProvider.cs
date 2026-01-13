@@ -284,7 +284,7 @@ namespace SvonyBrowser.Services
                 
                 process.Start();
                 var output = await process.StandardOutput.ReadToEndAsync();
-                await process.WaitForExitAsync(cancellationToken);
+                process.WaitForExit();
                 
                 if (process.ExitCode == 0 && !string.IsNullOrEmpty(output))
                 {

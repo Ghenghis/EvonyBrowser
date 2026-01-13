@@ -272,7 +272,7 @@ namespace SvonyBrowser.Services
                 var logFile = Path.Combine(_logDirectory, $"svony-{DateTime.Now:yyyy-MM-dd}.log");
                 var logLine = FormatLogEntry(entry);
                 
-                await File.AppendAllTextAsync(logFile, logLine + Environment.NewLine);
+                File.AppendAllText(logFile, logLine + Environment.NewLine);
             }
             catch (Exception ex)
             {

@@ -256,7 +256,7 @@ namespace SvonyBrowser.Services
         public async Task SaveScreenshotAsync(string filePath)
         {
             var data = await TakeScreenshotAsync();
-            await File.WriteAllBytesAsync(filePath, data);
+            File.WriteAllBytes(filePath, data);
         }
         
         /// <summary>
