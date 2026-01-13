@@ -38,33 +38,40 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
 
-    - name: Restore NuGet packages
+    - name: Clear NuGet cache and restore packages
       run: |
-        Write-Host "=== Installing packages ==="
-        nuget install CefSharp.Common -Version 84.4.10 -OutputDirectory packages -NonInteractive -Verbosity detailed
-        nuget install CefSharp.Wpf -Version 84.4.10 -OutputDirectory packages -NonInteractive
-        nuget install cef.redist.x64 -Version 84.4.1 -OutputDirectory packages -NonInteractive
-        nuget install Newtonsoft.Json -Version 13.0.3 -OutputDirectory packages -NonInteractive
-        nuget install Serilog -Version 2.12.0 -OutputDirectory packages -NonInteractive
-        nuget install Serilog.Sinks.Console -Version 4.1.0 -OutputDirectory packages -NonInteractive
-        nuget install Serilog.Sinks.File -Version 5.0.0 -OutputDirectory packages -NonInteractive
-        nuget install System.ValueTuple -Version 4.5.0 -OutputDirectory packages -NonInteractive
+        Write-Host "=== Clearing NuGet cache ==="
+        nuget locals all -clear
         
-        Write-Host "`n=== All packages installed ==="
+        Write-Host "`n=== Removing existing packages folder ==="
+        if (Test-Path packages) { Remove-Item packages -Recurse -Force }
+        
+        Write-Host "`n=== Installing CefSharp packages fresh ==="
+        nuget install CefSharp.Common -Version 84.4.10 -OutputDirectory packages -NoCache
+        nuget install CefSharp.Wpf -Version 84.4.10 -OutputDirectory packages -NoCache
+        nuget install cef.redist.x64 -Version 84.4.1 -OutputDirectory packages -NoCache
+        nuget install Newtonsoft.Json -Version 13.0.3 -OutputDirectory packages
+        nuget install Serilog -Version 2.12.0 -OutputDirectory packages
+        nuget install Serilog.Sinks.Console -Version 4.1.0 -OutputDirectory packages
+        nuget install Serilog.Sinks.File -Version 5.0.0 -OutputDirectory packages
+        nuget install System.ValueTuple -Version 4.5.0 -OutputDirectory packages
+        
+        Write-Host "`n=== Package folders ==="
         Get-ChildItem packages -Directory | ForEach-Object { Write-Host $_.Name }
         
-        Write-Host "`n=== ALL DLL files in packages ==="
-        Get-ChildItem packages -Recurse -Filter "*.dll" | ForEach-Object { Write-Host $_.FullName }
+        Write-Host "`n=== CefSharp DLLs ==="
+        Get-ChildItem packages -Recurse -Filter "CefSharp*.dll" | ForEach-Object { Write-Host $_.FullName }
         
-        Write-Host "`n=== CefSharp x64 folder contents ==="
-        $x64Path = "packages/CefSharp.Common.84.4.10/CefSharp/x64"
-        if (Test-Path $x64Path) {
-          Get-ChildItem $x64Path | ForEach-Object { Write-Host "$($_.Name) - $($_.Length) bytes" }
-        } else {
-          Write-Host "x64 folder not found at $x64Path"
+        Write-Host "`n=== Verifying critical DLLs ==="
+        $cefDll = "packages/CefSharp.Common.84.4.10/CefSharp/x64/CefSharp.dll"
+        if (Test-Path $cefDll) { 
+          Write-Host "SUCCESS: $cefDll exists" 
+        } else { 
+          Write-Host "FAILED: $cefDll not found"
+          Write-Host "Listing CefSharp.Common contents:"
+          Get-ChildItem "packages/CefSharp.Common.84.4.10" -Recurse | ForEach-Object { Write-Host $_.FullName }
         }
       shell: pwsh
-      continue-on-error: true
 
     - name: Build Release
       run: |
