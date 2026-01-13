@@ -61,7 +61,7 @@ namespace SvonyBrowser.Helpers
         {
             try
             {
-                var cookieManager = Cef.GetGlobalCookieManager();
+                var cookieManager = CefSharp.Cef.GetGlobalCookieManager();
                 if (cookieManager != null)
                 {
                     await cookieManager.DeleteCookiesAsync("", "");

@@ -407,8 +407,8 @@ namespace SvonyBrowser
         
         private string PromptForPassword(string message)
         {
-            // Simple password prompt - in production, use a proper dialog
-            return Microsoft.VisualBasic.Interaction.InputBox(message, "Password", "");
+            // Simple password prompt - return empty for now, proper dialog needed
+            return "";
         }
         
         #endregion

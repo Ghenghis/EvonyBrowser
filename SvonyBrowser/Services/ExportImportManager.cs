@@ -369,11 +369,12 @@ namespace SvonyBrowser.Services
             var base64 = Convert.ToBase64String(compressed);
 
             // Generate a short hash for the link
-            var hash = Convert.ToBase64String(
-                System.Security.Cryptography.HashEx.SHA256(
-                    Encoding.UTF8.GetBytes(recordingId + DateTime.UtcNow.Ticks)
-                )
-            ).Substring(0, 8).Replace("/", "_").Replace("+", "-");
+            byte[] hashBytes;
+            using (var sha256 = System.Security.Cryptography.SHA256.Create())
+            {
+                hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(recordingId + DateTime.UtcNow.Ticks));
+            }
+            var hash = Convert.ToBase64String(hashBytes).Substring(0, 8).Replace("/", "_").Replace("+", "-");
 
             return $"svony://share/{hash}";
         }
