@@ -148,24 +148,24 @@ namespace SvonyBrowser
             {
                 if (errorCode == -3) return; // Aborted
                 App.Logger.Error("Left browser load error: {Error} - URL: {Url}", errorText, failedUrl);
-                Dispatcher.BeginInvoke(() =>
+                Dispatcher.BeginInvoke(new Action(() =>
                 {
                     if (_disposed) return;
                     LeftStatusText.Text = "Error";
                     UpdateStatus($"Load error: {errorText}");
-                });
+                }));
             });
         
             BrowserHelper.OnLoadError(RightBrowser, (failedUrl, errorText, errorCode) =>
             {
                 if (errorCode == -3) return; // Aborted
                 App.Logger.Error("Right browser load error: {Error} - URL: {Url}", errorText, failedUrl);
-                Dispatcher.BeginInvoke(() =>
+                Dispatcher.BeginInvoke(new Action(() =>
                 {
                     if (_disposed) return;
                     RightStatusText.Text = "Error";
                     UpdateStatus($"Load error: {errorText}");
-                });
+                }));
             });
         
             // Add browsers to containers after Loaded event
@@ -774,7 +774,7 @@ namespace SvonyBrowser
             }
             else
             {
-                Dispatcher.BeginInvoke(() => StatusText.Text = message);
+                Dispatcher.BeginInvoke(new Action(() => StatusText.Text = message));
             }
         
             App.Logger.Information("Status: {Message}", message);
@@ -782,11 +782,11 @@ namespace SvonyBrowser
 
         private void OnProxyStatusChanged(bool isAvailable)
         {
-            Dispatcher.BeginInvoke(() =>
+            Dispatcher.BeginInvoke(new Action(() =>
             {
                 if (_disposed) return;
                 UpdateProxyIndicator(isAvailable);
-            });
+            }));
         }
 
         private async Task CheckProxyStatusAsync()
