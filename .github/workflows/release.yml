@@ -209,24 +209,11 @@ jobs:
         }
         
         # Create launcher scripts
-        @'
-@echo off
-cd /d "%~dp0app"
-start "" "SvonyBrowser.exe"
-'@ | Out-File -FilePath "$portablePath/Start-EvonyBrowser.bat" -Encoding ASCII
+        $launcher1 = "@echo off`r`ncd /d `"%~dp0app`"`r`nstart `"`" `"SvonyBrowser.exe`""
+        $launcher1 | Out-File -FilePath "$portablePath/Start-EvonyBrowser.bat" -Encoding ASCII
         
-        @'
-@echo off
-cd /d "%~dp0mcp-servers"
-echo Starting MCP servers...
-for /d %%i in (*) do (
-  if exist "%%i\index.js" (
-    start "MCP-%%i" cmd /c "cd %%i && node index.js"
-  )
-)
-echo MCP servers started.
-pause
-'@ | Out-File -FilePath "$portablePath/Start-MCP-Servers.bat" -Encoding ASCII
+        $launcher2 = "@echo off`r`ncd /d `"%~dp0mcp-servers`"`r`necho Starting MCP servers...`r`npause"
+        $launcher2 | Out-File -FilePath "$portablePath/Start-MCP-Servers.bat" -Encoding ASCII
         
         # Copy documentation
         if (Test-Path "README.md") { Copy-Item -Path "README.md" -Destination $portablePath -Force }
