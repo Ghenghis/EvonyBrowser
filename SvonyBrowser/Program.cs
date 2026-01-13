@@ -4,7 +4,9 @@ using System.IO;
 using System.Reflection;
 using System.Windows;
 using CefSharp;
-using CefSharp.Wpf;using SvonyBrowser.Models;
+using CefSharp.Wpf;
+using SvonyBrowser.Helpers;
+using SvonyBrowser.Models;
 
 namespace SvonyBrowser
 {
@@ -91,7 +93,7 @@ namespace SvonyBrowser
                         Environment.SetEnvironmentVariable("ComSpec", GlobalData.EmptyExePath);
                     }
 
-                    var settings = new CefSettings
+                    var settings = new CefSharp.CefSettings
                     {
                         CachePath = GlobalData.CachePath,
                         PersistSessionCookies = true,

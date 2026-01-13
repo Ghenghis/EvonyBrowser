@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.WebSockets;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,7 +37,7 @@ namespace SvonyBrowser.Services
         private Process _browserProcess;
         private bool _isConnected;
         private int _messageId;
-        private readonly Dictionary<int, TaskCompletionSource<JsonElement>> _pendingRequests;
+        private readonly Dictionary<int, TaskCompletionSource<JToken>> _pendingRequests;
         private CancellationTokenSource _receiveCts;
         
         // Events
@@ -57,7 +58,7 @@ namespace SvonyBrowser.Services
             _cdpHost = cdpHost;
             _cdpPort = cdpPort;
             _cefBrowserPath = cefBrowserPath ?? FindCefBrowser();
-            _pendingRequests = new Dictionary<int, TaskCompletionSource<JsonElement>>();
+            _pendingRequests = new Dictionary<int, TaskCompletionSource<JToken>>();
         }
         
         #region Browser Launch
@@ -191,20 +192,18 @@ namespace SvonyBrowser.Services
                 // Get WebSocket endpoint
                 var httpClient = new HttpClient(); // TODO: Add using block for proper disposal
                 var targetsJson = await httpClient.GetStringAsync($"{CdpEndpoint}/json");
-                var targets = JsonConvert.DeserializeObject<JsonElement[]>(targetsJson);
+                var targets = JArray.Parse(targetsJson);
                 
                 // Find page target
                 string wsUrl = null;
                 foreach (var target in targets)
                 {
-                    if (target.TryGetProperty("type", out var typeElement) &&
-                        typeElement.GetString() == "page")
+                    var typeVal = target["type"]?.ToString();
+                    if (typeVal == "page")
                     {
-                        if (target.TryGetProperty("webSocketDebuggerUrl", out var wsElement))
-                        {
-                            wsUrl = wsElement.GetString();
+                        wsUrl = target["webSocketDebuggerUrl"]?.ToString();
+                        if (!string.IsNullOrEmpty(wsUrl))
                             break;
-                        }
                     }
                 }
                 
@@ -315,47 +314,45 @@ namespace SvonyBrowser.Services
         {
             try
             {
-                var json = JsonConvert.DeserializeObject<JsonElement>(message);
+                var json = JObject.Parse(message);
                 
                 // Check if it's a response to a request
-                if (json.TryGetProperty("id", out var idElement))
+                var idToken = json["id"];
+                if (idToken != null)
                 {
-                    var id = idElement.GetInt32();
+                    var id = idToken.Value<int>();
                     
                     if (_pendingRequests.TryGetValue(id, out var tcs))
                     {
                         _pendingRequests.Remove(id);
                         
-                        if (json.TryGetProperty("error", out var errorElement))
+                        var errorToken = json["error"];
+                        if (errorToken != null)
                         {
-                            tcs.SetException(new CdpException(errorElement.GetProperty("message").GetString()));
-                        }
-                        else if (json.TryGetProperty("result", out var resultElement))
-                        {
-                            tcs.SetResult(resultElement);
+                            tcs.SetException(new CdpException(errorToken["message"]?.ToString() ?? "Unknown error"));
                         }
                         else
                         {
-                            tcs.SetResult(default);
+                            var resultToken = json["result"];
+                            tcs.SetResult(resultToken);
                         }
                     }
                 }
                 // Check if it's an event
-                else if (json.TryGetProperty("method", out var methodElement))
+                else
                 {
-                    var method = methodElement.GetString();
-                    JsonElement? paramsElement = null;
-                    
-                    if (json.TryGetProperty("params", out var pe))
+                    var methodToken = json["method"];
+                    if (methodToken != null)
                     {
-                        paramsElement = pe;
+                        var method = methodToken.ToString();
+                        var paramsToken = json["params"];
+                        
+                        EventReceived?.Invoke(this, new CdpEventArgs
+                        {
+                            Method = method,
+                            Params = paramsToken
+                        });
                     }
-                    
-                    EventReceived?.Invoke(this, new CdpEventArgs
-                    {
-                        Method = method,
-                        Params = paramsElement
-                    });
                 }
                 
                 MessageReceived?.Invoke(this, new CdpMessageEventArgs
@@ -376,7 +373,7 @@ namespace SvonyBrowser.Services
         /// <summary>
         /// Send CDP command and wait for response
         /// </summary>
-        public async Task<JsonElement> SendCommandAsync(string method, object parameters = null, 
+        public async Task<JToken> SendCommandAsync(string method, object parameters = null, 
             int timeoutMs = 30000)
         {
             if (!_isConnected || _webSocket?.State != WebSocketState.Open)
@@ -385,7 +382,7 @@ namespace SvonyBrowser.Services
             }
             
             var id = Interlocked.Increment(ref _messageId);
-            var tcs = new TaskCompletionSource<JsonElement>();
+            var tcs = new TaskCompletionSource<JToken>();
             _pendingRequests[id] = tcs;
             
             var message = new Dictionary<string, object>
@@ -518,8 +515,8 @@ namespace SvonyBrowser.Services
                 expression = "document.title"
             });
             
-            var url = urlResult.GetProperty("result").GetProperty("value").GetString();
-            var title = titleResult.GetProperty("result").GetProperty("value").GetString();
+            var url = urlResult?["result"]?["value"]?.ToString() ?? "";
+            var title = titleResult?["result"]?["value"]?.ToString() ?? "";
             
             return (url, title);
         }
@@ -527,7 +524,7 @@ namespace SvonyBrowser.Services
         /// <summary>
         /// Execute JavaScript
         /// </summary>
-        public async Task<JsonElement> ExecuteScriptAsync(string script)
+        public async Task<JToken> ExecuteScriptAsync(string script)
         {
             var result = await SendCommandAsync("Runtime.evaluate", new
             {
@@ -535,7 +532,7 @@ namespace SvonyBrowser.Services
                 returnByValue = true
             });
             
-            return result.GetProperty("result");
+            return result?["result"];
         }
         
         /// <summary>
@@ -549,10 +546,10 @@ namespace SvonyBrowser.Services
                 returnByValue = true
             });
             
-            var json = result.GetProperty("value").GetString();
-            var size = JsonConvert.DeserializeObject<JsonElement>(json);
+            var json = result?["value"]?.ToString();
+            var size = JObject.Parse(json ?? "{}");
             
-            return (size.GetProperty("width").GetInt32(), size.GetProperty("height").GetInt32());
+            return (size["width"]?.Value<int>() ?? 0, size["height"]?.Value<int>() ?? 0);
         }
         
         #endregion
@@ -765,7 +762,7 @@ namespace SvonyBrowser.Services
     public class CdpEventArgs : EventArgs
     {
         public string Method { get; set; }
-        public JsonElement? Params { get; set; }
+        public JToken? Params { get; set; }
     }
     
     public class CdpException : Exception

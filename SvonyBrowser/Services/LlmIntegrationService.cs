@@ -6,6 +6,7 @@ using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -239,12 +240,12 @@ Provide actionable advice with specific steps and timing."
             }
         }
 
-        public async IAsyncEnumerable<string> GenerateStreamAsync(string prompt, LlmOptions? options = null)
+        public async Task GenerateStreamAsync(string prompt, Action<string> onToken, LlmOptions options = null)
         {
             if (!_isConnected)
                 throw new InvalidOperationException("Not connected to LLM backend");
 
-            options ??= new LlmOptions();
+            options = options ?? new LlmOptions();
             _isInferring = true;
             InferenceProgress = 0;
             OnPropertyChanged(nameof(IsInferring));
@@ -254,25 +255,21 @@ Provide actionable advice with specific steps and timing."
 
             try
             {
+                Action<string> tokenHandler = (token) =>
+                {
+                    tokenCount++;
+                    UpdateTokenRate(tokenCount, startTime);
+                    StreamTokenReceived?.Invoke(this, new LlmStreamEventArgs { Token = token });
+                    onToken?.Invoke(token);
+                };
+
                 if (Backend == LlmBackend.LmStudio)
                 {
-                    await foreach (var token in StreamLmStudioAsync(prompt, options))
-                    {
-                        tokenCount++;
-                        UpdateTokenRate(tokenCount, startTime);
-                        StreamTokenReceived?.Invoke(this, new LlmStreamEventArgs { Token = token });
-                        yield return token;
-                    }
+                    await StreamLmStudioAsync(prompt, options, tokenHandler);
                 }
                 else
                 {
-                    await foreach (var token in StreamOllamaAsync(prompt, options))
-                    {
-                        tokenCount++;
-                        UpdateTokenRate(tokenCount, startTime);
-                        StreamTokenReceived?.Invoke(this, new LlmStreamEventArgs { Token = token });
-                        yield return token;
-                    }
+                    await StreamOllamaAsync(prompt, options, tokenHandler);
                 }
             }
             finally
@@ -304,18 +301,15 @@ Provide actionable advice with specific steps and timing."
             var response = await _httpClient.PostAsync($"{LmStudioUrl}/chat/completions", content);
             var responseJson = await response.Content.ReadAsStringAsync();
 
-            var doc = JObject.Parse(responseJson); // TODO: Add using block for proper disposal
-            var message = doc.RootElement
-                .GetProperty("choices")[0]
-                .GetProperty("message")
-                .GetProperty("content")
-                .GetString();
+            var doc = JObject.Parse(responseJson);
+            var choices = doc["choices"] as JArray;
+            var message = choices?[0]?["message"]?["content"]?.ToString() ?? "";
 
-            var usage = doc.RootElement.GetProperty("usage");
-            var totalTokens = usage.GetProperty("total_tokens").GetInt32();
+            var usage = doc["usage"];
+            var totalTokens = usage?["total_tokens"]?.Value<int>() ?? 0;
             onTokens(totalTokens);
 
-            return message ?? "";
+            return message;
         }
 
         private async Task<string> GenerateOllamaAsync(string prompt, LlmOptions options, Action<int> onTokens)
@@ -338,18 +332,19 @@ Provide actionable advice with specific steps and timing."
             var response = await _httpClient.PostAsync($"{OllamaUrl}/api/generate", content);
             var responseJson = await response.Content.ReadAsStringAsync();
 
-            var doc = JObject.Parse(responseJson); // TODO: Add using block for proper disposal
-            var responseText = doc.RootElement.GetProperty("response").GetString();
+            var doc = JObject.Parse(responseJson);
+            var responseText = doc["response"]?.ToString() ?? "";
 
-            if (doc.RootElement.TryGetProperty("eval_count", out var evalCount))
+            var evalCount = doc["eval_count"]?.Value<int>();
+            if (evalCount.HasValue)
             {
-                onTokens(evalCount.GetInt32());
+                onTokens(evalCount.Value);
             }
 
-            return responseText ?? "";
+            return responseText;
         }
 
-        private async IAsyncEnumerable<string> StreamLmStudioAsync(string prompt, LlmOptions options)
+        private async Task StreamLmStudioAsync(string prompt, LlmOptions options, Action<string> onToken)
         {
             var request = new
             {
@@ -373,34 +368,33 @@ Provide actionable advice with specific steps and timing."
             };
 
             var response = await _httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead);
-            var stream = await response.Content.ReadAsStreamAsync(); // TODO: Add using block for proper disposal
-            var reader = new System.IO.StreamReader(stream); // TODO: Add using block for proper disposal
-
-            while (!reader.EndOfStream)
+            using (var stream = await response.Content.ReadAsStreamAsync())
+            using (var reader = new System.IO.StreamReader(stream))
             {
-                var line = await reader.ReadLineAsync();
-                if (string.IsNullOrEmpty(line) || !line.StartsWith("data: ")) continue;
-
-                var data = line.Substring(6);
-                if (data == "[DONE]") break;
-
-                var doc = JObject.Parse(data); // TODO: Add using block for proper disposal
-                var delta = doc.RootElement
-                    .GetProperty("choices")[0]
-                    .GetProperty("delta");
-
-                if (delta.TryGetProperty("content", out var contentElement))
+                while (!reader.EndOfStream)
                 {
-                    var token = contentElement.GetString();
-                    if (!string.IsNullOrEmpty(token))
+                    var line = await reader.ReadLineAsync();
+                    if (string.IsNullOrEmpty(line) || !line.StartsWith("data: ")) continue;
+
+                    var data = line.Substring(6);
+                    if (data == "[DONE]") break;
+
+                    var doc = JObject.Parse(data);
+                    var choices = doc["choices"] as JArray;
+                    if (choices != null && choices.Count > 0)
                     {
-                        yield return token;
+                        var delta = choices[0]["delta"];
+                        var tokenContent = delta?["content"]?.ToString();
+                        if (!string.IsNullOrEmpty(tokenContent))
+                        {
+                            onToken(tokenContent);
+                        }
                     }
                 }
             }
         }
 
-        private async IAsyncEnumerable<string> StreamOllamaAsync(string prompt, LlmOptions options)
+        private async Task StreamOllamaAsync(string prompt, LlmOptions options, Action<string> onToken)
         {
             var request = new
             {
@@ -423,28 +417,23 @@ Provide actionable advice with specific steps and timing."
             };
 
             var response = await _httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead);
-            var stream = await response.Content.ReadAsStreamAsync(); // TODO: Add using block for proper disposal
-            var reader = new System.IO.StreamReader(stream); // TODO: Add using block for proper disposal
-
-            while (!reader.EndOfStream)
+            using (var stream = await response.Content.ReadAsStreamAsync())
+            using (var reader = new System.IO.StreamReader(stream))
             {
-                var line = await reader.ReadLineAsync();
-                if (string.IsNullOrEmpty(line)) continue;
-
-                var doc = JObject.Parse(line); // TODO: Add using block for proper disposalusing Newtonsoft.Json.Linq;
-                
-                if (doc.RootElement.TryGetProperty("response", out var responseElement))
+                while (!reader.EndOfStream)
                 {
-                    var token = responseElement.GetString();
-                    if (!string.IsNullOrEmpty(token))
+                    var line = await reader.ReadLineAsync();
+                    if (string.IsNullOrEmpty(line)) continue;
+
+                    var doc = JObject.Parse(line);
+                    var tokenContent = doc["response"]?.ToString();
+                    if (!string.IsNullOrEmpty(tokenContent))
                     {
-                        yield return token;
+                        onToken(tokenContent);
                     }
-                }
 
-                if (doc.RootElement.TryGetProperty("done", out var done) && done.GetBoolean())
-                {
-                    break;
+                    var done = doc["done"]?.Value<bool>() ?? false;
+                    if (done) break;
                 }
             }
         }
