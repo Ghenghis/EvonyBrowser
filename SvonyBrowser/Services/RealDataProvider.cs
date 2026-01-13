@@ -158,7 +158,7 @@ namespace SvonyBrowser.Services
                 
                 if (response.IsSuccessStatusCode)
                 {
-                    var json = await response.Content.ReadAsStringAsync(cancellationToken);
+                    var json = await response.Content.ReadAsStringAsync();
                     var health = JsonConvert.DeserializeObject<McpHealthResponse>(json, _jsonOptions);
                     
                     status.IsRunning = true;
@@ -202,7 +202,7 @@ namespace SvonyBrowser.Services
                 
                 if (response.IsSuccessStatusCode)
                 {
-                    var json = await response.Content.ReadAsStringAsync(cancellationToken);
+                    var json = await response.Content.ReadAsStringAsync();
                     var tools = JsonConvert.DeserializeObject<List<McpTool>>(json, _jsonOptions);
                     
                     if (tools != null)
@@ -236,7 +236,7 @@ namespace SvonyBrowser.Services
                 
                 if (response.IsSuccessStatusCode)
                 {
-                    var json = await response.Content.ReadAsStringAsync(cancellationToken);
+                    var json = await response.Content.ReadAsStringAsync();
                     var models = JsonConvert.DeserializeObject<LlmModelsResponse>(json, _jsonOptions);
                     
                     if (models?.Data?.Count > 0)

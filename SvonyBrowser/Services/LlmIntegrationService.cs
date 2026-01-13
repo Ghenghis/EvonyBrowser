@@ -576,7 +576,7 @@ Provide actionable advice with specific steps and timing."
 
                 process.Start();
                 var output = await process.StandardOutput.ReadToEndAsync();
-                await process.WaitForExitAsync();
+                process.WaitForExit();
 
                 var parts = output.Trim().Split(',');
                 if (parts.Length >= 3)
