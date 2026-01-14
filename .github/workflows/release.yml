@@ -169,6 +169,19 @@ jobs:
           Write-Host "ERROR: CefSharp.Wpf not found at $cefSharpWpfPath"; exit 1
         }
         
+        # 3b. CRITICAL: Copy managed CefSharp DLLs to ROOT (required for .NET assembly loading)
+        Write-Host "=== Copying managed CefSharp DLLs to root ==="
+        $managedDlls = @("CefSharp.dll", "CefSharp.Core.dll", "CefSharp.Wpf.dll")
+        foreach ($dll in $managedDlls) {
+          $src = "$packagePath/Assets/CefSharp/$dll"
+          if (Test-Path $src) {
+            Copy-Item -Path $src -Destination "$packagePath/$dll" -Force
+            Write-Host "  Copied to root: $dll"
+          } else {
+            Write-Host "  ERROR: $dll not found in Assets/CefSharp"; exit 1
+          }
+        }
+        
         # 4. Copy Flash plugin from LFS (if downloaded)
         if (Test-Path "release/Assets/Plugins/pepflashplayer.dll") {
           $flashSize = (Get-Item "release/Assets/Plugins/pepflashplayer.dll").Length
