@@ -247,11 +247,11 @@ jobs:
           Write-Host "  WARNING: pepflashplayer.dll not found (Flash won't work)"
         }
         
-        # CRITICAL: Delete CefSharp DLLs from root (must only be in Assets/CefSharp)
-        # This matches CefFlashBrowser structure exactly
-        Write-Host "=== Removing CefSharp DLLs from root (must only be in Assets/CefSharp) ==="
+        # CRITICAL: Delete only NATIVE CefSharp files from root
+        # Managed DLLs (CefSharp.dll, CefSharp.Core.dll, CefSharp.Wpf.dll) MUST stay at root for .NET loading
+        # Native files go in Assets/CefSharp and are loaded via SetDllDirectory
+        Write-Host "=== Removing NATIVE CefSharp files from root (managed DLLs stay at root) ==="
         $rootFilesToDelete = @(
-          "CefSharp.dll", "CefSharp.Core.dll", "CefSharp.Wpf.dll",
           "CefSharp.BrowserSubprocess.exe", "CefSharp.BrowserSubprocess.Core.dll",
           "libcef.dll", "chrome_elf.dll", "d3dcompiler_47.dll",
           "libEGL.dll", "libGLESv2.dll", "icudtl.dat",
