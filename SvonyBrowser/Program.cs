@@ -93,16 +93,13 @@ namespace SvonyBrowser
                         Environment.SetEnvironmentVariable("ComSpec", GlobalData.EmptyExePath);
                     }
 
+                    // Match CefFlashBrowser exactly - don't set LocalesDirPath/ResourcesDirPath
+                    // CefSharp finds them relative to BrowserSubprocessPath automatically
                     var settings = new CefSharp.Wpf.CefSettings
                     {
                         CachePath = GlobalData.CachePath,
-                        PersistSessionCookies = true,
-                        PersistUserPreferences = true,
-                        LogSeverity = LogSeverity.Warning,
                         LogFile = GlobalData.CefLogPath,
-                        BrowserSubprocessPath = GlobalData.SubprocessPath,
-                        LocalesDirPath = GlobalData.LocalesPath,
-                        ResourcesDirPath = GlobalData.CefDllPath
+                        BrowserSubprocessPath = GlobalData.SubprocessPath
                     };
 
                     // Configure Flash plugin (PPAPI)
