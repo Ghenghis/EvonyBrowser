@@ -128,48 +128,107 @@ jobs:
           exit 1
         }
         
-        # Copy entire Assets folder from LFS (includes CefSharp, Plugins, SwfPlayer, EmptyExe)
-        if (Test-Path "release/Assets") {
-          Copy-Item -Path "release/Assets" -Destination "$packagePath/Assets" -Recurse -Force
-          Write-Host "Copied Assets from release/Assets"
-        }
+        # Create Assets folder structure
+        New-Item -ItemType Directory -Path "$packagePath/Assets/CefSharp" -Force | Out-Null
+        New-Item -ItemType Directory -Path "$packagePath/Assets/Plugins" -Force | Out-Null
+        New-Item -ItemType Directory -Path "$packagePath/Assets/SwfPlayer" -Force | Out-Null
+        New-Item -ItemType Directory -Path "$packagePath/Assets/EmptyExe" -Force | Out-Null
         
-        # Verify LFS files were downloaded - if not, use NuGet fallback for CefSharp
-        $libcefLFS = "$packagePath/Assets/CefSharp/libcef.dll"
-        if (-not (Test-Path $libcefLFS) -or (Get-Item $libcefLFS).Length -lt 1000000) {
-          Write-Host "LFS libcef.dll missing or stub - using NuGet fallback"
-          
-          # Copy CefSharp runtime from NuGet packages
-          $cefRedist = if ($platform -eq "x64") { "packages/cef.redist.x64.84.4.1/CEF" } else { "packages/cef.redist.x86.84.4.1/CEF" }
-          if (Test-Path $cefRedist) {
-            Copy-Item -Path "$cefRedist/*" -Destination "$packagePath/Assets/CefSharp" -Recurse -Force
-            Write-Host "Copied CEF runtime from $cefRedist"
-          }
-          
-          # Copy CefSharp managed DLLs
-          $cefSharpPath = if ($platform -eq "x64") { "packages/CefSharp.Common.84.4.10/CefSharp/x64" } else { "packages/CefSharp.Common.84.4.10/CefSharp/x86" }
-          if (Test-Path $cefSharpPath) {
-            Copy-Item -Path "$cefSharpPath/*" -Destination "$packagePath/Assets/CefSharp" -Force
-            Write-Host "Copied CefSharp DLLs from $cefSharpPath"
-          }
-        }
+        # ALWAYS copy CefSharp from NuGet packages (reliable, LFS often fails in CI)
+        Write-Host "=== Copying CefSharp runtime from NuGet packages ==="
         
-        # Verify critical files
-        $libcef = "$packagePath/Assets/CefSharp/libcef.dll"
-        $flash = "$packagePath/Assets/Plugins/pepflashplayer.dll"
-        
-        if (Test-Path $libcef) {
-          $size = [math]::Round((Get-Item $libcef).Length / 1MB, 2)
-          Write-Host "libcef.dll: $size MB"
+        # 1. Copy CEF native runtime (libcef.dll, locales, etc.)
+        $cefRedist = if ($platform -eq "x64") { "packages/cef.redist.x64.84.4.1/CEF" } else { "packages/cef.redist.x86.84.4.1/CEF" }
+        if (Test-Path $cefRedist) {
+          Copy-Item -Path "$cefRedist/*" -Destination "$packagePath/Assets/CefSharp" -Recurse -Force
+          Write-Host "Copied CEF native runtime from $cefRedist"
         } else {
-          Write-Host "ERROR: libcef.dll not found!"; exit 1
+          Write-Host "ERROR: CEF redist not found at $cefRedist"; exit 1
         }
         
+        # 2. Copy CefSharp managed DLLs (CefSharp.dll, CefSharp.Core.dll, BrowserSubprocess.exe)
+        $cefSharpPath = if ($platform -eq "x64") { "packages/CefSharp.Common.84.4.10/CefSharp/x64" } else { "packages/CefSharp.Common.84.4.10/CefSharp/x86" }
+        if (Test-Path $cefSharpPath) {
+          Copy-Item -Path "$cefSharpPath/*" -Destination "$packagePath/Assets/CefSharp" -Force
+          Write-Host "Copied CefSharp.Common DLLs from $cefSharpPath"
+        } else {
+          Write-Host "ERROR: CefSharp.Common not found at $cefSharpPath"; exit 1
+        }
+        
+        # 3. Copy CefSharp.Wpf.dll (required for WPF browser control)
+        $cefSharpWpfPath = if ($platform -eq "x64") { "packages/CefSharp.Wpf.84.4.10/CefSharp/x64" } else { "packages/CefSharp.Wpf.84.4.10/CefSharp/x86" }
+        if (Test-Path $cefSharpWpfPath) {
+          Copy-Item -Path "$cefSharpWpfPath/*" -Destination "$packagePath/Assets/CefSharp" -Force
+          Write-Host "Copied CefSharp.Wpf DLLs from $cefSharpWpfPath"
+        } else {
+          Write-Host "ERROR: CefSharp.Wpf not found at $cefSharpWpfPath"; exit 1
+        }
+        
+        # 4. Copy Flash plugin from LFS (if downloaded)
+        if (Test-Path "release/Assets/Plugins/pepflashplayer.dll") {
+          $flashSize = (Get-Item "release/Assets/Plugins/pepflashplayer.dll").Length
+          if ($flashSize -gt 1000000) {
+            Copy-Item -Path "release/Assets/Plugins/*" -Destination "$packagePath/Assets/Plugins" -Recurse -Force
+            Write-Host "Copied Flash plugin from LFS"
+          }
+        }
+        
+        # 5. Copy SwfPlayer HTML
+        if (Test-Path "release/Assets/SwfPlayer") {
+          Copy-Item -Path "release/Assets/SwfPlayer/*" -Destination "$packagePath/Assets/SwfPlayer" -Recurse -Force
+          Write-Host "Copied SwfPlayer"
+        }
+        
+        # Verify ALL critical CefSharp files
+        Write-Host "=== Verifying CefSharp files ==="
+        $criticalFiles = @(
+          "libcef.dll",
+          "CefSharp.dll", 
+          "CefSharp.Core.dll",
+          "CefSharp.Wpf.dll",
+          "CefSharp.BrowserSubprocess.exe",
+          "CefSharp.BrowserSubprocess.Core.dll",
+          "icudtl.dat",
+          "chrome_elf.dll",
+          "d3dcompiler_47.dll",
+          "libEGL.dll",
+          "libGLESv2.dll"
+        )
+        
+        $missingFiles = @()
+        foreach ($file in $criticalFiles) {
+          $path = "$packagePath/Assets/CefSharp/$file"
+          if (Test-Path $path) {
+            $size = [math]::Round((Get-Item $path).Length / 1MB, 2)
+            Write-Host "  OK: $file ($size MB)"
+          } else {
+            Write-Host "  MISSING: $file"
+            $missingFiles += $file
+          }
+        }
+        
+        # Verify locales folder
+        $localesPath = "$packagePath/Assets/CefSharp/locales"
+        if (Test-Path $localesPath) {
+          $localeCount = (Get-ChildItem $localesPath -Filter "*.pak").Count
+          Write-Host "  OK: locales folder ($localeCount .pak files)"
+        } else {
+          Write-Host "  MISSING: locales folder"
+          $missingFiles += "locales"
+        }
+        
+        if ($missingFiles.Count -gt 0) {
+          Write-Host "ERROR: Missing critical files: $($missingFiles -join ', ')"
+          exit 1
+        }
+        
+        # Check Flash plugin (optional but important)
+        $flash = "$packagePath/Assets/Plugins/pepflashplayer.dll"
         if (Test-Path $flash) {
           $size = [math]::Round((Get-Item $flash).Length / 1MB, 2)
-          Write-Host "pepflashplayer.dll: $size MB"
+          Write-Host "  OK: pepflashplayer.dll ($size MB)"
         } else {
-          Write-Host "WARNING: pepflashplayer.dll not found (Flash won't work)"
+          Write-Host "  WARNING: pepflashplayer.dll not found (Flash won't work)"
         }
         
         # Copy documentation
