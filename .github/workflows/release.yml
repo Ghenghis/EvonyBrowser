@@ -247,6 +247,35 @@ jobs:
           Write-Host "  WARNING: pepflashplayer.dll not found (Flash won't work)"
         }
         
+        # CRITICAL: Delete CefSharp DLLs from root (must only be in Assets/CefSharp)
+        # This matches CefFlashBrowser structure exactly
+        Write-Host "=== Removing CefSharp DLLs from root (must only be in Assets/CefSharp) ==="
+        $rootFilesToDelete = @(
+          "CefSharp.dll", "CefSharp.Core.dll", "CefSharp.Wpf.dll",
+          "CefSharp.BrowserSubprocess.exe", "CefSharp.BrowserSubprocess.Core.dll",
+          "libcef.dll", "chrome_elf.dll", "d3dcompiler_47.dll",
+          "libEGL.dll", "libGLESv2.dll", "icudtl.dat",
+          "cef.pak", "cef_100_percent.pak", "cef_200_percent.pak", "cef_extensions.pak",
+          "devtools_resources.pak", "snapshot_blob.bin", "v8_context_snapshot.bin"
+        )
+        foreach ($file in $rootFilesToDelete) {
+          $rootFile = "$packagePath/$file"
+          if (Test-Path $rootFile) {
+            Remove-Item $rootFile -Force
+            Write-Host "  Deleted from root: $file"
+          }
+        }
+        # Delete locales folder from root if exists
+        if (Test-Path "$packagePath/locales") {
+          Remove-Item "$packagePath/locales" -Recurse -Force
+          Write-Host "  Deleted from root: locales/"
+        }
+        # Delete swiftshader folder from root if exists
+        if (Test-Path "$packagePath/swiftshader") {
+          Remove-Item "$packagePath/swiftshader" -Recurse -Force
+          Write-Host "  Deleted from root: swiftshader/"
+        }
+        
         # Copy documentation
         if (Test-Path "docs") {
           Copy-Item -Path "docs" -Destination "$packagePath/docs" -Recurse -Force
