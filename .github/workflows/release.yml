@@ -103,6 +103,11 @@ jobs:
         if (Test-Path $cefDll) { Write-Host "SUCCESS: CefSharp.dll found" } else { Write-Host "FAILED: CefSharp.dll not found"; exit 1 }
       shell: pwsh
 
+    - name: Build EmptyExe ${{ matrix.configuration }} ${{ matrix.platform }}
+      run: |
+        msbuild SvonyBrowser.EmptyExe/SvonyBrowser.EmptyExe.csproj /t:Build /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }}
+      continue-on-error: true
+
     - name: Build ${{ matrix.configuration }} ${{ matrix.platform }}
       run: |
         msbuild ${{ env.PROJECT_PATH }} /t:Rebuild /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /p:OutputPath=bin\${{ matrix.platform }}\${{ matrix.configuration }}
@@ -179,6 +184,15 @@ jobs:
           Write-Host "Copied SwfPlayer"
         }
         
+        # 6. Copy EmptyExe if built
+        $emptyExePath = "SvonyBrowser/bin/$platform/$config/Assets/EmptyExe/SvonyBrowser.EmptyExe.exe"
+        if (Test-Path $emptyExePath) {
+          Copy-Item -Path $emptyExePath -Destination "$packagePath/Assets/EmptyExe/" -Force
+          Write-Host "Copied EmptyExe from build"
+        } else {
+          Write-Host "WARNING: EmptyExe not found at $emptyExePath"
+        }
+        
         # Verify ALL critical CefSharp files
         Write-Host "=== Verifying CefSharp files ==="
         $criticalFiles = @(
@@ -192,7 +206,9 @@ jobs:
           "chrome_elf.dll",
           "d3dcompiler_47.dll",
           "libEGL.dll",
-          "libGLESv2.dll"
+          "libGLESv2.dll",
+          "snapshot_blob.bin",
+          "v8_context_snapshot.bin"
         )
         
         $missingFiles = @()
