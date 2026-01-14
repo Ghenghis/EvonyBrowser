@@ -210,9 +210,9 @@ namespace SvonyBrowser.Helpers
             {
                 cwb.TitleChanged += (s, e) =>
                 {
-                    if (e is TitleChangedEventArgs tea)
+                    if (e is DependencyPropertyChangedEventArgs dpcea)
                     {
-                        handler(tea.Title ?? "");
+                        handler(dpcea.NewValue?.ToString() ?? "");
                     }
                 };
             }

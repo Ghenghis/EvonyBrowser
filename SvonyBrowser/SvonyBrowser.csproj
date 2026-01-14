@@ -232,14 +232,19 @@
   <Import Project="..\packages\CefSharp.Common.84.4.10\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.84.4.10\build\CefSharp.Common.targets')" />
   <Import Project="..\packages\CefSharp.Wpf.84.4.10\build\CefSharp.Wpf.targets" Condition="Exists('..\packages\CefSharp.Wpf.84.4.10\build\CefSharp.Wpf.targets')" />
 
-  <!-- Post-build: Copy Assets folder to output directory -->
+  <!-- Post-build: Copy Assets folder and move CefSharp DLLs like CefFlashBrowser -->
   <Target Name="CopyAssets" AfterTargets="Build">
     <Message Text="Copying Assets folder to output directory..." Importance="high" />
-    <!-- Copy Assets folder structure -->
     <ItemGroup>
       <AssetsFiles Include="..\release\Assets\**\*.*" />
     </ItemGroup>
     <Copy SourceFiles="@(AssetsFiles)" DestinationFiles="@(AssetsFiles->'$(OutputPath)Assets\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
     <Message Text="Assets copied to $(OutputPath)Assets" Importance="high" />
+  </Target>
+
+  <!-- Post-build: Move CefSharp DLLs to Assets/CefSharp folder (like CefFlashBrowser) -->
+  <Target Name="MoveCefSharpToAssets" AfterTargets="CopyAssets">
+    <Message Text="Moving CefSharp files to Assets/CefSharp..." Importance="high" />
+    <Exec Command="cd &quot;$(OutputPath)&quot;&#xD;&#xA;if not exist Assets\CefSharp mkdir Assets\CefSharp&#xD;&#xA;if not exist Assets\CefSharp\locales mkdir Assets\CefSharp\locales&#xD;&#xA;move /y CefSharp.dll Assets\CefSharp\ 2>nul&#xD;&#xA;move /y CefSharp.Core.dll Assets\CefSharp\ 2>nul&#xD;&#xA;move /y CefSharp.Wpf.dll Assets\CefSharp\ 2>nul&#xD;&#xA;move /y CefSharp.BrowserSubprocess.exe Assets\CefSharp\ 2>nul&#xD;&#xA;move /y CefSharp.BrowserSubprocess.Core.dll Assets\CefSharp\ 2>nul&#xD;&#xA;move /y cef.pak Assets\CefSharp\ 2>nul&#xD;&#xA;move /y cef_100_percent.pak Assets\CefSharp\ 2>nul&#xD;&#xA;move /y cef_200_percent.pak Assets\CefSharp\ 2>nul&#xD;&#xA;move /y cef_extensions.pak Assets\CefSharp\ 2>nul&#xD;&#xA;move /y chrome_elf.dll Assets\CefSharp\ 2>nul&#xD;&#xA;move /y d3dcompiler_47.dll Assets\CefSharp\ 2>nul&#xD;&#xA;move /y devtools_resources.pak Assets\CefSharp\ 2>nul&#xD;&#xA;move /y icudtl.dat Assets\CefSharp\ 2>nul&#xD;&#xA;move /y libcef.dll Assets\CefSharp\ 2>nul&#xD;&#xA;move /y libEGL.dll Assets\CefSharp\ 2>nul&#xD;&#xA;move /y libGLESv2.dll Assets\CefSharp\ 2>nul&#xD;&#xA;move /y snapshot_blob.bin Assets\CefSharp\ 2>nul&#xD;&#xA;move /y v8_context_snapshot.bin Assets\CefSharp\ 2>nul&#xD;&#xA;if exist locales (move /y locales\* Assets\CefSharp\locales\ 2>nul &amp;&amp; rd /s /q locales 2>nul)&#xD;&#xA;if exist swiftshader rd /s /q swiftshader 2>nul&#xD;&#xA;echo CefSharp files moved to Assets\CefSharp" IgnoreExitCode="true" />
   </Target>
 </Project>

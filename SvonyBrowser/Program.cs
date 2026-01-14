@@ -93,20 +93,17 @@ namespace SvonyBrowser
                         Environment.SetEnvironmentVariable("ComSpec", GlobalData.EmptyExePath);
                     }
 
-                    var settings = new CefSharp.CefSettings
+                    var settings = new CefSharp.Wpf.CefSettings
                     {
                         CachePath = GlobalData.CachePath,
                         PersistSessionCookies = true,
                         PersistUserPreferences = true,
                         LogSeverity = LogSeverity.Warning,
-                        LogFile = GlobalData.CefLogPath
+                        LogFile = GlobalData.CefLogPath,
+                        BrowserSubprocessPath = GlobalData.SubprocessPath,
+                        LocalesDirPath = GlobalData.LocalesPath,
+                        ResourcesDirPath = GlobalData.CefDllPath
                     };
-                    
-                    // Set critical paths for CefSharp 84
-                    // Note: BrowserSubProcessPath has capital P in Process
-                    settings.BrowserSubProcessPath = GlobalData.SubprocessPath;
-                    settings.CefCommandLineArgs["resources-dir-path"] = GlobalData.CefDllPath;
-                    settings.CefCommandLineArgs["locales-dir-path"] = GlobalData.LocalesPath;
 
                     // Configure Flash plugin (PPAPI)
                     if (File.Exists(GlobalData.FlashPath))
